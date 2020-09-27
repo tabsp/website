@@ -3,12 +3,12 @@ module.exports = {
     title: `Tabsp's blog`,
     author: {
       name: `Tabsp`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      summary: ``,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
     social: {
-      twitter: `kylemathews`,
+      github: `tabsp`,
     },
     pageSize: 10,
   },
