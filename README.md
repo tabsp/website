@@ -39,7 +39,7 @@
 
 ## Todo list
 
-- TOC
-- Index page
-- Post tag
-- Comments
+- [ ] TOC
+- [x] Index page
+- [ ] Post tag
+- [ ] Comments

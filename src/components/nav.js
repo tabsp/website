@@ -8,14 +8,14 @@ const Nav = () => {
         justifyContent: "space-between",
       }}
     >
+      <a style={{ fontSize: "1.5rem" }} href="/">
+        Home
+      </a>
       <a style={{ fontSize: "1.5rem" }} href="/posts">
         Posts
       </a>
       <a style={{ fontSize: "1.5rem" }} href="/tags">
         Tags
-      </a>
-      <a style={{ fontSize: "1.5rem" }} href="/gallery">
-        Gallery
       </a>
       <a style={{ fontSize: "1.5rem" }} href="/about">
         About
