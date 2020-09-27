@@ -50,7 +50,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const posts = result.data.allMarkdownRemark.nodes
 
-  const pageSize = result.data.site.siteMetadata?.pageSize || 1
+  const pageSize = result.data.site.siteMetadata.pageSize || 1
   const totalPage = Math.ceil(posts.length / pageSize)
 
   Array.from({ length: totalPage }).forEach((_, i) => {

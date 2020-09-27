@@ -18,6 +18,10 @@ const BlogTags = ({ data, location }) => {
   }
   return (
     <Layout location={location} title={siteTitle}>
+      <SEO title="All tags" />
+      <div>
+        <h1>All tags</h1>
+      </div>
       <ul>
         {tags.map(tag => (
           <li key={tag.fieldValue}>
