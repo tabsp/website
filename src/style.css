@@ -2,14 +2,14 @@
 
 :root {
   --maxWidth-none: "none";
-  --maxWidth-xs: 20rem;
-  --maxWidth-sm: 24rem;
-  --maxWidth-md: 28rem;
-  --maxWidth-lg: 32rem;
-  --maxWidth-xl: 36rem;
-  --maxWidth-2xl: 42rem;
-  --maxWidth-3xl: 48rem;
-  --maxWidth-4xl: 56rem;
+  --maxWidth-xs: 30rem;
+  --maxWidth-sm: 34rem;
+  --maxWidth-md: 38rem;
+  --maxWidth-lg: 42rem;
+  --maxWidth-xl: 46rem;
+  --maxWidth-2xl: 55rem;
+  --maxWidth-3xl: 58rem;
+  --maxWidth-4xl: 65rem;
   --maxWidth-full: "100%";
   --maxWidth-wrapper: var(--maxWidth-2xl);
   --spacing-px: "1px";
@@ -286,22 +286,6 @@ a:focus {
   font-size: var(--fontSize-2);
 }
 
-.bio {
-  display: flex;
-  margin-bottom: var(--spacing-16);
-}
-
-.bio p {
-  margin-bottom: var(--spacing-0);
-}
-
-.bio-avatar {
-  margin-right: var(--spacing-4);
-  margin-bottom: var(--spacing-0);
-  min-width: 50px;
-  border-radius: 100%;
-}
-
 .blog-post header h1 {
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0);
 }
@@ -367,61 +351,103 @@ a:focus {
   }
 }
 
-
 .blog-post-toc-contents {
   overflow: hidden;
-	display: block;
-	color: #314659;
-	border: 1px solid #eef2f8;
-	border-radius: 3px;
+  display: block;
+  color: #314659;
+  border: 1px solid #eef2f8;
+  border-radius: 3px;
   min-width: 250px;
-	opacity: 1;
-	font-size: inherit;
-	background-color: #fff;
-	z-index: 19941112
+  opacity: 1;
+  font-size: inherit;
+  background-color: #fff;
+  z-index: 19941112;
 }
 
 .blog-post-toc-title {
   /* cursor: move; */
-	padding-left: 12px;
-	width: 100%;
-	height: 35px;
-	line-height: 36px;
-	border-bottom: 1px solid #eef2f8;
-	font-size: 14px;
-	color: #314659;
-	overflow: hidden
+  padding-left: 12px;
+  width: 100%;
+  height: 35px;
+  line-height: 36px;
+  border-bottom: 1px solid #eef2f8;
+  font-size: 14px;
+  color: #314659;
+  overflow: hidden;
 }
 
 .blog-post-toc-contents ul {
   font-size: 14px;
-	padding: 10px 15px;
-	max-height: 350px;
-	overflow-y: auto
+  padding: 10px 15px;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 .blog-post-toc-contents ul li {
-	margin-top: 5px;
-	max-width: 250px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	cursor: pointer
+  margin-top: 5px;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .blog-post-toc-contents ul li a:hover {
-	color: #2D8CF0;
-	text-decoration: none
+  color: #2d8cf0;
+  text-decoration: none;
 }
 
 .blog-post-toc-contents ul li .level1 {
-	margin-left: 0
+  margin-left: 0;
 }
 
 .blog-post-toc-contents ul li .level2 {
-	margin-left: 10px
+  margin-left: 10px;
 }
 
 .blog-post-toc-contents ul li .level3 {
-	margin-left: 26px
+  margin-left: 26px;
+}
+
+/* 文章签名 */
+.signature {
+  padding: 12px 24px 12px 30px;
+  border-left-width: 4px;
+  border-left-style: solid;
+  background-color: #f8f8f8;
+  position: relative;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  border-left-color: #f66;
+}
+
+.signature:before {
+  content: "!";
+  background-color: #f66;
+  position: absolute;
+  top: 80px;
+  left: -12px;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.bio {
+  display: flex;
+}
+
+.bio p {
+  margin-bottom: var(--spacing-0);
+}
+
+.bio-avatar {
+  margin-right: var(--spacing-4);
+  margin-bottom: var(--spacing-0);
+  min-width: 50px;
+  border-radius: 100%;
 }

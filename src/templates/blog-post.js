@@ -1,14 +1,14 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Signature from "../components/signature"
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const { previous, next } = pageContext
+  const { previous, next, slug } = pageContext
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -40,7 +40,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
         />
         <hr />
         <footer>
-          <Bio />
+          <Signature postUrl={slug} />
         </footer>
       </article>
       <nav className="blog-post-nav">
