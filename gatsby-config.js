@@ -6,7 +6,7 @@ module.exports = {
       summary: ``,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://blog.tabsp.com`,
+    siteUrl: `https://tabsp.com`,
     social: {
       github: `tabsp`,
     },
