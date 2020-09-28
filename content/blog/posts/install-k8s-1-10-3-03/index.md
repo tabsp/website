@@ -15,7 +15,7 @@ tags:
 - Etcd：储存集群所有状态的 Key/Value 储存系统。
 - HAProxy：提供负载平衡器。
 - Keepalived：提供虚拟网络位址 (VIP)。
-<!-- more -->
+
 ### 部署和设定
 
 首先在所有 Master 节点下载部署元件的 YAML 文件，这边不采用二进制执行档与 Systemd 来管理这些元件，全部采用 Static Pod 来达成。这边将配置文件放到 `/etc/kubernetes/manifests` 目录。

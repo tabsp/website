@@ -25,6 +25,15 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>
         </header>
+        {/* TOC */}
+        <div className="blog-post-toc">
+          <div className="blog-post-toc-contents">
+            <div className="blog-post-toc-title">
+              <strong>目录</strong>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+          </div>
+        </div>
         <section
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
@@ -76,6 +85,7 @@ export const pageQuery = graphql`
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
+      tableOfContents
       html
       frontmatter {
         title

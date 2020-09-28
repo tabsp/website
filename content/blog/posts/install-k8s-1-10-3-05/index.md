@@ -10,7 +10,7 @@ tags:
 本文的大部分思路参考了 [『Kubernetes v1.10.x HA 全手動苦工安裝教學(TL;DR)』](https://kairen.github.io/2018/04/05/kubernetes/deploy/manual-v1.10/) 这篇文章。
 
 不过，虽然 Kairen 同志已经写得很详细了，但是实践起来还是有不少问题的，我在他的基础上根据自己的实践过程写了这篇文档。
-<!-- more -->
+
 ### 可能会出现的问题
 
 1. apiserver 会一直报错：

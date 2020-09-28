@@ -8,7 +8,8 @@ tags:
 
 Certbot 支持自动申请 LetsEncrypt 的泛域名证书，但是[官方插件](https://certbot.eff.org/docs/using.html#dns-plugins)不支持阿里云，在 GitHub 搜索发现已经有人写好了[阿里云 DNS 插件](https://github.com/tengattack/certbot-dns-aliyun)，下面只需要进行简单的配置即可免费申请一个泛域名证书并自动续订。
 
-## 安装 Certbot 和 certbot-dns-aliyun
+## 操作步骤
+### 安装 Certbot 和 certbot-dns-aliyun
 
 **本文基于 CentOS 7**
 
@@ -30,7 +31,7 @@ Certbot 支持自动申请 LetsEncrypt 的泛域名证书，但是[官方插件]
     pip install certbot certbot-nginx certbot-dns-aliyun
     ```
 
-## 申请并配置阿里云 DNS 访问密钥
+### 申请并配置阿里云 DNS 访问密钥
 
 前往 [https://ram.console.aliyun.com](https://ram.console.aliyun.com/) 申请阿里云子账号并授予 `AliyunDNSFullAccess` 权限。然后为子账号创建 AccessKey 并记录。
 
@@ -50,7 +51,7 @@ EOF
 chmod 600 /mnt/certbot/credentials.ini
 ```
 
-## 申请证书
+### 申请证书
 
 ```bash
 /mnt/certbot/venv/bin/certbot certonly \
@@ -66,7 +67,7 @@ chmod 600 /mnt/certbot/credentials.ini
 echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && /mnt/certbot/venv/bin/certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
 ```
 
-## 配置 nginx
+### 配置 nginx
 
 ```bash
 cat > /etc/nginx/conf.d/nginx.header <<EOF

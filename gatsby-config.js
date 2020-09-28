@@ -6,7 +6,7 @@ module.exports = {
       summary: ``,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
+    siteUrl: `https://blog.tabsp.com`,
     social: {
       github: `tabsp`,
     },
@@ -31,6 +31,7 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          `gatsby-remark-autolink-headers`,
           {
             resolve: `gatsby-remark-images`,
             options: {
@@ -43,7 +44,12 @@ module.exports = {
               wrapperStyle: `margin-bottom: 1.0725rem`,
             },
           },
-          `gatsby-remark-prismjs`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              showLineNumbers: true,
+            }
+          },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
         ],

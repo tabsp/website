@@ -26,7 +26,6 @@ $ for NODE in kube-n1 kube-n2 kube-n3; do
     done
 done
 ```
-<!-- more -->
 ### 部署与设定
 
 以下所有操作需要在每台 Node 节点上都进行一遍。

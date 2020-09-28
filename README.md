@@ -8,6 +8,8 @@
   Tabsp's blog
 </h1>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5466870e-7326-4c2d-b25d-9f18feeacea9/deploy-status)](https://app.netlify.com/sites/peaceful-saha-dd2695/deploys)
+
 ## 🚀 Quick start
 
 1.  **Clone code**
@@ -39,7 +41,7 @@
 
 ## Todo list
 
-- [ ] TOC
+- [x] TOC
 - [x] Index page
 - [ ] Post tag
 - [ ] Comments
