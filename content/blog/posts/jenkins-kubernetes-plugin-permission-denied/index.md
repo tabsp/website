@@ -20,7 +20,7 @@ mv: cannot stat '/home/jenkins/workspace/test@tmp/durable-b7fece0a/jenkins-resul
 <!-- more -->
 ## 问题排查
 
-既然出现 Permission denied 肯定要从权限入手了，看错误信息是在工作目录发生的错误，因为 kubernetes-plugin 这个插件会将工作目录挂载出去，以保证所有容器都能访问，所以可能就是就是各个容器的权限不统一造成的，下边验证下这个猜想。
+既然出现 Permission denied 肯定要从权限入手了，看错误信息是在工作目录发生的错误，因为 kubernetes-plugin 这个插件会将工作目录挂载出去，以保证所有容器都能访问，所以可能就是就是各个容器的权限不统一造成的，下边验证下这个猜想。
 
 ### 验证
 
@@ -88,7 +88,7 @@ $ docker run --rm gradle:4.9-jdk8-alpine id
 uid=1000(gradle) gid=1000(gradle) groups=1000(gradle)
 ```
 
-可以看到 jnpl 的 jenkins 用的 uid 和 gid 居然是 10000，而 gradle 的 gradle 用户的 uid 和 gid 为 1000。
+可以看到 jnpl 的 jenkins 用的 uid 和 gid 居然是 10000，而 gradle 的 gradle 用户的 uid 和 gid 为 1000。
 
 为了弄清楚到底怎么回事，找到 Dockerfile 一探究竟，首先找到 [jenkins/jnlp-slave](https://github.com/jenkinsci/docker-jnlp-slave/blob/master/Dockerfile)
 
@@ -104,7 +104,7 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 ENTRYPOINT ["jenkins-slave"]
 ```
 
-只是个空壳，找到 [jenkins/slave](https://github.com/jenkinsci/docker-slave/blob/master/Dockerfile)
+只是个空壳，找到 [jenkins/slave](https://github.com/jenkinsci/docker-slave/blob/master/Dockerfile)
 
 ```docker
 FROM openjdk:8-jdk
@@ -140,7 +140,7 @@ WORKDIR /home/${user}
 
 ### 解决方案
 
-既然已经找到了问题所在，那么只要把 gradle 镜像的 uid 和 gid 也改为 10000 应该就可以了，下面就试一下。
+既然已经找到了问题所在，那么只要把 gradle 镜像的 uid 和 gid 也改为 10000 应该就可以了，下面就试一下。
 
 首先找到 [gradle 的原始 Dockerfile](https://github.com/keeganwitt/docker-gradle) 并修改如下：
 
@@ -198,4 +198,4 @@ RUN set -o errexit -o nounset \
 
 ### 结果
 
-镜像构建完成后使用新镜像重新 build 项目，问题解决！
+镜像构建完成后使用新镜像重新 build 项目，问题解决！
