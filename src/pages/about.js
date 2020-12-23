@@ -10,7 +10,10 @@ const NotFoundPage = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <SEO title="About me" />
-      <h1>TODO</h1>
+      <h2>联系我</h2>
+      <a href="mailto:tabsp@qq.com">tabsp@qq.com</a>
+      <h2>其他工具</h2>
+      <a href="https://drop.tabsp.com">Snapdrop</a>
     </Layout>
   )
 }
