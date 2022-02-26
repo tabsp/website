@@ -43,5 +43,5 @@
 
 - [x] TOC
 - [x] Index page
-- [ ] Post tag
+- [x] Post tag
 - [ ] Comments
