@@ -2,7 +2,7 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
 import TagPagination from "../components/tag-pagination"
 
@@ -14,7 +14,7 @@ const BlogIndex = ({ data, pageContext, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <SEO title="All tags" />
+        <Seo title="All tags" />
         <NoPostFound />
       </Layout>
     )
@@ -25,7 +25,7 @@ const BlogIndex = ({ data, pageContext, location }) => {
         <div>
             <h1># {tag}</h1>
         </div>
-      <SEO title="All tags" />
+      <Seo title="All tags" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         return (

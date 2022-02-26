@@ -2,7 +2,7 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
 
 const BlogTags = ({ data, location }) => {
@@ -11,14 +11,14 @@ const BlogTags = ({ data, location }) => {
   if (tags.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <SEO title="All tags" />
+        <Seo title="All tags" />
         <NoPostFound />
       </Layout>
     )
   }
   return (
     <Layout location={location} title={siteTitle}>
-      <SEO title="All tags" />
+      <Seo title="All tags" />
       <div>
         <h1>All tags</h1>
       </div>

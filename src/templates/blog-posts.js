@@ -2,7 +2,7 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
 import Pagination from "../components/pagination"
 
@@ -13,7 +13,7 @@ const BlogPosts = ({ data, pageContext, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <SEO title="All posts" />
+        <Seo title="All posts" />
         <NoPostFound />
       </Layout>
     )
@@ -21,7 +21,7 @@ const BlogPosts = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <SEO title="All posts" />
+      <Seo title="All posts" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         return (

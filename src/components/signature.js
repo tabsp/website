@@ -1,15 +1,13 @@
 import React from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 
-import Image from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 const Signature = ({ postUrl }) => {
   const data = useStaticQuery(graphql`
     query authorQuery {
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
         childImageSharp {
-          fixed(width: 50, height: 50, quality: 95) {
-            ...GatsbyImageSharpFixed
-          }
+	  gatsbyImageData(layout: FIXED, width: 50, height: 50, quality: 95)
         }
       }
       site {
@@ -28,7 +26,7 @@ const Signature = ({ postUrl }) => {
   const siteUrl = data.site.siteMetadata?.siteUrl
   const author = data.site.siteMetadata?.author
   const social = data.site.siteMetadata?.social
-  const avatar = data?.avatar?.childImageSharp?.fixed
+  const avatar = data?.avatar?.childImageSharp?.gatsbyImageData
   const thisPost = siteUrl + postUrl
   return (
     <div className="signature">
@@ -41,8 +39,8 @@ const Signature = ({ postUrl }) => {
       </div>
       <div className="bio">
         {avatar && (
-          <Image
-            fixed={avatar}
+          <GatsbyImage
+            image={avatar}
             alt={author?.name || ``}
             className="bio-avatar"
             imgStyle={{
