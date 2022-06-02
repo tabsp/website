@@ -78,9 +78,8 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
         data-reactions-enabled="1"
         data-emit-metadata="0"
         data-input-position="bottom"
-        data-theme="light"
+        data-theme="https://tabsp.com/giscus/themes/light.css"
         data-lang="zh-CN"
-        data-loading="lazy"
         crossorigin="anonymous"
         async>
       </script>
