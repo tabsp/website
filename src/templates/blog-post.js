@@ -69,6 +69,21 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
           </li>
         </ul>
       </nav>
+      <script src="https://giscus.app/client.js"
+        data-repo="tabsp/comments"
+        data-repo-id="R_kgDOHcCUDA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHcCUDM4CPbjE"
+        data-mapping="title"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossOrigin="anonymous"
+        async>
+      </script>
     </Layout>
   )
 }

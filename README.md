@@ -20,6 +20,7 @@
 
 1.  **Install dependencies**
     ```shell
+    npm install -g gatsby-cli
     yarn install
     ```
 
@@ -44,4 +45,4 @@
 - [x] TOC
 - [x] Index page
 - [x] Post tag
-- [ ] Comments
+- [x] Comments
