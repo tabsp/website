@@ -81,7 +81,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
         data-theme="light"
         data-lang="zh-CN"
         data-loading="lazy"
-        crossOrigin="anonymous"
+        crossorigin="anonymous"
         async>
       </script>
     </Layout>
