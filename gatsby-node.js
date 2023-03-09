@@ -19,10 +19,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
         allMarkdownRemark(
-          sort: { fields: [frontmatter___date], order: DESC }
+          sort: { frontmatter: { date: DESC } }
           limit: 1000
         ) {
-          group(field: frontmatter___tags) {
+          group(field: { frontmatter: {tags: SELECT } } ) {
             fieldValue
             totalCount
           }
