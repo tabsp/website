@@ -5324,6 +5324,13 @@ gatsby-parcel-config@1.12.0:
     "@parcel/transformer-js" "2.8.3"
     "@parcel/transformer-json" "2.8.3"
 
+gatsby-plugin-clarity@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/gatsby-plugin-clarity/-/gatsby-plugin-clarity-1.0.1.tgz#8c1120232631ede85177fda229073f7967a4d7b8"
+  integrity sha512-1GKF7GkuScINEDl9Jzhw/8CVABKvVl7NW5PUjOCfwfVQnxX1RP9C4Dj67XD7NSVyBA9ozD8g5Zv04Dzx6/FZwQ==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+
 gatsby-plugin-feed@^5.12.1:
   version "5.12.1"
   resolved "https://registry.npmmirror.com/gatsby-plugin-feed/-/gatsby-plugin-feed-5.12.1.tgz#f230669004ab45c26f8ebbbc0419adf01d53bd34"

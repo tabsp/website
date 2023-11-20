@@ -67,6 +67,13 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-clarity`,
+      options: {
+        clarity_project_id: jthap9tl5e,
+        enable_on_dev_env: false
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Tabsp's blog`,
