@@ -139,7 +139,7 @@ systemctl enable hysteria-server
 | 443  | 0.0.0.0   | TCP  | Nginx           | X-ray、HTTP/2 WEB 服务入口       |
 | 443  | 0.0.0.0   | UDP  | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口  |
 | 2024 | 127.0.0.1 | gRPC | X-ray           | X-ray REALITY 协议监听端口       |
-| 3001 | 127.0.0.1 | gRPC | Any WEB service | WEB 服务监听端口，搭建自己的服务 |
+| 3001 | 127.0.0.1 | HTTP | Any WEB service | WEB 服务监听端口，搭建自己的服务 |
 | 1443 | 127.0.0.1 | TCP  | X-ray           | X-ray XHTTP 协议监听端口         |
 | 2443 | 127.0.0.1 | UDP  | Hysteria 2      | Hysteria 2监听端口               |
 | 8443 | 127.0.0.1 | HTTP | Nginx           | 反代 WEB 服务                    |
