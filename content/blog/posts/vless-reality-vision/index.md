@@ -1,8 +1,8 @@
 ---
-title: 手动配置 X-ray（vless+reality+vision）代理服务器
+title: 手动配置 Xray（vless+reality+vision）代理服务器
 date: 2024-12-14 22:41
 tags: 
-  - x-ray
+  - xray
 ---
 ## 依赖
 
@@ -13,7 +13,7 @@ tags:
 
 ## 安装
 
-[安装 X-ray](https://github.com/XTLS/Xray-install)
+[安装 Xray](https://github.com/XTLS/Xray-install)
 
 ```bash
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
@@ -21,9 +21,9 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 
 ## 配置
 
-### X-ray 配置
+### Xray 配置
 
-使用 vim 修改 X-ray 默认配置文件，默认路径在 `/usr/local/etc/xray/config.json`，默认内容为 `{}`。
+使用 vim 修改 Xray 默认配置文件，默认路径在 `/usr/local/etc/xray/config.json`，默认内容为 `{}`。
 
 ```bash
 vim /usr/local/etc/xray/config.json
@@ -231,7 +231,7 @@ proxies:
   server: <replace-this> # 代理服务器地址
   port: 443
   udp: true
-  uuid: <replace-this> # X-ray 服务端的 UUID
+  uuid: <replace-this> # Xray 服务端的 UUID
   flow: xtls-rprx-vision
   tls: true
   servername: <replace-this> # 服务端配置的可用 server name

@@ -2,16 +2,16 @@
 title: 仅使用 443 端口完美配置 Nginx SNI 分流 REALITY&XHTTP、Hysteria 2 及 WEB 网站
 date: 2024-12-17 22:34
 tags: 
-  - x-ray
+  - xray
   - reality
   - hysteria2
   - nginx
 ---
 ## 背景
 
-[上一篇文章](https://tabsp.com/posts/vless-reality-vision)介绍了手动安装并配置 X-ray 的 REALITY 协议，但是支持 REALITY 协议的 iOS 的客户端太少，所以打算同时安装一个 Hysteria 2 作为补充。目前来看 [X-ray core 短期内不会支持 Hysteria 2](https://github.com/XTLS/Xray-core/issues/3547#issuecomment-2232800832)，故考虑使用 nginx 同时反代 X-ray 和 Hysteria 2。
+[上一篇文章](https://tabsp.com/posts/vless-reality-vision)介绍了手动安装并配置 Xray 的 REALITY 协议，但是支持 REALITY 协议的 iOS 的客户端太少，所以打算同时安装一个 Hysteria 2 作为补充。目前来看 [Xray core 短期内不会支持 Hysteria 2](https://github.com/XTLS/Xray-core/issues/3547#issuecomment-2232800832)，故考虑使用 nginx 同时反代 Xray 和 Hysteria 2。
 
-正如标题所言，这次我们上点强度，为了达到完美的效果，我们只使用一个 443 端口，实现 nginx 反代 X-ray（支持 [REALITY](https://github.com/XTLS/REALITY)&[XHTTP](https://github.com/XTLS/Xray-core/discussions/4113)）和 [Hysteria 2](https://v2.hysteria.network)，同时再反代一个 WEB 网站，网站支持 HTTP/2 和 HTTP/3。
+正如标题所言，这次我们上点强度，为了达到完美的效果，我们只使用一个 443 端口，实现 nginx 反代 Xray（支持 [REALITY](https://github.com/XTLS/REALITY)&[XHTTP](https://github.com/XTLS/Xray-core/discussions/4113)）和 [Hysteria 2](https://v2.hysteria.network)，同时再反代一个 WEB 网站，网站支持 HTTP/2 和 HTTP/3。
 
 流程如下：
 
@@ -35,7 +35,7 @@ tags:
         ┌──────────────────┼────────────────────────┐
         │                  │                        │
   ┌─────▼──────┐    ┌──────▼───────┐     ┌──────────▼────────┐
-  │ WEB server │    │ X-ray server │     │ Hysteria 2 server │
+  │ WEB server │    │ Xray server │     │ Hysteria 2 server │
   └────────────┘    └──────────────┘     └───────────────────┘
 ```
 
@@ -125,7 +125,7 @@ HYSTERIA_USER=root bash <(curl -fsSL https://get.hy2.sh/)
 systemctl enable hysteria-server
 ```
 
-### 安装 X-ray
+### 安装 Xray
 
 参考 [上一篇文章](https://tabsp.com/posts/vless-reality-vision) 安装并设置自动更新 dat。
 
@@ -136,11 +136,11 @@ systemctl enable hysteria-server
 | 端口 | 监听      | 协议 | 服务            | 作用                             |
 |------|-----------|------|-----------------|----------------------------------|
 | 80   | 0.0.0.0   | HTTP | Nginx           | 强制重定向至 443                 |
-| 443  | 0.0.0.0   | TCP  | Nginx           | X-ray、HTTP/2 WEB 服务入口       |
+| 443  | 0.0.0.0   | TCP  | Nginx           | Xray、HTTP/2 WEB 服务入口       |
 | 443  | 0.0.0.0   | UDP  | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口  |
-| 2024 | 127.0.0.1 | gRPC | X-ray           | X-ray REALITY 协议监听端口       |
+| 2024 | 127.0.0.1 | gRPC | Xray           | Xray REALITY 协议监听端口       |
 | 3001 | 127.0.0.1 | HTTP | Any WEB service | WEB 服务监听端口，搭建自己的服务 |
-| 1443 | 127.0.0.1 | TCP  | X-ray           | X-ray XHTTP 协议监听端口         |
+| 1443 | 127.0.0.1 | TCP  | Xray           | Xray XHTTP 协议监听端口         |
 | 2443 | 127.0.0.1 | UDP  | Hysteria 2      | Hysteria 2监听端口               |
 | 8443 | 127.0.0.1 | HTTP | Nginx           | 反代 WEB 服务                    |
 
@@ -240,7 +240,7 @@ http {
         ssl_ciphers               ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305;
         ssl_ecdh_curve            secp521r1:secp384r1:secp256r1:x25519;
 
-        # 替换为自己 XHTTP 的路径，一般为随机字符串，对应下文中 X-ray 的配置
+        # 替换为自己 XHTTP 的路径，一般为随机字符串，对应下文中 Xray 的配置
         location /<replace-this> {
             grpc_pass grpc://127.0.0.1:2024;
             grpc_set_header Host $host;
@@ -263,7 +263,7 @@ http {
 }
 ```
 
-### 配置 X-ray
+### 配置 Xray
 
 与[上一篇文章](https://tabsp.com/posts/vless-reality-vision)一样，将配置文件中的所有 `<replace-this>` 替换为自己的配置，不同之处在于这次 reality 回落域名使用的是自己的域名，俗称“自己偷自己”。
 
