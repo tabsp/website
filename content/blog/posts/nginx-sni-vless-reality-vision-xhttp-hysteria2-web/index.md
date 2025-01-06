@@ -133,16 +133,16 @@ systemctl enable hysteria-server
 
 端口规划：
 
-| 端口 | 监听      | 协议 | 服务            | 作用                             |
-|------|-----------|------|-----------------|----------------------------------|
-| 80   | 0.0.0.0   | HTTP | Nginx           | 强制重定向至 443                 |
-| 443  | 0.0.0.0   | TCP  | Nginx           | Xray、HTTP/2 WEB 服务入口       |
-| 443  | 0.0.0.0   | UDP  | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口  |
-| 2024 | 127.0.0.1 | gRPC | Xray           | Xray REALITY 协议监听端口       |
-| 3001 | 127.0.0.1 | HTTP | Any WEB service | WEB 服务监听端口，搭建自己的服务 |
-| 1443 | 127.0.0.1 | TCP  | Xray           | Xray XHTTP 协议监听端口         |
-| 2443 | 127.0.0.1 | UDP  | Hysteria 2      | Hysteria 2监听端口               |
-| 8443 | 127.0.0.1 | HTTP | Nginx           | 反代 WEB 服务                    |
+| 端口 | 监听      | 协议   | 服务            | 作用                             |
+|------|-----------|-------|-----------------|----------------------------------|
+| 80   | 0.0.0.0   | HTTP  | Nginx           | 强制重定向至 443                  |
+| 443  | 0.0.0.0   | TCP   | Nginx           | Xray、HTTP/2 WEB 服务入口         |
+| 443  | 0.0.0.0   | UDP   | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口   |
+| 2024 | 127.0.0.1 | XHTTP | Xray            | Xray XHTTP 协议监听端口           |
+| 3001 | 127.0.0.1 | HTTP  | Any WEB service | WEB 服务监听端口，搭建自己的服务    |
+| 1443 | 127.0.0.1 | TCP   | Xray            | Xray REALITY 协议监听端口          |
+| 2443 | 127.0.0.1 | UDP   | Hysteria 2      | Hysteria 2 监听端口                |
+| 8443 | 127.0.0.1 | HTTP  | Nginx           | 反代 WEB 服务                     |
 
 ### 配置 Nginx
 
