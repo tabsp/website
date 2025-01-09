@@ -97,7 +97,7 @@ systemctl start nginx
 
 ### 安装 acme 并申请 https 证书
 
-安装 acme 并申请证书，注意更换为自己邮箱并提前设置域名解析：
+安装 acme 并申请证书，注意更换为自己邮箱并提前设置域名解析，另外还需要临时将默认 nginx 配置的 server_name 改为要申请证书的域名：
 
 ```bash
 curl https://get.acme.sh | sh -s email=youremail@example.com
@@ -360,7 +360,7 @@ http {
       "settings": {
         "clients": [
           {
-            "id": "<replace-this>", // 可以使用 xray uuid 生成，注意保存
+            "id": "<replace-this>" // 可以使用 xray uuid 生成，注意保存
           }
         ],
         "decryption": "none"
@@ -368,7 +368,7 @@ http {
       "streamSettings": {
         "network": "xhttp",
         "xhttpSettings": {
-          "path": "<replace-this>", // 随便输入一个路径，随机字符串即可，注意替换 Nginx 中的反代配置
+          "path": "<replace-this>" // 随便输入一个路径，随机字符串即可，注意替换 Nginx 中的反代配置
         }
       },
       "sniffing": {
