@@ -69,14 +69,37 @@ jobs:
           path: |
             public
             .cache
-          key: ${{ runner.os }}-gatsby-build-${{ hashFiles('public') }}
+          key: ${{ runner.os }}-gatsby-build-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-gatsby-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Refresh Browserslist DB
+        run: |
+          if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
+            yarn browserslist:update
+          else
+            npx update-browserslist-db@latest --yes
+          fi
+      - name: Lint
+        run: |
+          if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
+            yarn lint
+          else
+            npm run lint
+          fi
+      - name: Test
+        run: |
+          if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
+            yarn test --runInBand
+          else
+            npm run test -- --runInBand
+          fi
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
+          GATSBY_GTAG_ID: ${{ secrets.GATSBY_GTAG_ID }}
+          GATSBY_CLARITY_PROJECT_ID: ${{ secrets.GATSBY_CLARITY_PROJECT_ID }}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

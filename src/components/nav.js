@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "gatsby"
 
 const Nav = () => {
   return (
@@ -11,18 +12,18 @@ const Nav = () => {
         marginBottom: "10px"
       }}
     >
-      <a style={{ fontSize: "1.5rem" }} href="/">
+      <Link style={{ fontSize: "1.5rem" }} to="/">
         Home
-      </a>
-      <a style={{ fontSize: "1.5rem" }} href="/posts">
+      </Link>
+      <Link style={{ fontSize: "1.5rem" }} to="/posts">
         Posts
-      </a>
-      <a style={{ fontSize: "1.5rem" }} href="/tags">
+      </Link>
+      <Link style={{ fontSize: "1.5rem" }} to="/tags">
         Tags
-      </a>
-      <a style={{ fontSize: "1.5rem" }} href="/about">
+      </Link>
+      <Link style={{ fontSize: "1.5rem" }} to="/about">
         About
-      </a>
+      </Link>
     </div>
   )
 }

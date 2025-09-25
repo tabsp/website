@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Tabsp's blog`,
@@ -58,19 +62,17 @@ module.exports = {
         ],
       },
     },
-    {
+    process.env.GATSBY_GTAG_ID && {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingIds: [
-          "G-F5S65MK92J",
-        ],
+        trackingIds: [process.env.GATSBY_GTAG_ID],
       },
     },
-    {
+    process.env.GATSBY_CLARITY_PROJECT_ID && {
       resolve: `gatsby-plugin-clarity`,
       options: {
-        clarity_project_id: "jthap9tl5e",
-        enable_on_dev_env: false
+        clarity_project_id: process.env.GATSBY_CLARITY_PROJECT_ID,
+        enable_on_dev_env: false,
       },
     },
     {
@@ -127,5 +129,5 @@ module.exports = {
         ],
       },
     },
-  ],
+  ].filter(Boolean),
 }

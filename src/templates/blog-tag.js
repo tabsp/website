@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -9,7 +10,7 @@ import TagPagination from "../components/tag-pagination"
 const BlogIndex = ({ data, pageContext, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
-  const { totalPage, currentPage, tag } = pageContext
+  const { totalPage, currentPage, tag, tagSlug } = pageContext
 
   if (posts.length === 0) {
     return (
@@ -28,6 +29,7 @@ const BlogIndex = ({ data, pageContext, location }) => {
       <Seo title="All tags" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
+        const readingMinutes = post.fields?.readingTimeMinutes
         return (
           <article
             key={post.fields.slug}
@@ -42,6 +44,11 @@ const BlogIndex = ({ data, pageContext, location }) => {
                 </Link>
               </h2>
               <small>{post.frontmatter.date}</small>
+              {readingMinutes ? (
+                <small className="post-reading-time-inline">
+                  约 {readingMinutes} 分钟
+                </small>
+              ) : null}
             </header>
             <section>
               <p
@@ -54,10 +61,50 @@ const BlogIndex = ({ data, pageContext, location }) => {
           </article>
         )
       })}
-      <TagPagination currentPage={currentPage} totalPage={totalPage} tag={tag} />
+      <TagPagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        tagSlug={tagSlug}
+        tag={tag}
+      />
 
     </Layout>
   )
+}
+
+const tagPostShape = PropTypes.shape({
+  fields: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    readingTimeMinutes: PropTypes.number,
+  }).isRequired,
+  frontmatter: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  excerpt: PropTypes.string,
+})
+
+BlogIndex.propTypes = {
+  data: PropTypes.shape({
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    allMarkdownRemark: PropTypes.shape({
+      nodes: PropTypes.arrayOf(tagPostShape).isRequired,
+    }).isRequired,
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    totalPage: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    tag: PropTypes.string.isRequired,
+    tagSlug: PropTypes.string,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default BlogIndex
@@ -79,6 +126,7 @@ export const pageQuery = graphql`
         excerpt
         fields {
           slug
+          readingTimeMinutes
         }
         frontmatter {
           date(formatString: "yyyy-MM-DD")

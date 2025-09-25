@@ -1,8 +1,10 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
+const readingTime = require(`reading-time`)
+const slugify = require(`./src/utils/slugify`)
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+  const { createPage, createRedirect } = actions
 
   // Define a template for blog post
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
@@ -99,26 +101,46 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     })
   }
 
-  const tags = result.data.allMarkdownRemark.group
+  const tags = result.data.allMarkdownRemark.group.map(tag => ({
+    name: tag.fieldValue,
+    slug: slugify(tag.fieldValue),
+    totalCount: tag.totalCount,
+  }))
   // 创建标签页
   tags.forEach(tag => {
     const total = tag.totalCount
     const numPages = Math.ceil(total / pageSize)
     Array.from({ length: numPages }).forEach((_, i) => {
+      const canonicalPath =
+        i === 0 ? `/tags/${tag.slug}` : `/tags/${tag.slug}/${i + 1}`
+
       createPage({
-        path:
-          i === 0
-            ? `/tags/${tag.fieldValue}`
-            : `/tags/${tag.fieldValue}/${i + 1}`,
+        path: canonicalPath,
         component: blogTag,
         context: {
-          tag: tag.fieldValue,
+          tag: tag.name,
+          tagSlug: tag.slug,
           currentPage: i + 1,
           totalPage: numPages,
           limit: pageSize,
           skip: i * pageSize,
         },
       })
+
+      const legacySegment = encodeURIComponent(tag.name)
+      const legacyPath =
+        i === 0
+          ? `/tags/${legacySegment}`
+          : `/tags/${legacySegment}/${i + 1}`
+
+      if (legacyPath !== canonicalPath) {
+        createRedirect({
+          fromPath: legacyPath,
+          toPath: canonicalPath,
+          isPermanent: true,
+          redirectInBrowser: true,
+        })
+      }
     })
   })
 }
@@ -133,6 +155,21 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       name: `slug`,
       node,
       value,
+    })
+
+    const stats = readingTime(node.rawMarkdownBody || ``)
+    const minutes = Math.max(1, Math.round(stats.minutes || 0))
+
+    createNodeField({
+      name: `readingTimeMinutes`,
+      node,
+      value: minutes,
+    })
+
+    createNodeField({
+      name: `readingTimeText`,
+      node,
+      value: `${minutes} min read`,
     })
   }
 }
@@ -175,6 +212,8 @@ exports.createSchemaCustomization = ({ actions }) => {
 
     type Fields {
       slug: String
+      readingTimeMinutes: Int
+      readingTimeText: String
     }
   `)
 }

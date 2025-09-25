@@ -1,11 +1,12 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Giscus from "../components/giscus"
 
-const NotFoundPage = ({ data, location }) => {
+const AboutPage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata.title
 
   return (
@@ -18,7 +19,20 @@ const NotFoundPage = ({ data, location }) => {
   )
 }
 
-export default NotFoundPage
+AboutPage.propTypes = {
+  data: PropTypes.shape({
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
+export default AboutPage
 
 export const pageQuery = graphql`
   query {

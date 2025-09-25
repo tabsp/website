@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { useStaticQuery, graphql, Link } from "gatsby"
 
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -60,6 +61,10 @@ const Signature = ({ postUrl }) => {
       </div>
     </div>
   )
+}
+
+Signature.propTypes = {
+  postUrl: PropTypes.string.isRequired,
 }
 
 export default Signature

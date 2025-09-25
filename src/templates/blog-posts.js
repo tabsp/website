@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -24,6 +25,7 @@ const BlogPosts = ({ data, pageContext, location }) => {
       <Seo title="All posts" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
+        const readingMinutes = post.fields?.readingTimeMinutes
         return (
           <article
             key={post.fields.slug}
@@ -38,6 +40,11 @@ const BlogPosts = ({ data, pageContext, location }) => {
                 </Link>
               </h2>
               <small>{post.frontmatter.date}</small>
+              {readingMinutes ? (
+                <small className="post-reading-time-inline">
+                  约 {readingMinutes} 分钟
+                </small>
+              ) : null}
             </header>
             <section>
               <p
@@ -53,6 +60,39 @@ const BlogPosts = ({ data, pageContext, location }) => {
       <Pagination currentPage={currentPage} totalPage={totalPage} />
     </Layout>
   )
+}
+
+const postNodeShape = PropTypes.shape({
+  fields: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    readingTimeMinutes: PropTypes.number,
+  }).isRequired,
+  frontmatter: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  excerpt: PropTypes.string,
+})
+
+BlogPosts.propTypes = {
+  data: PropTypes.shape({
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    allMarkdownRemark: PropTypes.shape({
+      nodes: PropTypes.arrayOf(postNodeShape).isRequired,
+    }).isRequired,
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    totalPage: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default BlogPosts
@@ -73,6 +113,7 @@ export const pageQuery = graphql`
         excerpt
         fields {
           slug
+          readingTimeMinutes
         }
         frontmatter {
           date(formatString: "yyyy-MM-DD")
