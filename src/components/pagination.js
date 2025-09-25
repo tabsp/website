@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
 const Pagination = ({currentPage, totalPage}) => {
@@ -31,6 +32,11 @@ const Pagination = ({currentPage, totalPage}) => {
       </div>
     </div>
   )
+}
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPage: PropTypes.number.isRequired,
 }
 
 export default Pagination

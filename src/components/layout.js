@@ -1,4 +1,6 @@
+/* global __PATH_PREFIX__ */
 import React from "react"
+import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import Nav from "./nav"
 
@@ -33,6 +35,14 @@ const Layout = ({ location, title, children }) => {
       </footer>
     </div>
   )
+}
+
+Layout.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 export default Layout
