@@ -133,7 +133,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           ? `/tags/${legacySegment}`
           : `/tags/${legacySegment}/${i + 1}`
 
-      if (legacyPath !== canonicalPath) {
+      if (legacySegment !== tag.slug && legacyPath !== canonicalPath) {
         createRedirect({
           fromPath: legacyPath,
           toPath: canonicalPath,
