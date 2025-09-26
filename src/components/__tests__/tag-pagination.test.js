@@ -11,7 +11,7 @@ describe("TagPagination", () => {
 
     expect(screen.getByRole("link", { name: "← 上一页" })).toHaveAttribute(
       "href",
-      "/tags/node-js/"
+      "/tags/node-js"
     )
     expect(screen.getByRole("link", { name: "下一页 →" })).toHaveAttribute(
       "href",

@@ -30,7 +30,7 @@ const BlogTags = ({ data, location }) => {
       <ul>
         {tags.map(tag => (
           <li key={tag.fieldValue}>
-            <Link to={`/tags/${tag.slug}/`}>
+            <Link to={`/tags/${tag.slug}`}>
               {tag.fieldValue} ({tag.totalCount})
             </Link>
           </li>
