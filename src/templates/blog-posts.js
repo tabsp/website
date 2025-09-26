@@ -14,7 +14,6 @@ const BlogPosts = ({ data, pageContext, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
         <NoPostFound />
       </Layout>
     )
@@ -22,7 +21,6 @@ const BlogPosts = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="All posts" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         const readingMinutes = post.fields?.readingTimeMinutes
@@ -96,6 +94,8 @@ BlogPosts.propTypes = {
 }
 
 export default BlogPosts
+
+export const Head = () => <Seo title="All posts" />
 
 export const pageQuery = graphql`
   query($skip: Int!, $limit: Int!) {

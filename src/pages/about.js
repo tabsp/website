@@ -11,7 +11,6 @@ const AboutPage = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="About me" />
       <h2>联系我</h2>
       <a href="mailto:tabsp@qq.com">tabsp@qq.com</a>
       <Giscus />
@@ -33,6 +32,8 @@ AboutPage.propTypes = {
 }
 
 export default AboutPage
+
+export const Head = () => <Seo title="About me" />
 
 export const pageQuery = graphql`
   query {

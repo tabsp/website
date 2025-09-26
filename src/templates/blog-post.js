@@ -15,10 +15,6 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
-      />
       <article className="blog-post" itemScope itemType="http://schema.org/Article">
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
@@ -124,6 +120,17 @@ BlogPostTemplate.propTypes = {
 }
 
 export default BlogPostTemplate
+
+export const Head = ({ data }) => {
+  const post = data?.markdownRemark
+
+  return (
+    <Seo
+      title={post?.frontmatter?.title ?? `Post`}
+      description={post?.frontmatter?.description || post?.excerpt || ``}
+    />
+  )
+}
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
