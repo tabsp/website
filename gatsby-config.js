@@ -55,10 +55,10 @@ module.exports = {
             resolve: `gatsby-remark-prismjs`,
             options: {
               showLineNumbers: true,
-              languageAliases: {
+              aliases: {
                 conf: `nginx`,
               },
-            }
+            },
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
