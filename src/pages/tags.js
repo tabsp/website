@@ -16,21 +16,19 @@ const BlogTags = ({ data, location }) => {
   if (tags.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All tags" />
         <NoPostFound />
       </Layout>
     )
   }
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="All tags" />
       <div>
         <h1>All tags</h1>
       </div>
       <ul>
         {tags.map(tag => (
           <li key={tag.fieldValue}>
-            <Link to={`/tags/${tag.slug}/`}>
+            <Link to={`/tags/${tag.slug}`}>
               {tag.fieldValue} ({tag.totalCount})
             </Link>
           </li>
@@ -62,6 +60,8 @@ BlogTags.propTypes = {
 }
 
 export default BlogTags
+
+export const Head = () => <Seo title="All tags" />
 
 export const pageQuery = graphql`
   query {

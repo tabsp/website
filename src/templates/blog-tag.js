@@ -15,7 +15,6 @@ const BlogIndex = ({ data, pageContext, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All tags" />
         <NoPostFound />
       </Layout>
     )
@@ -26,7 +25,6 @@ const BlogIndex = ({ data, pageContext, location }) => {
         <div>
             <h1># {tag}</h1>
         </div>
-      <Seo title="All tags" />
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         const readingMinutes = post.fields?.readingTimeMinutes
@@ -108,6 +106,10 @@ BlogIndex.propTypes = {
 }
 
 export default BlogIndex
+
+export const Head = ({ pageContext }) => (
+  <Seo title={`# ${pageContext?.tag ?? "All tags"}`} />
+)
 
 export const pageQuery = graphql`
   query($tag: String!, $skip: Int!, $limit: Int!) {

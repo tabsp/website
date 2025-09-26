@@ -55,7 +55,10 @@ module.exports = {
             resolve: `gatsby-remark-prismjs`,
             options: {
               showLineNumbers: true,
-            }
+              aliases: {
+                conf: `nginx`,
+              },
+            },
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
@@ -87,7 +90,6 @@ module.exports = {
         icon: `content/assets/icon.png`,
       },
     },
-    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {

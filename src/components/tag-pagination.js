@@ -8,6 +8,8 @@ const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
   if (!slug) {
     return null
   }
+  const basePath = `/tags/${slug}`
+
   return (
     <div
       style={{
@@ -21,7 +23,9 @@ const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
       <div>
         {currentPage - 1 > 0 && (
           <Link
-            to={`/tags/${slug}/` + (currentPage - 1 === 1 ? "" : currentPage - 1)}
+            to={
+              currentPage - 1 === 1 ? basePath : `${basePath}/${currentPage - 1}`
+            }
             rel="prev"
           >
             ← 上一页
@@ -30,7 +34,7 @@ const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
       </div>
       <div>
         {currentPage + 1 <= totalPage && (
-          <Link to={`/tags/${slug}/` + (currentPage + 1)} rel="next">
+          <Link to={`${basePath}/${currentPage + 1}`} rel="next">
             下一页 →
           </Link>
         )}

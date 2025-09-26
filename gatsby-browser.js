@@ -10,3 +10,9 @@ import "./src/style.css"
 import "prismjs/themes/prism.css"
 import "prismjs/plugins/line-numbers/prism-line-numbers.css"
 import "prismjs/plugins/command-line/prism-command-line.css"
+import Prism from "prismjs"
+
+if (typeof Prism !== "undefined") {
+  // ensure syntax module registers after core loads
+  require("prismjs/components/prism-nginx")
+}

@@ -7,10 +7,9 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
-const SEO = ({ description, lang, meta, title }) => {
+const Seo = ({ description = ``, lang = `en`, meta = [], title }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -29,63 +28,83 @@ const SEO = ({ description, lang, meta, title }) => {
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
+  const metaTags = [
+    {
+      name: `description`,
+      content: metaDescription,
+    },
+    {
+      property: `og:title`,
+      content: title,
+    },
+    {
+      property: `og:description`,
+      content: metaDescription,
+    },
+    {
+      property: `og:type`,
+      content: `website`,
+    },
+    {
+      name: `github:card`,
+      content: `summary`,
+    },
+    {
+      name: `github:creator`,
+      content: site.siteMetadata?.social?.github || ``,
+    },
+    {
+      name: `github:title`,
+      content: title,
+    },
+    {
+      name: `github:description`,
+      content: metaDescription,
+    },
+  ]
+
+  const serializedMeta = metaTags.concat(meta).map((entry, index) => {
+    if (!entry) {
+      return null
+    }
+
+    if (entry.name) {
+      return (
+        <meta
+          key={`meta-${entry.name}-${index}`}
+          name={entry.name}
+          content={entry.content}
+        />
+      )
+    }
+
+    if (entry.property) {
+      return (
+        <meta
+          key={`meta-${entry.property}-${index}`}
+          property={entry.property}
+          content={entry.content}
+        />
+      )
+    }
+
+    return null
+  })
 
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
-      meta={[
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: title,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `github:card`,
-          content: `summary`,
-        },
-        {
-          name: `github:creator`,
-          content: site.siteMetadata?.social?.github || ``,
-        },
-        {
-          name: `github:title`,
-          content: title,
-        },
-        {
-          name: `github:description`,
-          content: metaDescription,
-        },
-      ].concat(meta)}
-    />
+    <>
+      <html lang={lang} />
+      <title>{defaultTitle ? `${title} | ${defaultTitle}` : title}</title>
+      {serializedMeta}
+    </>
   )
 }
 
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
+Seo.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
 }
 
-export default SEO
+export default Seo
