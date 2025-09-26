@@ -91,10 +91,15 @@ jobs:
       - name: Test
         run: |
           if [ "${{ steps.detect-package-manager.outputs.manager }}" = "yarn" ]; then
-            yarn test --runInBand
+            yarn test --coverage --runInBand
           else
-            npm run test -- --runInBand
+            npm run test -- --coverage --runInBand
           fi
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage-final.json
+          fail_ci_if_error: true
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
