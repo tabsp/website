@@ -1,5 +1,7 @@
 # Tabsp's Blog
 
+[![Vercel Status](https://img.shields.io/github/deployments/tabsp/website/production?label=vercel&logo=vercel)](https://vercel.com/tabsp/website)
+
 A Gatsby-powered personal blog that renders Markdown posts with image optimization, RSS, and analytics integrations. This README gives you everything needed to work, test, and deploy the site on WSL or any Node 18+ environment.
 
 ## Prerequisites
