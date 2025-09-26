@@ -18,6 +18,7 @@ describe("gatsby-node createPages", () => {
     }
     reporter = {
       panicOnBuild: jest.fn(),
+      info: jest.fn(),
     }
     jest.clearAllMocks()
   })
@@ -66,7 +67,11 @@ describe("gatsby-node createPages", () => {
         fromPath: "/tags/Android",
         toPath: "/tags/android",
         isPermanent: true,
+        ignoreCase: false,
       })
+    )
+    expect(reporter.info).toHaveBeenCalledWith(
+      'redirecting legacy tag path from "/tags/Android" to "/tags/android"'
     )
     expect(actions.createRedirect).not.toHaveBeenCalledWith(
       expect.objectContaining({ fromPath: "/tags/devops" })
@@ -87,6 +92,7 @@ describe("gatsby-node createPages", () => {
     )
     expect(actions.createPage).not.toHaveBeenCalled()
     expect(actions.createRedirect).not.toHaveBeenCalled()
+    expect(reporter.info).not.toHaveBeenCalled()
   })
 
   it("falls back to a single item page size when metadata is missing", async () => {
@@ -111,6 +117,7 @@ describe("gatsby-node createPages", () => {
       expect.objectContaining({ path: "/posts" })
     )
     expect(actions.createRedirect).not.toHaveBeenCalled()
+    expect(reporter.info).not.toHaveBeenCalled()
   })
 })
 

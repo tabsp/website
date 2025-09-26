@@ -134,11 +134,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           : `/tags/${legacySegment}/${i + 1}`
 
       if (legacySegment !== tag.slug && legacyPath !== canonicalPath) {
+        reporter.info(
+          `redirecting legacy tag path from "${legacyPath}" to "${canonicalPath}"`
+        )
         createRedirect({
           fromPath: legacyPath,
           toPath: canonicalPath,
           isPermanent: true,
           redirectInBrowser: true,
+          ignoreCase: false,
         })
       }
     })
