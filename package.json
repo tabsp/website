@@ -36,9 +36,9 @@
     "typeface-montserrat": "1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/plugin-syntax-flow": "^7.24.7",
-    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-syntax-flow": "^7.28.6",
+    "@babel/plugin-transform-react-jsx": "^7.28.6",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
