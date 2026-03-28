@@ -15,14 +15,22 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <article className="blog-post" itemScope itemType="http://schema.org/Article">
+      <article
+        className="blog-post"
+        itemScope
+        itemType="http://schema.org/Article"
+      >
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>
             {post.frontmatter.date}
-            {readingMinutes ? <span className="post-meta-separator"> · </span> : null}
             {readingMinutes ? (
-              <span className="post-reading-time">预计阅读 ~{readingMinutes} 分钟</span>
+              <span className="post-meta-separator"> · </span>
+            ) : null}
+            {readingMinutes ? (
+              <span className="post-reading-time">
+                预计阅读 ~{readingMinutes} 分钟
+              </span>
             ) : null}
           </p>
         </header>
@@ -31,7 +39,9 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             <div className="blog-post-toc">
               <div className="blog-post-toc-title">目录</div>
               <div className="blog-post-toc-contents">
-                <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+                <div
+                  dangerouslySetInnerHTML={{ __html: post.tableOfContents }}
+                />
               </div>
             </div>
           </aside>
@@ -130,6 +140,18 @@ export const Head = ({ data }) => {
       description={post?.frontmatter?.description || post?.excerpt || ``}
     />
   )
+}
+
+Head.propTypes = {
+  data: PropTypes.shape({
+    markdownRemark: PropTypes.shape({
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string,
+        description: PropTypes.string,
+      }),
+      excerpt: PropTypes.string,
+    }),
+  }),
 }
 
 export const pageQuery = graphql`

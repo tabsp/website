@@ -22,9 +22,9 @@ const BlogIndex = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-        <div>
-            <h1># {tag}</h1>
-        </div>
+      <div>
+        <h1># {tag}</h1>
+      </div>
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         const readingMinutes = post.fields?.readingTimeMinutes
@@ -65,7 +65,6 @@ const BlogIndex = ({ data, pageContext, location }) => {
         tagSlug={tagSlug}
         tag={tag}
       />
-
     </Layout>
   )
 }
@@ -111,8 +110,14 @@ export const Head = ({ pageContext }) => (
   <Seo title={`# ${pageContext?.tag ?? "All tags"}`} />
 )
 
+Head.propTypes = {
+  pageContext: PropTypes.shape({
+    tag: PropTypes.string,
+  }),
+}
+
 export const pageQuery = graphql`
-  query($tag: String!, $skip: Int!, $limit: Int!) {
+  query ($tag: String!, $skip: Int!, $limit: Int!) {
     site {
       siteMetadata {
         title
