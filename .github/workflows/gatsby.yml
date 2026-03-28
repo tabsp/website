@@ -96,7 +96,7 @@ jobs:
             npm run test -- --coverage --runInBand
           fi
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           files: ./coverage/coverage-final.json
           fail_ci_if_error: true
