@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -51,9 +51,9 @@ jobs:
             exit 1
           fi
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
@@ -96,13 +96,13 @@ jobs:
             npm run test -- --coverage --runInBand
           fi
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage/coverage-final.json
           fail_ci_if_error: true
       - name: Build with Gatsby
         env:
-          PREFIX_PATHS: 'true'
+          PREFIX_PATHS: "true"
           GATSBY_GTAG_ID: ${{ secrets.GATSBY_GTAG_ID }}
           GATSBY_CLARITY_PROJECT_ID: ${{ secrets.GATSBY_CLARITY_PROJECT_ID }}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
