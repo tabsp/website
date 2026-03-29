@@ -1,12 +1,19 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { graphql } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Giscus from "../components/giscus"
 
-const AboutPage = ({ data, location }) => {
+interface AboutData {
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+}
+
+const AboutPage: React.FC<PageProps<AboutData>> = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata.title
 
   return (
@@ -18,22 +25,9 @@ const AboutPage = ({ data, location }) => {
   )
 }
 
-AboutPage.propTypes = {
-  data: PropTypes.shape({
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-}
-
 export default AboutPage
 
-export const Head = () => <Seo title="About me" />
+export const Head: React.FC = () => <Seo title="About me" />
 
 export const pageQuery = graphql`
   query {

@@ -1,4 +1,4 @@
-const slugify = require("../slugify")
+import slugify from "../slugify"
 
 describe("slugify", () => {
   it("normalises casing and whitespace", () => {

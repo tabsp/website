@@ -1,8 +1,8 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV || "development"}`,
-})
+import "dotenv/config"
+import type { GatsbyConfig, PluginRef } from "gatsby"
+import path from "path"
 
-module.exports = {
+const config: GatsbyConfig = {
   siteMetadata: {
     title: `Tabsp's blog`,
     author: {
@@ -23,14 +23,14 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
+        path: path.join(process.cwd(), "content/blog"),
         name: `blog`,
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/assets`,
+        path: path.join(process.cwd(), "content/assets"),
         name: `assets`,
       },
     },
@@ -95,16 +95,53 @@ module.exports = {
       options: {
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.nodes.map(node => {
-                return Object.assign({}, node.frontmatter, {
-                  description: node.excerpt,
-                  date: node.frontmatter.date,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ "content:encoded": node.html }],
-                })
-              })
+            serialize: ({
+              query: { site, allMarkdownRemark },
+            }: {
+              query: {
+                site: {
+                  siteMetadata: {
+                    siteUrl: string
+                  }
+                }
+                allMarkdownRemark: {
+                  nodes: Array<{
+                    excerpt: string
+                    html: string
+                    fields: {
+                      slug: string
+                    }
+                    frontmatter: {
+                      description: string
+                      date: string
+                      title: string
+                    }
+                  }>
+                }
+              }
+            }) => {
+              return allMarkdownRemark.nodes.map(
+                (node: {
+                  excerpt: string
+                  html: string
+                  fields: {
+                    slug: string
+                  }
+                  frontmatter: {
+                    description: string
+                    date: string
+                    title: string
+                  }
+                }) => {
+                  return Object.assign({}, node.frontmatter, {
+                    description: node.excerpt,
+                    date: node.frontmatter.date,
+                    url: site.siteMetadata.siteUrl + node.fields.slug,
+                    guid: site.siteMetadata.siteUrl + node.fields.slug,
+                    custom_elements: [{ "content:encoded": node.html }],
+                  })
+                },
+              )
             },
             query: `
               {
@@ -131,5 +168,7 @@ module.exports = {
         ],
       },
     },
-  ].filter(Boolean),
+  ].filter(Boolean) as PluginRef[],
 }
+
+export default config

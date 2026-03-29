@@ -1,13 +1,28 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
 import slugify from "../utils/slugify"
 
-const BlogTags = ({ data, location }) => {
+interface TagGroup {
+  fieldValue: string
+  totalCount: number
+}
+
+interface BlogTagsData {
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+  allMarkdownRemark: {
+    group: TagGroup[]
+  }
+}
+
+const BlogTags: React.FC<PageProps<BlogTagsData>> = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const tags = data.allMarkdownRemark.group.map(tag => ({
     ...tag,
@@ -38,30 +53,9 @@ const BlogTags = ({ data, location }) => {
   )
 }
 
-BlogTags.propTypes = {
-  data: PropTypes.shape({
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    allMarkdownRemark: PropTypes.shape({
-      group: PropTypes.arrayOf(
-        PropTypes.shape({
-          fieldValue: PropTypes.string.isRequired,
-          totalCount: PropTypes.number.isRequired,
-        }).isRequired
-      ).isRequired,
-    }).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-}
-
 export default BlogTags
 
-export const Head = () => <Seo title="All tags" />
+export const Head: React.FC = () => <Seo title="All tags" />
 
 export const pageQuery = graphql`
   query {
@@ -71,7 +65,7 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(limit: 2000) {
-      group(field: { frontmatter: { tags: SELECT } } ) {
+      group(field: { frontmatter: { tags: SELECT } }) {
         fieldValue
         totalCount
       }

@@ -14,5 +14,5 @@ import Prism from "prismjs"
 
 if (typeof Prism !== "undefined") {
   // ensure syntax module registers after core loads
-  require("prismjs/components/prism-nginx")
+  import("prismjs/components/prism-nginx")
 }

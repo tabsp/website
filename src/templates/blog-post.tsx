@@ -1,13 +1,53 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Signature from "../components/signature"
 import Giscus from "../components/giscus"
 
-const BlogPostTemplate = ({ data, pageContext, location }) => {
+interface PostEdge {
+  fields: {
+    slug: string
+    readingTimeMinutes?: number
+  }
+  frontmatter: {
+    title: string
+  }
+}
+
+interface BlogPostData {
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+  markdownRemark: {
+    excerpt?: string
+    tableOfContents?: string
+    html: string
+    fields?: {
+      readingTimeMinutes?: number
+    }
+    frontmatter: {
+      title: string
+      date: string
+      description?: string
+    }
+  }
+}
+
+interface BlogPostContext {
+  previous?: PostEdge
+  next?: PostEdge
+  slug: string
+}
+
+const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
+  data,
+  pageContext,
+  location,
+}) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next, slug } = pageContext
@@ -40,7 +80,9 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
               <div className="blog-post-toc-title">目录</div>
               <div className="blog-post-toc-contents">
                 <div
-                  dangerouslySetInnerHTML={{ __html: post.tableOfContents }}
+                  dangerouslySetInnerHTML={{
+                    __html: post.tableOfContents || "",
+                  }}
                 />
               </div>
             </div>
@@ -88,50 +130,13 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
   )
 }
 
-const pageEdgeShape = PropTypes.shape({
-  fields: PropTypes.shape({
-    slug: PropTypes.string.isRequired,
-    readingTimeMinutes: PropTypes.number,
-  }).isRequired,
-  frontmatter: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-  }).isRequired,
-})
-
-BlogPostTemplate.propTypes = {
-  data: PropTypes.shape({
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    markdownRemark: PropTypes.shape({
-      excerpt: PropTypes.string,
-      tableOfContents: PropTypes.string,
-      html: PropTypes.string.isRequired,
-      fields: PropTypes.shape({
-        readingTimeMinutes: PropTypes.number,
-      }).isRequired,
-      frontmatter: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-        description: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  pageContext: PropTypes.shape({
-    previous: pageEdgeShape,
-    next: pageEdgeShape,
-    slug: PropTypes.string.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-}
-
 export default BlogPostTemplate
 
-export const Head = ({ data }) => {
+interface HeadProps {
+  data: BlogPostData
+}
+
+export const Head: React.FC<HeadProps> = ({ data }) => {
   const post = data?.markdownRemark
 
   return (
@@ -140,18 +145,6 @@ export const Head = ({ data }) => {
       description={post?.frontmatter?.description || post?.excerpt || ``}
     />
   )
-}
-
-Head.propTypes = {
-  data: PropTypes.shape({
-    markdownRemark: PropTypes.shape({
-      frontmatter: PropTypes.shape({
-        title: PropTypes.string,
-        description: PropTypes.string,
-      }),
-      excerpt: PropTypes.string,
-    }),
-  }),
 }
 
 export const pageQuery = graphql`
