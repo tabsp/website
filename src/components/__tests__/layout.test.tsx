@@ -3,17 +3,19 @@ import { render, screen } from "@testing-library/react"
 
 import Layout from "../layout"
 
-const buildLocation = pathname => ({ pathname })
+const buildLocation = (pathname: string) => ({ pathname })
 
 describe("Layout", () => {
   it("renders a home heading on the root path", () => {
     render(
       <Layout location={buildLocation("/")} title="Tabsp">
         <p>Content</p>
-      </Layout>
+      </Layout>,
     )
 
-    expect(screen.getByRole("heading", { level: 1, name: /tabsp/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole("heading", { level: 1, name: /tabsp/i }),
+    ).toBeInTheDocument()
     expect(screen.getByText("Content")).toBeInTheDocument()
   })
 
@@ -21,10 +23,12 @@ describe("Layout", () => {
     render(
       <Layout location={buildLocation("/posts")} title="Tabsp">
         <p>Content</p>
-      </Layout>
+      </Layout>,
     )
 
     expect(screen.queryByRole("heading", { level: 1 })).not.toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /Tabsp/i }).getAttribute("href")).toBe("/")
+    expect(
+      screen.getByRole("link", { name: /Tabsp/i }).getAttribute("href"),
+    ).toBe("/")
   })
 })

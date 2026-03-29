@@ -6,29 +6,51 @@
  */
 
 import React from "react"
-import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
-const Seo = ({ description = ``, lang = `en`, meta = [], title }) => {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            social {
-              github
-            }
+interface MetaEntry {
+  name?: string
+  property?: string
+  content: string
+}
+
+interface SeoProps {
+  description?: string
+  lang?: string
+  meta?: MetaEntry[]
+  title: string
+}
+
+interface SiteData {
+  site: {
+    siteMetadata: {
+      title: string
+      description: string
+      social: {
+        github: string
+      }
+    }
+  }
+}
+
+const Seo = ({ description = ``, lang = `en`, meta = [], title }: SeoProps) => {
+  const { site } = useStaticQuery<SiteData>(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+          description
+          social {
+            github
           }
         }
       }
-    `
-  )
+    }
+  `)
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
-  const metaTags = [
+  const metaTags: MetaEntry[] = [
     {
       name: `description`,
       content: metaDescription,
@@ -98,13 +120,6 @@ const Seo = ({ description = ``, lang = `en`, meta = [], title }) => {
       {serializedMeta}
     </>
   )
-}
-
-Seo.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 }
 
 export default Seo

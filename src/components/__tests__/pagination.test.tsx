@@ -9,21 +9,23 @@ describe("Pagination", () => {
 
     expect(screen.getByRole("link", { name: "← 上一页" })).toHaveAttribute(
       "href",
-      "/posts/"
+      "/posts/",
     )
     expect(screen.getByRole("link", { name: "下一页 →" })).toHaveAttribute(
       "href",
-      "/posts/3"
+      "/posts/3",
     )
   })
 
   it("hides the previous link on the first page", () => {
     render(<Pagination currentPage={1} totalPage={3} />)
 
-    expect(screen.queryByRole("link", { name: "← 上一页" })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole("link", { name: "← 上一页" }),
+    ).not.toBeInTheDocument()
     expect(screen.getByRole("link", { name: "下一页 →" })).toHaveAttribute(
       "href",
-      "/posts/2"
+      "/posts/2",
     )
   })
 })

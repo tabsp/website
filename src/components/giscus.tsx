@@ -1,11 +1,14 @@
-import React, { useEffect } from "react"
+/* global HTMLDivElement */
+import React, { useEffect, useRef } from "react"
 
 const src = "https://giscus.app/client.js"
 
 const Giscus = () => {
-  const rootElm = React.createRef()
+  const rootElm = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!rootElm.current) return
+
     const giscus = document.createElement("script")
     const giscusConfig = {
       src,
@@ -20,15 +23,16 @@ const Giscus = () => {
       "data-input-position": "bottom",
       "data-theme": "light",
       "data-lang": "en",
-      "crossorigin": "anonymous",
-      "async": true
-    };
+      crossorigin: "anonymous",
+      async: true,
+    }
 
-    Object.keys(giscusConfig).forEach((configKey) => {
-      giscus.setAttribute(configKey, giscusConfig[configKey])
+    Object.keys(giscusConfig).forEach(configKey => {
+      const value = giscusConfig[configKey as keyof typeof giscusConfig]
+      giscus.setAttribute(configKey, String(value))
     })
     rootElm.current.appendChild(giscus)
-  })
+  }, [])
 
   return (
     <>

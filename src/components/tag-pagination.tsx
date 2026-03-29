@@ -1,8 +1,19 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
+interface TagPaginationProps {
+  currentPage: number
+  totalPage: number
+  tagSlug?: string
+  tag?: string
+}
+
+const TagPagination = ({
+  currentPage,
+  totalPage,
+  tagSlug,
+  tag,
+}: TagPaginationProps) => {
   const slug = tagSlug || tag
 
   if (!slug) {
@@ -24,7 +35,9 @@ const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
         {currentPage - 1 > 0 && (
           <Link
             to={
-              currentPage - 1 === 1 ? basePath : `${basePath}/${currentPage - 1}`
+              currentPage - 1 === 1
+                ? basePath
+                : `${basePath}/${currentPage - 1}`
             }
             rel="prev"
           >
@@ -41,13 +54,6 @@ const TagPagination = ({ currentPage, totalPage, tagSlug, tag }) => {
       </div>
     </div>
   )
-}
-
-TagPagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  totalPage: PropTypes.number.isRequired,
-  tagSlug: PropTypes.string,
-  tag: PropTypes.string,
 }
 
 export default TagPagination

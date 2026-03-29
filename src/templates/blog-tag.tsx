@@ -1,16 +1,51 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
-import Pagination from "../components/pagination"
+import TagPagination from "../components/tag-pagination"
 
-const BlogPosts = ({ data, pageContext, location }) => {
+interface TagPostNode {
+  fields: {
+    slug: string
+    readingTimeMinutes?: number
+  }
+  frontmatter: {
+    date: string
+    title: string
+    description?: string
+  }
+  excerpt?: string
+}
+
+interface BlogTagData {
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+  allMarkdownRemark: {
+    nodes: TagPostNode[]
+  }
+}
+
+interface BlogTagContext {
+  totalPage: number
+  currentPage: number
+  tag: string
+  tagSlug?: string
+}
+
+const BlogIndex: React.FC<PageProps<BlogTagData, BlogTagContext>> = ({
+  data,
+  pageContext,
+  location,
+}) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
-  const { totalPage, currentPage } = pageContext
+  const { totalPage, currentPage, tag, tagSlug } = pageContext
+
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
@@ -21,6 +56,9 @@ const BlogPosts = ({ data, pageContext, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
+      <div>
+        <h1># {tag}</h1>
+      </div>
       {posts.map(post => {
         const title = post.frontmatter.title || post.fields.slug
         const readingMinutes = post.fields?.readingTimeMinutes
@@ -47,7 +85,7 @@ const BlogPosts = ({ data, pageContext, location }) => {
             <section>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: post.frontmatter.description || post.excerpt,
+                  __html: post.frontmatter.description || post.excerpt || "",
                 }}
                 itemProp="description"
               />
@@ -55,50 +93,28 @@ const BlogPosts = ({ data, pageContext, location }) => {
           </article>
         )
       })}
-      <Pagination currentPage={currentPage} totalPage={totalPage} />
+      <TagPagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        tagSlug={tagSlug}
+        tag={tag}
+      />
     </Layout>
   )
 }
 
-const postNodeShape = PropTypes.shape({
-  fields: PropTypes.shape({
-    slug: PropTypes.string.isRequired,
-    readingTimeMinutes: PropTypes.number,
-  }).isRequired,
-  frontmatter: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-  }).isRequired,
-  excerpt: PropTypes.string,
-})
+export default BlogIndex
 
-BlogPosts.propTypes = {
-  data: PropTypes.shape({
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    allMarkdownRemark: PropTypes.shape({
-      nodes: PropTypes.arrayOf(postNodeShape).isRequired,
-    }).isRequired,
-  }).isRequired,
-  pageContext: PropTypes.shape({
-    totalPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+interface HeadProps {
+  pageContext: BlogTagContext
 }
 
-export default BlogPosts
-
-export const Head = () => <Seo title="All posts" />
+export const Head: React.FC<HeadProps> = ({ pageContext }) => (
+  <Seo title={`# ${pageContext?.tag ?? "All tags"}`} />
+)
 
 export const pageQuery = graphql`
-  query($skip: Int!, $limit: Int!) {
+  query ($tag: String!, $skip: Int!, $limit: Int!) {
     site {
       siteMetadata {
         title
@@ -106,6 +122,7 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { tags: { in: [$tag] } } }
       limit: $limit
       skip: $skip
     ) {

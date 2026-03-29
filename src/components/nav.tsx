@@ -9,7 +9,7 @@ const Nav = () => {
         justifyContent: "space-between",
         borderBottom: "1px solid #d3d3d3",
         paddingBottom: "10px",
-        marginBottom: "10px"
+        marginBottom: "10px",
       }}
     >
       <Link style={{ fontSize: "1.5rem" }} to="/">
