@@ -493,6 +493,10 @@ pre,
 pre[class*="language-"] {
   background: transparent !important;
   color: var(--color-text) !important;
+  font-family: var(--fontFamily-mono) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
 }
 
 :not(pre) > code {
@@ -501,6 +505,8 @@ pre[class*="language-"] {
   padding: 2px 6px !important;
   border-radius: 4px;
   border: 1px solid rgba(0, 245, 255, 0.2);
+  font-family: var(--fontFamily-mono) !important;
+  font-size: 0.9em !important;
 }
 
 .gatsby-highlight {
@@ -527,11 +533,13 @@ pre[class*="language-"] {
 .gatsby-highlight pre[class*="language-"] {
   margin: 0;
   padding: var(--spacing-6);
-  font-family: var(--fontFamily-mono);
-  font-size: var(--fontSize-0);
+  font-family: var(--fontFamily-mono) !important;
+  font-size: 13px !important;
   line-height: 1.7;
   overflow-x: auto;
   background: transparent !important;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 /* 代码块滚动条 */
@@ -558,13 +566,87 @@ pre[class*="language-"] {
 }
 
 .line-numbers .line-numbers-rows {
-  border-right: 1px solid var(--border-color);
-  background: rgba(0, 0, 0, 0.2);
+  border-right: 1px solid var(--border-color) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
 }
 
 .line-numbers-rows span:before {
-  color: var(--color-text-light);
-  opacity: 0.5;
+  color: var(--color-text-light) !important;
+  opacity: 0.4 !important;
+  font-size: 13px !important;
+}
+
+/* 代码高亮配色适配 - 提高优先级 */
+.gatsby-highlight .token.comment,
+.gatsby-highlight .token.block-comment,
+.gatsby-highlight .token.prolog,
+.gatsby-highlight .token.doctype,
+.gatsby-highlight .token.cdata {
+  color: #6b7280 !important;
+  font-style: italic;
+}
+
+.gatsby-highlight .token.punctuation {
+  color: #94a3b8 !important;
+}
+
+.gatsby-highlight .token.property,
+.gatsby-highlight .token.tag,
+.gatsby-highlight .token.boolean,
+.gatsby-highlight .token.number,
+.gatsby-highlight .token.constant,
+.gatsby-highlight .token.symbol,
+.gatsby-highlight .token.deleted {
+  color: var(--color-accent) !important;
+}
+
+.gatsby-highlight .token.selector,
+.gatsby-highlight .token.attr-name,
+.gatsby-highlight .token.string,
+.gatsby-highlight .token.char,
+.gatsby-highlight .token.builtin,
+.gatsby-highlight .token.inserted {
+  color: var(--color-primary) !important;
+}
+
+.gatsby-highlight .token.operator,
+.gatsby-highlight .token.entity,
+.gatsby-highlight .token.url,
+.gatsby-highlight .language-css .token.string,
+.gatsby-highlight .style .token.string {
+  color: var(--color-secondary) !important;
+}
+
+.gatsby-highlight .token.atrule,
+.gatsby-highlight .token.attr-value,
+.gatsby-highlight .token.keyword {
+  color: var(--color-secondary) !important;
+  font-weight: var(--fontWeight-medium);
+}
+
+.gatsby-highlight .token.function,
+.gatsby-highlight .token.class-name {
+  color: var(--color-primary) !important;
+  font-weight: var(--fontWeight-semibold);
+}
+
+.gatsby-highlight .token.regex,
+.gatsby-highlight .token.important,
+.gatsby-highlight .token.variable {
+  color: var(--color-accent) !important;
+}
+
+.gatsby-highlight .token.important,
+.gatsby-highlight .token.bold {
+  font-weight: var(--fontWeight-bold);
+}
+
+.gatsby-highlight .token.italic {
+  font-style: italic;
+}
+
+.gatsby-highlight .token.entity {
+  cursor: help;
 }
 
 /* 代码高亮配色适配 */
