@@ -987,3 +987,133 @@ footer a:hover {
   padding-top: var(--spacing-8);
   border-top: 1px solid var(--border-color);
 }
+
+.giscus-comments {
+  min-height: 200px;
+}
+
+/* Giscus 内部样式覆盖 */
+.giscus iframe {
+  color-scheme: dark !important;
+}
+
+/* 评论区标题 */
+.giscus h2,
+.giscus h3,
+.giscus h4 {
+  color: var(--color-heading) !important;
+}
+
+/* 评论输入框 */
+.giscus textarea,
+.giscus input[type="text"],
+.giscus input[type="email"] {
+  background: var(--bg-secondary) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: var(--spacing-3) var(--spacing-4) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--fontSize-1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.giscus textarea:focus,
+.giscus input[type="text"]:focus,
+.giscus input[type="email"]:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.1) !important;
+  outline: none !important;
+}
+
+/* 按钮样式 */
+.giscus button,
+.giscus .giscus-button {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)) !important;
+  color: var(--bg-primary) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: var(--spacing-2) var(--spacing-6) !important;
+  font-weight: var(--fontWeight-semibold) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.giscus button:hover,
+.giscus .giscus-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 245, 255, 0.3) !important;
+}
+
+/* 评论列表 */
+.giscus .giscus-comment {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  padding: var(--spacing-4) !important;
+  margin-bottom: var(--spacing-4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.giscus .giscus-comment:hover {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 245, 255, 0.1) !important;
+}
+
+/* 用户名 */
+.giscus .giscus-user-name {
+  color: var(--color-primary) !important;
+  font-weight: var(--fontWeight-semibold) !important;
+}
+
+/* 评论文字 */
+.giscus .giscus-comment-body {
+  color: var(--color-text) !important;
+  line-height: var(--lineHeight-relaxed) !important;
+}
+
+/* 回复按钮 */
+.giscus .giscus-reply-link {
+  color: var(--color-secondary) !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.giscus .giscus-reply-link:hover {
+  color: var(--color-primary) !important;
+  text-shadow: 0 0 8px rgba(185, 131, 255, 0.5) !important;
+}
+
+/* 时间戳 */
+.giscus .giscus-comment-date {
+  color: var(--color-text-light) !important;
+  font-size: var(--fontSize-0) !important;
+}
+
+/* 反应按钮 */
+.giscus .giscus-reaction {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 20px !important;
+  padding: var(--spacing-1) var(--spacing-3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.giscus .giscus-reaction:hover {
+  border-color: var(--color-accent) !important;
+  background: rgba(255, 107, 157, 0.1) !important;
+}
+
+/* 加载状态 */
+.giscus .giscus-loading {
+  color: var(--color-primary) !important;
+}
+
+/* 分隔线 */
+.giscus hr {
+  background: var(--border-color) !important;
+  height: 1px !important;
+  border: none !important;
+}
