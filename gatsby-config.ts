@@ -55,6 +55,7 @@ const config: GatsbyConfig = {
             resolve: `gatsby-remark-prismjs`,
             options: {
               showLineNumbers: true,
+              noInlineHighlight: true,
               aliases: {
                 conf: `nginx`,
               },
