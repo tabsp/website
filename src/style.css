@@ -486,11 +486,26 @@ hr {
   color: var(--color-text-light);
 }
 
-/* 代码块 */
+/* 代码块 - 强制覆盖 Prism 默认样式 */
+
+code,
+pre,
+pre[class*="language-"] {
+  background: transparent !important;
+  color: var(--color-text) !important;
+}
+
+:not(pre) > code {
+  background: rgba(0, 245, 255, 0.1) !important;
+  color: var(--color-primary) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 245, 255, 0.2);
+}
 
 .gatsby-highlight {
   margin-bottom: var(--spacing-8);
-  background: linear-gradient(145deg, #1a1a25, #15151f);
+  background: linear-gradient(145deg, #1a1a25, #15151f) !important;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   overflow: hidden;
@@ -516,6 +531,7 @@ hr {
   font-size: var(--fontSize-0);
   line-height: 1.7;
   overflow-x: auto;
+  background: transparent !important;
 }
 
 /* 代码块滚动条 */
