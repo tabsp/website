@@ -34,12 +34,12 @@ const Layout = ({ location, title, children }: LayoutProps) => {
   return (
     <div className="global-wrapper" data-is-root-path={isRootPath}>
       <header className="global-header">{header}</header>
-      <Nav />
+      <Nav location={location} />
       <main>{children}</main>
       <footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
+        © {new Date().getFullYear()}, Built with{` `}
         <a href="https://www.gatsbyjs.com">Gatsby</a>
+        {` `}• 🦞 Lobster-powered
       </footer>
     </div>
   )
