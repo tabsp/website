@@ -1,28 +1,20 @@
 import React from "react"
 import { Link } from "gatsby"
 
-interface NavProps {
-  location: {
-    pathname: string
-  }
-}
-
-const Nav = ({ location }: NavProps) => {
-  const isActive = (path: string) => location.pathname === path
-  
+const Nav = () => {
   return (
     <nav className="nav">
       <div className="nav-links">
-        <Link to="/" className={`nav-link${isActive('/') ? ' active' : ''}`}>
+        <Link to="/" className="nav-link" activeClassName="active">
           Home
         </Link>
-        <Link to="/posts" className={`nav-link${isActive('/posts') ? ' active' : ''}`}>
+        <Link to="/posts" className="nav-link" activeClassName="active">
           Posts
         </Link>
-        <Link to="/tags" className={`nav-link${isActive('/tags') ? ' active' : ''}`}>
+        <Link to="/tags" className="nav-link" activeClassName="active">
           Tags
         </Link>
-        <Link to="/about" className={`nav-link${isActive('/about') ? ' active' : ''}`}>
+        <Link to="/about" className="nav-link" activeClassName="active">
           About
         </Link>
       </div>
