@@ -52,9 +52,40 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next, slug } = pageContext
   const readingMinutes = post.fields?.readingTimeMinutes
+  const [scrollProgress, setScrollProgress] = React.useState(0)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const article = document.querySelector(".blog-post-content")
+      if (!article) return
+
+      const articleTop = article.offsetTop
+      const articleHeight = article.offsetHeight
+      const windowHeight = window.innerHeight
+      const scrollTop = window.scrollY
+
+      const progress = Math.min(
+        100,
+        Math.max(
+          0,
+          ((scrollTop - articleTop + windowHeight) / articleHeight) * 100,
+        ),
+      )
+      setScrollProgress(progress)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <Layout location={location} title={siteTitle}>
+      <div
+        className="reading-progress-bar"
+        style={{ "--progress": `${scrollProgress}%` } as React.CSSProperties}
+      />
       <article
         className="blog-post"
         itemScope
