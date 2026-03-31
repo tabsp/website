@@ -53,6 +53,8 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
   const { previous, next, slug } = pageContext
   const readingMinutes = post.fields?.readingTimeMinutes
   const [scrollProgress, setScrollProgress] = React.useState(0)
+  const [tocOpen, setTocOpen] = React.useState(false)
+  const [activeHeading, setActiveHeading] = React.useState<string>("")
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -72,6 +74,17 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
         ),
       )
       setScrollProgress(progress)
+
+      // Active heading tracking
+      const headings = article.querySelectorAll("h2, h3")
+      let currentId = ""
+      headings.forEach(heading => {
+        const rect = heading.getBoundingClientRect()
+        if (rect.top <= 150) {
+          currentId = heading.id
+        }
+      })
+      setActiveHeading(currentId)
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -79,6 +92,22 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Update active heading in TOC
+  React.useEffect(() => {
+    const tocLinks = document.querySelectorAll(".blog-post-toc-contents a")
+    tocLinks.forEach(link => {
+      const href = link.getAttribute("href")
+      if (href && href.startsWith("#")) {
+        const id = href.slice(1)
+        if (id === activeHeading) {
+          link.classList.add("active")
+        } else {
+          link.classList.remove("active")
+        }
+      }
+    })
+  }, [activeHeading])
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -106,9 +135,26 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
           </p>
         </header>
         <div className="blog-post-body">
-          <aside className="blog-post-aside">
+          <button
+            className="toc-toggle"
+            onClick={() => setTocOpen(!tocOpen)}
+            aria-label="Toggle table of contents"
+          >
+            <span className="toc-toggle-icon">📑</span>
+            <span className="toc-toggle-text">目录</span>
+          </button>
+          <aside className={`blog-post-aside ${tocOpen ? "toc-open" : ""}`}>
             <div className="blog-post-toc">
-              <div className="blog-post-toc-title">目录</div>
+              <div className="blog-post-toc-title">
+                <span>📑 目录</span>
+                <button
+                  className="toc-close"
+                  onClick={() => setTocOpen(false)}
+                  aria-label="Close table of contents"
+                >
+                  ✕
+                </button>
+              </div>
               <div className="blog-post-toc-contents">
                 <div
                   dangerouslySetInnerHTML={{
