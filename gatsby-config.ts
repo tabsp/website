@@ -43,7 +43,18 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
+              maxWidth: 1200,
+              quality: 85,
+              backgroundColor: "transparent",
+              disableBgImageOnAlpha: true,
+              // Generate WebP images for better compression
+              formats: ["auto", "webp", "avif"],
+              // Lazy loading
+              loading: "lazy",
+              // Placeholder style
+              placeholder: "blurred",
+              // Breakpoints for responsive images
+              breakpoints: [400, 800, 1200],
             },
           },
           {
