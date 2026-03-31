@@ -1062,7 +1062,7 @@ footer a:hover {
     padding: var(--spacing-4);
   }
 
-  /* Mobile TOC */
+  /* Mobile TOC - only show on mobile */
   .toc-toggle {
     display: flex;
   }
@@ -1100,6 +1100,21 @@ footer a:hover {
 
   .blog-post-content {
     margin-left: 0;
+  }
+
+  /* Desktop - hide mobile TOC elements */
+  @media (min-width: 64rem) {
+    .toc-toggle {
+      display: none !important;
+    }
+
+    .toc-overlay {
+      display: none !important;
+    }
+
+    .toc-close {
+      display: none;
+    }
   }
 }
 
