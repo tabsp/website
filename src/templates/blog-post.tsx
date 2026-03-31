@@ -157,6 +157,8 @@ export const Head: React.FC<HeadProps> = ({ data }) => {
     <Seo
       title={post?.frontmatter?.title ?? `Post`}
       description={post?.frontmatter?.description || post?.excerpt || ``}
+      date={post?.frontmatter?.date}
+      isArticle={true}
     />
   )
 }
