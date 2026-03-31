@@ -99,7 +99,8 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
     tocLinks.forEach(link => {
       const href = link.getAttribute("href")
       if (href && href.startsWith("#")) {
-        const id = href.slice(1)
+        // Decode URI component to match heading id (handles Chinese characters)
+        const id = decodeURIComponent(href.slice(1))
         if (id === activeHeading) {
           link.classList.add("active")
         } else {
