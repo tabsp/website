@@ -552,7 +552,7 @@ hr {
   overflow-y: auto;
 }
 
-@media (max-width: 64rem) {
+@media (max-width: 42rem) {
   .blog-post-body {
     grid-template-columns: 1fr;
   }
@@ -1103,8 +1103,8 @@ footer a:hover {
   }
 }
 
-/* Desktop - hide mobile TOC elements */
-@media (min-width: 64rem) {
+/* Desktop - hide mobile TOC elements (>=42rem) */
+@media (min-width: 42rem) {
   .toc-toggle {
     display: none !important;
   }
