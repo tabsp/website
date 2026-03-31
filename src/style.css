@@ -1101,20 +1101,20 @@ footer a:hover {
   .blog-post-content {
     margin-left: 0;
   }
+}
 
-  /* Desktop - hide mobile TOC elements */
-  @media (min-width: 64rem) {
-    .toc-toggle {
-      display: none !important;
-    }
+/* Desktop - hide mobile TOC elements */
+@media (min-width: 64rem) {
+  .toc-toggle {
+    display: none !important;
+  }
 
-    .toc-overlay {
-      display: none !important;
-    }
+  .toc-overlay {
+    display: none !important;
+  }
 
-    .toc-close {
-      display: none;
-    }
+  .toc-close {
+    display: none;
   }
 }
 
