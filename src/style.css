@@ -658,6 +658,19 @@ pre[class*="language-"] {
   font-size: 1.2em;
 }
 
+/* TOC Overlay */
+.toc-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9997;
+  backdrop-filter: blur(4px);
+}
+
 .toc-close {
   background: transparent;
   border: none;
@@ -1029,6 +1042,10 @@ footer a:hover {
   /* Mobile TOC */
   .toc-toggle {
     display: flex;
+  }
+
+  .toc-overlay {
+    display: block;
   }
 
   .blog-post-aside {

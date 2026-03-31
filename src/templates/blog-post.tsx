@@ -143,6 +143,20 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
             <span className="toc-toggle-icon">📑</span>
             <span className="toc-toggle-text">目录</span>
           </button>
+          {tocOpen && (
+            <div
+              className="toc-overlay"
+              onClick={() => setTocOpen(false)}
+              onKeyDown={e => {
+                if (e.key === "Escape" || e.key === "Enter") {
+                  setTocOpen(false)
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Close table of contents overlay"
+            />
+          )}
           <aside className={`blog-post-aside ${tocOpen ? "toc-open" : ""}`}>
             <div className="blog-post-toc">
               <div className="blog-post-toc-title">
@@ -156,11 +170,20 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
                 </button>
               </div>
               <div className="blog-post-toc-contents">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: post.tableOfContents || "",
-                  }}
-                />
+                {post.tableOfContents ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: post.tableOfContents }}
+                  />
+                ) : (
+                  <p
+                    style={{
+                      color: "var(--color-text-light)",
+                      fontSize: "0.9em",
+                    }}
+                  >
+                    本文暂无目录
+                  </p>
+                )}
               </div>
             </div>
           </aside>
