@@ -16,6 +16,7 @@ const config: GatsbyConfig = {
     },
     pageSize: 10,
   },
+
   plugins: [
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
