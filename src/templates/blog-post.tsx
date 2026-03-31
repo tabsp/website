@@ -135,6 +135,11 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
           </p>
         </header>
         <div className="blog-post-body">
+          <section
+            className="blog-post-content"
+            dangerouslySetInnerHTML={{ __html: post.html }}
+            itemProp="articleBody"
+          />
           <button
             className="toc-toggle"
             onClick={() => setTocOpen(!tocOpen)}
@@ -187,11 +192,6 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
               </div>
             </div>
           </aside>
-          <section
-            className="blog-post-content"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-            itemProp="articleBody"
-          />
         </div>
         <hr />
         <footer>
