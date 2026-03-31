@@ -3,28 +3,22 @@ import { Link } from "gatsby"
 
 const Nav = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #d3d3d3",
-        paddingBottom: "10px",
-        marginBottom: "10px",
-      }}
-    >
-      <Link style={{ fontSize: "1.5rem" }} to="/">
-        Home
-      </Link>
-      <Link style={{ fontSize: "1.5rem" }} to="/posts">
-        Posts
-      </Link>
-      <Link style={{ fontSize: "1.5rem" }} to="/tags">
-        Tags
-      </Link>
-      <Link style={{ fontSize: "1.5rem" }} to="/about">
-        About
-      </Link>
-    </div>
+    <nav className="nav">
+      <div className="nav-links">
+        <Link to="/" className="nav-link" activeClassName="active">
+          Home
+        </Link>
+        <Link to="/posts" className="nav-link" activeClassName="active">
+          Posts
+        </Link>
+        <Link to="/tags" className="nav-link" activeClassName="active">
+          Tags
+        </Link>
+        <Link to="/about" className="nav-link" activeClassName="active">
+          About
+        </Link>
+      </div>
+    </nav>
   )
 }
 

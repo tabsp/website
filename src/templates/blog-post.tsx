@@ -99,27 +99,41 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
         </footer>
       </article>
       <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
+        <ul>
           <li>
-            {previous && (
+            {previous ? (
               <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+                <span className="nav-direction">← 上一篇</span>
+                <span className="nav-title">{previous.frontmatter.title}</span>
               </Link>
+            ) : (
+              <div
+                style={{
+                  opacity: 0.3,
+                  padding: "var(--spacing-4) var(--spacing-6)",
+                }}
+              >
+                <span className="nav-direction">← 上一篇</span>
+                <span className="nav-title">没有了</span>
+              </div>
             )}
           </li>
           <li>
-            {next && (
+            {next ? (
               <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+                <span className="nav-direction">下一篇 →</span>
+                <span className="nav-title">{next.frontmatter.title}</span>
               </Link>
+            ) : (
+              <div
+                style={{
+                  opacity: 0.3,
+                  padding: "var(--spacing-4) var(--spacing-6)",
+                }}
+              >
+                <span className="nav-direction">下一篇 →</span>
+                <span className="nav-title">没有了</span>
+              </div>
             )}
           </li>
         </ul>
