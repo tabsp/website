@@ -137,38 +137,38 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
             ) : null}
           </p>
         </header>
+        <button
+          className="toc-toggle"
+          onClick={() => setTocOpen(!tocOpen)}
+          aria-label="Toggle table of contents"
+        >
+          <span className="toc-toggle-icon">☰</span>
+          <span className="toc-toggle-text">目录</span>
+        </button>
+        {tocOpen && (
+          <div
+            className="toc-overlay"
+            onClick={() => setTocOpen(false)}
+            onKeyDown={e => {
+              if (e.key === "Escape" || e.key === "Enter") {
+                setTocOpen(false)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Close table of contents overlay"
+          />
+        )}
         <div className="blog-post-body">
           <section
             className="blog-post-content"
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
           />
-          <button
-            className="toc-toggle"
-            onClick={() => setTocOpen(!tocOpen)}
-            aria-label="Toggle table of contents"
-          >
-            <span className="toc-toggle-icon">☰</span>
-            <span className="toc-toggle-text">目录</span>
-          </button>
-          {tocOpen && (
-            <div
-              className="toc-overlay"
-              onClick={() => setTocOpen(false)}
-              onKeyDown={e => {
-                if (e.key === "Escape" || e.key === "Enter") {
-                  setTocOpen(false)
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label="Close table of contents overlay"
-            />
-          )}
           <aside className={`blog-post-aside ${tocOpen ? "toc-open" : ""}`}>
             <div className="blog-post-toc">
               <div className="blog-post-toc-title">
-                <span>📑 目录</span>
+                <span>☰ 目录</span>
                 <button
                   className="toc-close"
                   onClick={() => setTocOpen(false)}

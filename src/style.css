@@ -533,9 +533,6 @@ hr {
 
 .blog-post-body {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr minmax(200px, 280px);
-  gap: var(--spacing-8);
   max-width: var(--maxWidth-wrapper);
   margin: 0 auto;
 }
@@ -543,13 +540,17 @@ hr {
 .blog-post-content {
   min-width: 0;
   overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .blog-post-aside {
-  position: sticky;
-  top: calc(var(--spacing-6) + var(--spacing-10));
-  max-height: calc(100vh - var(--spacing-20));
+  position: fixed;
+  right: calc((100vw - var(--maxWidth-wrapper)) / 2 - 20px);
+  top: 120px;
+  width: 260px;
+  max-height: calc(100vh - 140px);
   overflow-y: auto;
+  z-index: 100;
 }
 
 @media (max-width: 42rem) {
@@ -559,10 +560,23 @@ hr {
 
   .blog-post-aside {
     display: none;
+    position: fixed;
+    top: 0;
+    right: -85%;
+    width: 85%;
+    max-width: 320px;
+    height: 100vh;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    z-index: 9998;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
   }
 
   .blog-post-aside.toc-open {
     display: block;
+    right: 0;
   }
 }
 
@@ -1114,6 +1128,29 @@ footer a:hover {
 
   .toc-close {
     display: none;
+  }
+}
+
+/* Large desktop - ensure TOC fits on screen */
+@media (min-width: 1400px) {
+  .blog-post-aside {
+    right: calc((100vw - var(--maxWidth-wrapper)) / 2 - 40px);
+    width: 280px;
+  }
+}
+
+/* Medium desktop - TOC inside wrapper */
+@media (min-width: 42rem) and (max-width: 1399px) {
+  .blog-post-aside {
+    position: static;
+    max-height: none;
+    width: 100%;
+  }
+
+  .blog-post-body {
+    display: grid;
+    grid-template-columns: 1fr minmax(200px, 260px);
+    gap: var(--spacing-8);
   }
 }
 
