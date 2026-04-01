@@ -10,5 +10,6 @@ declare module "*.svg"
 
 declare module "typeface-montserrat"
 declare module "typeface-merriweather"
+declare module "@gatsbyjs/reach-router"
 
 import "@testing-library/jest-dom"

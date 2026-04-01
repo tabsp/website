@@ -58,7 +58,9 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
 
   React.useEffect(() => {
     const handleScroll = () => {
-      const article = document.querySelector(".blog-post-content")
+      const article = document.querySelector(
+        ".blog-post-content",
+      ) as HTMLElement
       if (!article) return
 
       const articleTop = article.offsetTop
