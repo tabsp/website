@@ -12,17 +12,19 @@ const Giscus = () => {
     const giscus = document.createElement("script")
     const giscusConfig = {
       src,
-      "data-repo": "tabsp/comments",
-      "data-repo-id": "R_kgDOHcCUDA",
-      "data-category": "Announcements",
-      "data-category-id": "DIC_kwDOHcCUDM4CPbjE",
-      "data-mapping": "pathname",
-      "data-strict": "0",
-      "data-reactions-enabled": "1",
-      "data-emit-metadata": "0",
-      "data-input-position": "bottom",
-      "data-theme": "dark",
-      "data-lang": "en",
+      "data-repo": process.env.GATSBY_GISCUS_REPO || "tabsp/comments",
+      "data-repo-id": process.env.GATSBY_GISCUS_REPO_ID || "R_kgDOHcCUDA",
+      "data-category": process.env.GATSBY_GISCUS_CATEGORY || "Announcements",
+      "data-category-id":
+        process.env.GATSBY_GISCUS_CATEGORY_ID || "DIC_kwDOHcCUDM4CPbjE",
+      "data-mapping": process.env.GATSBY_GISCUS_MAPPING || "pathname",
+      "data-strict": process.env.GATSBY_GISCUS_STRICT || "0",
+      "data-reactions-enabled": process.env.GATSBY_GISCUS_REACTIONS || "1",
+      "data-emit-metadata": process.env.GATSBY_GISCUS_EMIT_METADATA || "0",
+      "data-input-position":
+        process.env.GATSBY_GISCUS_INPUT_POSITION || "bottom",
+      "data-theme": process.env.GATSBY_GISCUS_THEME || "dark",
+      "data-lang": process.env.GATSBY_GISCUS_LANG || "en",
       crossorigin: "anonymous",
       async: true,
     }

@@ -1,5 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
+// @ts-expect-error - @gatsbyjs/reach-router doesn't have type definitions
+import { LocationProvider } from "@gatsbyjs/reach-router"
 
 import Layout from "../layout"
 
@@ -8,9 +10,11 @@ const buildLocation = (pathname: string) => ({ pathname })
 describe("Layout", () => {
   it("renders a home heading on the root path", () => {
     render(
-      <Layout location={buildLocation("/")} title="Tabsp">
-        <p>Content</p>
-      </Layout>,
+      <LocationProvider location={buildLocation("/")}>
+        <Layout location={buildLocation("/")} title="Tabsp">
+          <p>Content</p>
+        </Layout>
+      </LocationProvider>,
     )
 
     expect(
@@ -21,9 +25,11 @@ describe("Layout", () => {
 
   it("renders a link header on non-root pages", () => {
     render(
-      <Layout location={buildLocation("/posts")} title="Tabsp">
-        <p>Content</p>
-      </Layout>,
+      <LocationProvider location={buildLocation("/posts")}>
+        <Layout location={buildLocation("/posts")} title="Tabsp">
+          <p>Content</p>
+        </Layout>
+      </LocationProvider>,
     )
 
     expect(screen.queryByRole("heading", { level: 1 })).not.toBeInTheDocument()

@@ -10,6 +10,18 @@ declare module "*.svg"
 
 declare module "typeface-montserrat"
 declare module "typeface-merriweather"
-declare module "@gatsbyjs/reach-router"
+
+declare module "@gatsbyjs/reach-router" {
+  export function useLocation(): { pathname: string }
+  export const Link: React.ComponentType<{
+    to: string
+    className?: string
+    activeClassName?: string
+  }>
+  export const Router: React.ComponentType<{
+    location?: { pathname: string }
+    children: React.ReactNode
+  }>
+}
 
 import "@testing-library/jest-dom"

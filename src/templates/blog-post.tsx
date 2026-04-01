@@ -93,7 +93,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
     handleScroll()
 
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [setActiveHeading, setScrollProgress])
 
   // Update active heading in TOC
   React.useEffect(() => {
