@@ -165,37 +165,37 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
           />
-          <aside className={`blog-post-aside ${tocOpen ? "toc-open" : ""}`}>
-            <div className="blog-post-toc">
-              <div className="blog-post-toc-title">
-                <span>☰ 目录</span>
-                <button
-                  className="toc-close"
-                  onClick={() => setTocOpen(false)}
-                  aria-label="Close table of contents"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="blog-post-toc-contents">
-                {post.tableOfContents ? (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: post.tableOfContents }}
-                  />
-                ) : (
-                  <p
-                    style={{
-                      color: "var(--color-text-light)",
-                      fontSize: "0.9em",
-                    }}
-                  >
-                    本文暂无目录
-                  </p>
-                )}
-              </div>
-            </div>
-          </aside>
         </div>
+        <aside className={`blog-post-aside ${tocOpen ? "toc-open" : ""}`}>
+          <div className="blog-post-toc">
+            <div className="blog-post-toc-title">
+              <span>☰ 目录</span>
+              <button
+                className="toc-close"
+                onClick={() => setTocOpen(false)}
+                aria-label="Close table of contents"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="blog-post-toc-contents">
+              {post.tableOfContents ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: post.tableOfContents }}
+                />
+              ) : (
+                <p
+                  style={{
+                    color: "var(--color-text-light)",
+                    fontSize: "0.9em",
+                  }}
+                >
+                  本文暂无目录
+                </p>
+              )}
+            </div>
+          </div>
+        </aside>
         <hr />
         <footer>
           <Signature postUrl={slug} />

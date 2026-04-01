@@ -540,14 +540,17 @@ hr {
 .blog-post-content {
   min-width: 0;
   overflow-wrap: break-word;
-  max-width: 100%;
 }
 
-/* Desktop TOC - default for large screens (>=1400px) */
+/* Desktop TOC - Large screens (>=1400px) */
 @media (min-width: 1400px) {
+  .blog-post-body {
+    padding-right: 280px;
+  }
+
   .blog-post-aside {
     position: fixed;
-    right: calc((100vw - var(--maxWidth-wrapper)) / 2 + 10px);
+    right: calc(50vw - var(--maxWidth-wrapper) / 2 - 280px);
     top: 120px;
     width: 260px;
     max-height: calc(100vh - 140px);
@@ -1134,19 +1137,7 @@ footer a:hover {
   }
 }
 
-/* Large desktop - TOC fixed in right whitespace, not covering content */
-@media (min-width: 1400px) {
-  .blog-post-body {
-    padding-right: 280px;
-  }
-
-  .blog-post-aside {
-    right: calc((100vw - var(--maxWidth-wrapper)) / 2 + 10px);
-    width: 260px;
-  }
-}
-
-/* Medium desktop - TOC fixed on right side */
+/* Medium desktop (42rem - 1399px) - TOC in grid, sticky */
 @media (min-width: 42rem) and (max-width: 1399px) {
   .blog-post-body {
     display: grid;
@@ -1161,6 +1152,23 @@ footer a:hover {
     overflow-y: auto;
     grid-row: 1;
     grid-column: 2;
+  }
+}
+
+/* Large desktop (>=1400px) - TOC fixed in whitespace */
+@media (min-width: 1400px) {
+  .blog-post-body {
+    padding-right: 280px;
+  }
+
+  .blog-post-aside {
+    position: fixed;
+    right: calc(50vw - var(--maxWidth-wrapper) / 2 - 280px);
+    top: 120px;
+    width: 260px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    z-index: 100;
   }
 }
 
