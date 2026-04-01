@@ -148,7 +148,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
             onClick={() => setTocOpen(!tocOpen)}
             aria-label="Toggle table of contents"
           >
-            <span className="toc-toggle-icon">📑</span>
+            <span className="toc-toggle-icon">☰</span>
             <span className="toc-toggle-text">目录</span>
           </button>
           {tocOpen && (
