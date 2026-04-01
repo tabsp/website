@@ -1,7 +1,7 @@
 ---
 title: 虚拟机部署 Kubernetes v1.10.3  高可用集群 - 02 生成证书
 date: 2018-05-30 17:43
-tags: 
+tags:
   - Jenkins
   - Java
   - Kubernetes
@@ -10,6 +10,7 @@ tags:
 在这个部分，将需要产生多个元件的 Certificates，这包含 Etcd、Kubernetes 元件等，并且每个集群都会有一个根数位凭证认证机构 (Root Certificate Authority) 被用在认证 API Server 与 Kubelet 端的凭证。
 
 P.S. 这边要注意 CA JSON 档的 CN(Common Name)与O(Organization) 等内容是会影响 Kubernetes 元件认证的。
+
 ### 准备工作
 
 在主机 kube-m1 上安装 cfssl ，在任意目录执行以下命令 ：
@@ -21,6 +22,7 @@ $ wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 && chmod +x cfssljson_li
 
 $ wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 && chmod +x cfssl-certinfo_linux-amd64 && mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo
 ```
+
 ### 创建 CA 证书和秘钥
 
 CA 证书 k8s 和 etcd 共用一份，放在 `/etc/kubernetes/ssl` 下。
@@ -83,6 +85,7 @@ $ cat > ca-csr.json <<EOF
 }
 EOF
 ```
+
 - CN"：`Common Name`，kube-apiserver 从证书中提取该字段作为请求的用户名 (User Name)；浏览器使用该字段验证网站是否合法；
 - "O"：`Organization`，kube-apiserver 从证书中提取该字段作为请求用户所属的组 (Group)；
 
@@ -220,6 +223,7 @@ $ cat > /etc/kubernetes/ssl/apiserver-csr.json <<EOF
 }
 EOF
 ```
+
 - `192.168.56.10` 为 虚拟 IP；
 - `10.254.0.1` 为 kube-apiserver --service-cluster-ip-range 选项值指定的网段的第一个IP，如 "10.254.0.1"。
 
@@ -267,6 +271,7 @@ front-proxy-client-key.pem  front-proxy-client.pem
 #### 生成 admin 凭证
 
 创建 admin 证书签名请求：
+
 ```bash
 $ cat > /etc/kubernetes/ssl/admin-csr.json <<EOF
 {
@@ -288,6 +293,7 @@ EOF
 ```
 
 生成 admin 证书和私钥:
+
 ```bash
 $ cd /etc/kubernetes/ssl && cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \
   -ca-key=/etc/kubernetes/ssl/ca-key.pem \
@@ -324,7 +330,7 @@ $ kubectl config set-context kubernetes-admin@kubernetes \
   --cluster=kubernetes \
   --user=kubernetes-admin \
   --kubeconfig=/etc/kubernetes/admin.conf
-  
+
 $ # 设置默认上下文
 $ kubectl config use-context kubernetes-admin@kubernetes \
   --kubeconfig=/etc/kubernetes/admin.conf
@@ -333,6 +339,7 @@ $ kubectl config use-context kubernetes-admin@kubernetes \
 #### 生成 Controller Manager 凭证
 
 创建 Controller Manager 证书签名请求：
+
 ```bash
 $ cat > /etc/kubernetes/ssl/controller-manager-csr.json <<EOF
 {
@@ -354,6 +361,7 @@ EOF
 ```
 
 生成 Controller Manager 证书和私钥:
+
 ```bash
 $ cd /etc/kubernetes/ssl && cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \
   -ca-key=/etc/kubernetes/ssl/ca-key.pem \
@@ -390,7 +398,7 @@ $ kubectl config set-context system:kube-controller-manager@kubernetes \
     --cluster=kubernetes \
     --user=system:kube-controller-manager \
     --kubeconfig=/etc/kubernetes/controller-manager.conf
-  
+
 $ # 设置默认上下文
 $ kubectl config use-context system:kube-controller-manager@kubernetes \
     --kubeconfig=/etc/kubernetes/controller-manager.conf
@@ -399,6 +407,7 @@ $ kubectl config use-context system:kube-controller-manager@kubernetes \
 #### 生成 Scheduler 凭证
 
 创建 Scheduler 证书签名请求：
+
 ```bash
 $ cat > /etc/kubernetes/ssl/scheduler-csr.json <<EOF
 {
@@ -420,6 +429,7 @@ EOF
 ```
 
 生成 Scheduler 证书和私钥:
+
 ```bash
 $ cd /etc/kubernetes/ssl && cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \
   -ca-key=/etc/kubernetes/ssl/ca-key.pem \
@@ -456,17 +466,16 @@ $ kubectl config set-context system:kube-scheduler@kubernetes \
     --cluster=kubernetes \
     --user=system:kube-scheduler \
     --kubeconfig=/etc/kubernetes/scheduler.conf
-  
+
 $ # 设置默认上下文
 $ kubectl config use-context system:kube-scheduler@kubernetes \
     --kubeconfig=/etc/kubernetes/scheduler.conf
 ```
 
-
-
 #### 生成 Master Kubelet 凭证
 
 创建 Master Kubelet 证书签名请求：
+
 ```bash
 $ cat > /etc/kubernetes/ssl/kubelet-csr.json <<EOF
 {
@@ -488,6 +497,7 @@ EOF
 ```
 
 生成 所有 Master Kubelet 证书和私钥:
+
 ```bash
 $ cd /etc/kubernetes/ssl
 $ for NODE in kube-m1 kube-m2 kube-m3; do
@@ -563,7 +573,7 @@ $ ls sa.*
 sa.key  sa.pub
 ```
 
-####  分发文件
+#### 分发文件
 
 分发前先将无用的文件删除：
 

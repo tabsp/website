@@ -1,7 +1,7 @@
 ---
 title: Spring Boot Admin 集成自定义监控告警
 date: 2018-05-19 14:41
-tags: 
+tags:
   - Spring Boot
   - Java
   - DevOps
@@ -12,26 +12,36 @@ tags:
 Spring Boot Admin 本身提供监控告警功能，但是默认只提供了 Hipchat、Slack 等国外流行的通讯软件的集成，虽然也有邮件通知，不过考虑到使用体检决定二次开发增加 [钉钉](https://www.dingtalk.com) 通知。
 
 本文基于 Spring Boot Admin 目前最新版 1.5.7。
+
 <!-- more -->
+
 ## 准备工作
+
 1. Spring Boot Admin Server，参考文档 [http://codecentric.github.io/spring-boot-admin/1.5.7/#getting-started](http://codecentric.github.io/spring-boot-admin/1.5.7/#getting-started)
 2. 钉钉自定义机器人，参考文档 [https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.64Ddtm&treeId=257&articleId=105735&docType=1](https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.64Ddtm&treeId=257&articleId=105735&docType=1)
 
 ## 参考自带通知源码
+
 由于官方文档上并没有增加自定义通知相关的文档，所以我们参考一下 Slack 通知源码 `SlackNotifier.java`。
 
 源码比较长就不全部贴了，看一下关键部分：
+
 ```java
 public class SlackNotifier extends AbstractStatusChangeNotifier
 ```
+
 ```java
 protected void doNotify(ClientApplicationEvent event) throws Exception {
     this.restTemplate.postForEntity(this.webhookUrl, this.createMessage(event), Void.class);
 }
 ```
+
 可以看到流程还是比较简单的，继承 AbstractStatusChangeNotifier 类，实现了 doNotify 方法，当应用状态改变的时候会回调 doNotify 方法。
+
 ## 实现钉钉通知
+
 DingTalkNotifier.java
+
 ```java
 public class DingTalkNotifier extends AbstractStatusChangeNotifier {
     private final SpelExpressionParser parser = new SpelExpressionParser();
@@ -123,9 +133,13 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
     }
 }
 ```
+
 代码逻辑也比较简单就不一一解释了。
+
 ## 增加钉钉通知自动配置
+
 DingTalkNotifierConfiguration.java
+
 ```java
 @Configuration
 @ConditionalOnProperty(
@@ -147,13 +161,17 @@ public class DingTalkNotifierConfiguration {
 }
 
 ```
+
 大概解释下此配置类的主要作用：
+
 1. 当配置了 `spring.boot.admin.notify.dingtalk.webhook-token` 的时候此配置类生效。
 2. 将 `spring.boot.admin.notify.dingtalk` 下的配置注入到 `DingTalkNotifier` 生成的 Bean 中。
 3. 指定了此配置配生效的时间以及 Bean 生效的条件。
 
-*关键在于类和 Bean 上的几个注解，但这不是本文重点不展开说了。*
+_关键在于类和 Bean 上的几个注解，但这不是本文重点不展开说了。_
+
 ## 增加相关配置
+
 ```yaml
 spring:
   boot:
@@ -162,7 +180,6 @@ spring:
         dingtalk:
           enabled: true
           webhook-token: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxx
-
 ```
 
 然后当项目状态改变的时候就可以在钉钉收到消息了。

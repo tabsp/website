@@ -1,12 +1,13 @@
 ---
 title: 仅使用 443 端口完美配置 Nginx SNI 分流 REALITY&XHTTP、Hysteria 2 及 WEB 网站
 date: 2024-12-17 22:34
-tags: 
+tags:
   - xray
   - reality
   - hysteria2
   - nginx
 ---
+
 ## 背景
 
 [上一篇文章](https://tabsp.com/posts/vless-reality-vision)介绍了手动安装并配置 Xray 的 REALITY 协议，但是支持 REALITY 协议的 iOS 的客户端太少，所以打算同时安装一个 Hysteria 2 作为补充。目前来看 [Xray core 短期内不会支持 Hysteria 2](https://github.com/XTLS/Xray-core/issues/3547#issuecomment-2232800832)，故考虑使用 nginx 同时反代 Xray 和 Hysteria 2。
@@ -62,7 +63,7 @@ cd nginx-1.26.2
 apt install gcc make -y
 apt install libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev -y
 
-./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --with-http_v3_module --with-stream --with-stream_ssl_module --with-http_realip_module --with-stream_ssl_preread_module 
+./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --with-http_v3_module --with-stream --with-stream_ssl_module --with-http_realip_module --with-stream_ssl_preread_module
 
 make && make install
 ```
@@ -133,16 +134,16 @@ systemctl enable hysteria-server
 
 端口规划：
 
-| 端口 | 监听      | 协议   | 服务            | 作用                             |
-|------|-----------|-------|-----------------|----------------------------------|
-| 80   | 0.0.0.0   | HTTP  | Nginx           | 强制重定向至 443                  |
-| 443  | 0.0.0.0   | TCP   | Nginx           | Xray、HTTP/2 WEB 服务入口         |
-| 443  | 0.0.0.0   | UDP   | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口   |
-| 2024 | 127.0.0.1 | XHTTP | Xray            | Xray XHTTP 协议监听端口           |
-| 3001 | 127.0.0.1 | HTTP  | Any WEB service | WEB 服务监听端口，搭建自己的服务    |
-| 1443 | 127.0.0.1 | TCP   | Xray            | Xray REALITY 协议监听端口          |
-| 2443 | 127.0.0.1 | UDP   | Hysteria 2      | Hysteria 2 监听端口                |
-| 8443 | 127.0.0.1 | HTTP  | Nginx           | 反代 WEB 服务                     |
+| 端口 | 监听      | 协议  | 服务            | 作用                             |
+| ---- | --------- | ----- | --------------- | -------------------------------- |
+| 80   | 0.0.0.0   | HTTP  | Nginx           | 强制重定向至 443                 |
+| 443  | 0.0.0.0   | TCP   | Nginx           | Xray、HTTP/2 WEB 服务入口        |
+| 443  | 0.0.0.0   | UDP   | Nginx           | Hysteria 2、HTTP/3 WEB 服务入口  |
+| 2024 | 127.0.0.1 | XHTTP | Xray            | Xray XHTTP 协议监听端口          |
+| 3001 | 127.0.0.1 | HTTP  | Any WEB service | WEB 服务监听端口，搭建自己的服务 |
+| 1443 | 127.0.0.1 | TCP   | Xray            | Xray REALITY 协议监听端口        |
+| 2443 | 127.0.0.1 | UDP   | Hysteria 2      | Hysteria 2 监听端口              |
+| 8443 | 127.0.0.1 | HTTP  | Nginx           | 反代 WEB 服务                    |
 
 ### 配置 Nginx
 
@@ -174,7 +175,7 @@ stream {
 
     upstream hysteria_backend {
         server 127.0.0.1:2443;
-    }    
+    }
 
     server {
         listen 443;
@@ -199,7 +200,7 @@ http {
     server_tokens off;
     include       mime.types;
     default_type  application/octet-stream;
-    
+
     map $http_x_forwarded_for $clientRealIp {
         "" $remote_addr;
         "~*(?P<firstAddr>([0-9a-f]{0,4}:){1,7}[0-9a-f]{1,4}|([0-9]{1,3}\.){3}[0-9]{1,3})$" $firstAddr;
@@ -272,37 +273,29 @@ http {
   "log": {
     "loglevel": "warning",
     "error": "/var/log/xray/error.log",
-    "access": "/var/log/xray/access.log" 
+    "access": "/var/log/xray/access.log"
   },
   "routing": {
     "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "type": "field",
-        "protocol": [
-            "bittorrent"
-        ],
+        "protocol": ["bittorrent"],
         "outboundTag": "block"
       },
       {
         "type": "field",
-        "ip": [
-            "geoip:private"
-        ],
+        "ip": ["geoip:private"],
         "outboundTag": "block"
       },
       {
         "type": "field",
-        "ip": [
-            "geoip:cn"
-        ],
+        "ip": ["geoip:cn"],
         "outboundTag": "block"
       },
       {
         "type": "field",
-        "domain": [
-            "geosite:category-ads-all"
-        ],
+        "domain": ["geosite:category-ads-all"],
         "outboundTag": "block"
       }
     ]
@@ -336,9 +329,7 @@ http {
             "<replace-this>" // 设置客户端可用的 server name 列表，设置为你自己域名 example.com
           ],
           "privateKey": "<replace-this>", // 可以使用 xray x25519 生成
-          "shortIds": [
-            ""
-          ]
+          "shortIds": [""]
         },
         "rawSettings": {
           "acceptProxyProtocol": true
@@ -346,11 +337,7 @@ http {
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
+        "destOverride": ["http", "tls", "quic"]
       }
     },
     {
@@ -373,11 +360,7 @@ http {
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
+        "destOverride": ["http", "tls", "quic"]
       }
     }
   ],

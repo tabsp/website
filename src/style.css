@@ -550,9 +550,10 @@ hr {
 
   .blog-post-aside {
     position: fixed;
-    right: calc(50vw - var(--maxWidth-wrapper) / 2 - 280px);
+    right: max(20px, calc(50vw - var(--maxWidth-wrapper) / 2 - 280px));
     top: 120px;
     width: 260px;
+    max-width: min(260px, calc(100vw - 40px));
     max-height: calc(100vh - 140px);
     overflow-y: auto;
     z-index: 100;
@@ -1137,8 +1138,38 @@ footer a:hover {
   }
 }
 
-/* Medium desktop (42rem - 1399px) - TOC in grid, sticky */
-@media (min-width: 42rem) and (max-width: 1399px) {
+/* Small screen (42rem - 48rem) - TOC hidden at bottom */
+@media (min-width: 42rem) and (max-width: 47.999rem) {
+  .blog-post-body {
+    display: block;
+  }
+
+  .blog-post-aside {
+    display: none;
+  }
+}
+
+/* Tablet (768px - 1024px) - TOC in grid, sticky */
+@media (min-width: 48rem) and (max-width: 64rem) {
+  .blog-post-body {
+    display: grid;
+    grid-template-columns: 1fr minmax(200px, 260px);
+    gap: var(--spacing-8);
+  }
+
+  .blog-post-aside {
+    position: sticky;
+    top: calc(var(--spacing-6) + var(--spacing-10));
+    max-height: calc(100vh - var(--spacing-20));
+    overflow-y: auto;
+    grid-row: 1;
+    grid-column: 2;
+    display: block !important;
+  }
+}
+
+/* Medium desktop (64rem - 1399px) - TOC in grid, sticky */
+@media (min-width: 64rem) and (max-width: 1399px) {
   .blog-post-body {
     display: grid;
     grid-template-columns: 1fr minmax(200px, 260px);
@@ -1163,9 +1194,10 @@ footer a:hover {
 
   .blog-post-aside {
     position: fixed;
-    right: calc(50vw - var(--maxWidth-wrapper) / 2 - 280px);
+    right: max(20px, calc(50vw - var(--maxWidth-wrapper) / 2 - 280px));
     top: 120px;
     width: 260px;
+    max-width: min(260px, calc(100vw - 40px));
     max-height: calc(100vh - 140px);
     overflow-y: auto;
     z-index: 100;

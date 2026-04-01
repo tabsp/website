@@ -1,9 +1,10 @@
 ---
 title: 手动配置 Xray（vless+reality+vision）代理服务器
 date: 2024-12-14 22:41
-tags: 
+tags:
   - xray
 ---
+
 ## 依赖
 
 - curl
@@ -33,91 +34,77 @@ vim /usr/local/etc/xray/config.json
 
 ```json
 {
-    "log": {
-        "loglevel": "warning"
-    },
-    "routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "rules": [
-            {
-                "type": "field",
-                "protocol": [
-                    "bittorrent"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:private"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:cn"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "domain": [
-                    "geosite:category-ads-all"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
-    "inbounds": [
-        {
-            "tag": "xray-xtls-reality",
-            "listen": "0.0.0.0",
-            "port": 443,
-            "protocol": "vless",
-            "settings": {
-                "clients": [
-                    {
-                        "id": "<replace-this>", // 可以使用 xray uuid 生成，注意保存
-                        "flow": "xtls-rprx-vision"
-                    }
-                ],
-                "decryption": "none"
-            },
-            "streamSettings": {
-                "network": "tcp",
-                "security": "reality",
-                "realitySettings": {
-                    "dest": "<replace-this>", // 自行设置合适的回落域名，必须带端口，比如：www.example.com:443
-                    "serverNames": [
-                        "<replace-this>" // 自行设置客户端可用的 server name 列表，例如：www.example.com
-                    ],
-                    "privateKey": "<replace-this>", // 可以使用 xray x25519 生成
-                    "shortIds": [
-                        ""
-                    ]
-                }
-            },
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "http",
-                    "tls",
-                    "quic"
-                ]
-            }
-        }
-    ],
-    "outbounds": [
-        {
-            "protocol": "freedom",
-            "tag": "direct"
-        },
-        {
-            "protocol": "blackhole",
-            "tag": "block"
-        }
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "protocol": ["bittorrent"],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": ["geoip:private"],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": ["geoip:cn"],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": ["geosite:category-ads-all"],
+        "outboundTag": "block"
+      }
     ]
+  },
+  "inbounds": [
+    {
+      "tag": "xray-xtls-reality",
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "<replace-this>", // 可以使用 xray uuid 生成，注意保存
+            "flow": "xtls-rprx-vision"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "dest": "<replace-this>", // 自行设置合适的回落域名，必须带端口，比如：www.example.com:443
+          "serverNames": [
+            "<replace-this>" // 自行设置客户端可用的 server name 列表，例如：www.example.com
+          ],
+          "privateKey": "<replace-this>", // 可以使用 xray x25519 生成
+          "shortIds": [""]
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls", "quic"]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block"
+    }
+  ]
 }
 ```
 
@@ -178,7 +165,6 @@ chmod +x /usr/local/etc/xray-script/update-dat.sh
 /usr/local/etc/xray-script/update-dat.sh
 ```
 
-
 确认没有问题后使用 crontab 设置定期执行：
 
 1. 执行 `crontab -e`；
@@ -226,20 +212,20 @@ TLS 版本可以打开开发人员工具后在 Security 选项卡中查看；是
 
 ```yaml
 proxies:
-- name: "node1"
-  type: vless
-  server: <replace-this> # 代理服务器地址
-  port: 443
-  udp: true
-  uuid: <replace-this> # Xray 服务端的 UUID
-  flow: xtls-rprx-vision
-  tls: true
-  servername: <replace-this> # 服务端配置的可用 server name
-  client-fingerprint: chrome
-  skip-cert-verify: false
-  reality-opts: 
-    public-key: <replace-this> # 与服务端私钥配套的公钥
-  network: tcp
+  - name: "node1"
+    type: vless
+    server: <replace-this> # 代理服务器地址
+    port: 443
+    udp: true
+    uuid: <replace-this> # Xray 服务端的 UUID
+    flow: xtls-rprx-vision
+    tls: true
+    servername: <replace-this> # 服务端配置的可用 server name
+    client-fingerprint: chrome
+    skip-cert-verify: false
+    reality-opts:
+      public-key: <replace-this> # 与服务端私钥配套的公钥
+    network: tcp
 ```
 
 将所有 `<replace-this>` 替换为自己的信息，如果服务端设置了 shortIds 可自行配置。

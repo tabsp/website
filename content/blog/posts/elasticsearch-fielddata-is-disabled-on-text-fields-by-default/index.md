@@ -1,9 +1,10 @@
 ---
 title: 解决 Elasticsearch 查询时 Fielddata is disabled on text fields by default 错误
 date: 2020-04-28 11:17
-tags: 
+tags:
   - Elastic
 ---
+
 ## 问题描述
 
 以下过程基于 Elasticsearch 7.3
@@ -16,7 +17,6 @@ Caused by: java.lang.IllegalArgumentException: Fielddata is disabled on text fie
 
 日志其实已经说得很清楚了，默认情况下 text 类型的字段 fielddata 被禁用。官方文档在[这里](https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html#fielddata-disabled-text-fields)。
 
-
 继续排查日志发现：
 
 ```
@@ -24,7 +24,6 @@ Failed to execute [SearchRequest{searchType=QUERY_THEN_FETCH, indices=[.kibana],
 ```
 
 是启动 kibana 时报的错。
-
 
 ## 解决方案
 
@@ -76,4 +75,4 @@ curl -X GET "localhost:9200/[modify_this_index]/_search?pretty" -H 'Content-Type
 '
 ```
 
-*将 [modify_this_index] 和 [modify_this_field] 修改为对应的索引和字段即可。*
+_将 [modify_this_index] 和 [modify_this_field] 修改为对应的索引和字段即可。_

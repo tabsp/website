@@ -57,10 +57,10 @@ describe("gatsby-node createPages", () => {
     await gatsbyNode.createPages({ graphql: mockGraphql, actions, reporter })
 
     expect(actions.createPage).toHaveBeenCalledWith(
-      expect.objectContaining({ path: "/tags/android" })
+      expect.objectContaining({ path: "/tags/android" }),
     )
     expect(actions.createPage).toHaveBeenCalledWith(
-      expect.objectContaining({ path: "/tags/android/2" })
+      expect.objectContaining({ path: "/tags/android/2" }),
     )
     expect(actions.createRedirect).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -68,13 +68,13 @@ describe("gatsby-node createPages", () => {
         toPath: "/tags/android",
         isPermanent: true,
         ignoreCase: false,
-      })
+      }),
     )
     expect(reporter.info).toHaveBeenCalledWith(
-      'redirecting legacy tag path from "/tags/Android" to "/tags/android"'
+      'redirecting legacy tag path from "/tags/Android" to "/tags/android"',
     )
     expect(actions.createRedirect).not.toHaveBeenCalledWith(
-      expect.objectContaining({ fromPath: "/tags/devops" })
+      expect.objectContaining({ fromPath: "/tags/devops" }),
     )
   })
 
@@ -88,7 +88,7 @@ describe("gatsby-node createPages", () => {
 
     expect(reporter.panicOnBuild).toHaveBeenCalledWith(
       "There was an error loading your blog posts",
-      graphqlErrors
+      graphqlErrors,
     )
     expect(actions.createPage).not.toHaveBeenCalled()
     expect(actions.createRedirect).not.toHaveBeenCalled()
@@ -114,7 +114,7 @@ describe("gatsby-node createPages", () => {
 
     expect(actions.createPage).toHaveBeenCalledTimes(1)
     expect(actions.createPage).toHaveBeenCalledWith(
-      expect.objectContaining({ path: "/posts" })
+      expect.objectContaining({ path: "/posts" }),
     )
     expect(actions.createRedirect).not.toHaveBeenCalled()
     expect(reporter.info).not.toHaveBeenCalled()
@@ -202,6 +202,8 @@ describe("gatsby-node createSchemaCustomization", () => {
 
     gatsbyNode.createSchemaCustomization({ actions: { createTypes } })
 
-    expect(createTypes).toHaveBeenCalledWith(expect.stringContaining("SiteSiteMetadata"))
+    expect(createTypes).toHaveBeenCalledWith(
+      expect.stringContaining("SiteSiteMetadata"),
+    )
   })
 })
