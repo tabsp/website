@@ -49,7 +49,7 @@
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/testing-library__jest-dom": "^5.14.9",
+    "@types/testing-library__jest-dom": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "babel-eslint": "npm:@babel/eslint-parser@^7.25.9",
