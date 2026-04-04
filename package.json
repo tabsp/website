@@ -55,7 +55,7 @@
     "babel-eslint": "npm:@babel/eslint-parser@^7.25.9",
     "babel-jest": "^30.3.0",
     "babel-preset-gatsby": "^3.16.0",
-    "baseline-browser-mapping": "^2.10.12",
+    "baseline-browser-mapping": "^2.10.14",
     "core-js": "3.49",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
