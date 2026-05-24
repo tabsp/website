@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
@@ -52,6 +52,53 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next, slug } = pageContext
   const readingMinutes = post.fields?.readingTimeMinutes
+
+  useEffect(() => {
+    const content = document.querySelector(".blog-post-content")
+    const tocLinks = document.querySelectorAll(
+      ".blog-post-toc-contents a[href^='#']",
+    )
+    if (!content || tocLinks.length === 0) return
+
+    const headings = Array.from(
+      content.querySelectorAll(
+        "h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]",
+      ),
+    )
+    if (headings.length === 0) return
+
+    const onScroll = () => {
+      let current: Element | undefined
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const heading = headings[i]
+        if (!heading) continue
+        if (heading.getBoundingClientRect().top <= 120) {
+          current = heading
+          break
+        }
+      }
+
+      tocLinks.forEach(link => link.classList.remove("active"))
+
+      if (current) {
+        const id = current.getAttribute("id")
+        if (id) {
+          for (const link of tocLinks) {
+            const href = link.getAttribute("href")
+            if (href && decodeURIComponent(href.slice(1)) === id) {
+              link.classList.add("active")
+              break
+            }
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    onScroll()
+
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
     <Layout location={location} title={siteTitle}>

@@ -86,10 +86,10 @@ const config: GatsbyConfig = {
         name: `Tabsp's blog`,
         short_name: `Tabsp`,
         start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `#663399`,
+        background_color: `#0a0a0f`,
+        theme_color: `#00f5ff`,
         display: `minimal-ui`,
-        icon: `content/assets/icon.png`,
+        icon: `content/assets/icon.svg`,
       },
     },
     {

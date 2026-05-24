@@ -38,24 +38,26 @@ const BlogTags: React.FC<PageProps<BlogTagsData>> = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <div>
-        <h1>All tags</h1>
+        <h1>所有标签</h1>
       </div>
-      <ul>
+      <div className="tags-cloud">
         {tags.map(tag => (
-          <li key={tag.fieldValue}>
-            <Link to={`/tags/${tag.slug}`}>
-              {tag.fieldValue} ({tag.totalCount})
-            </Link>
-          </li>
+          <Link
+            key={tag.fieldValue}
+            to={`/tags/${tag.slug}`}
+            className="tag-item"
+          >
+            {tag.fieldValue} ({tag.totalCount})
+          </Link>
         ))}
-      </ul>
+      </div>
     </Layout>
   )
 }
 
 export default BlogTags
 
-export const Head: React.FC = () => <Seo title="All tags" />
+export const Head: React.FC = () => <Seo title="所有标签" />
 
 export const pageQuery = graphql`
   query {

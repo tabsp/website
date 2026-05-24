@@ -39,7 +39,7 @@ const Layout = ({ location, title, children }: LayoutProps) => {
       <footer>
         © {new Date().getFullYear()}, Built with{` `}
         <a href="https://www.gatsbyjs.com">Gatsby</a>
-        {` `}• 🦞 Lobster-powered
+        {` `}• Crafted with AI
       </footer>
     </div>
   )

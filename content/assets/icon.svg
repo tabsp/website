@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 深色圆角背景 -->
+  <rect width="512" height="512" fill="#0a0a0f" rx="96"/>
+  
+  <!-- 外圈发光 -->
+  <rect x="16" y="16" width="480" height="480" fill="none" stroke="rgba(0, 245, 255, 0.3)" stroke-width="4" rx="88"/>
+  
+  <!-- 科技感网格线装饰 -->
+  <line x1="256" y1="80" x2="256" y2="120" stroke="rgba(0, 245, 255, 0.2)" stroke-width="2"/>
+  <line x1="80" y1="256" x2="120" y2="256" stroke="rgba(0, 245, 255, 0.2)" stroke-width="2"/>
+  <line x1="256" y1="392" x2="256" y2="432" stroke="rgba(0, 245, 255, 0.2)" stroke-width="2"/>
+  <line x1="392" y1="256" x2="432" y2="256" stroke="rgba(0, 245, 255, 0.2)" stroke-width="2"/>
+  
+  <!-- 中心十字 -->
+  <line x1="256" y1="140" x2="256" y2="372" stroke="rgba(0, 245, 255, 0.15)" stroke-width="1"/>
+  <line x1="140" y1="256" x2="372" y2="256" stroke="rgba(0, 245, 255, 0.15)" stroke-width="1"/>
+  
+  <!-- 发光 T 字母 -->
+  <text 
+    x="256" 
+    y="370" 
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" 
+    font-size="300" 
+    font-weight="900" 
+    fill="#00f5ff" 
+    text-anchor="middle"
+    style="filter: drop-shadow(0 0 24px rgba(0, 245, 255, 0.6)) drop-shadow(0 0 8px rgba(0, 245, 255, 0.8));"
+  >T</text>
+  
+  <!-- 底部小装饰线 -->
+  <line x1="196" y1="420" x2="316" y2="420" stroke="#00f5ff" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>
