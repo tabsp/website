@@ -7,7 +7,8 @@ const Giscus = () => {
   const rootElm = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!rootElm.current) return
+    const container = rootElm.current
+    if (!container) return
 
     const giscus = document.createElement("script")
     const giscusConfig = {
@@ -22,7 +23,7 @@ const Giscus = () => {
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
       "data-theme": "dark",
-      "data-lang": "en",
+      "data-lang": "zh-CN",
       crossorigin: "anonymous",
       async: true,
     }
@@ -31,14 +32,23 @@ const Giscus = () => {
       const value = giscusConfig[configKey as keyof typeof giscusConfig]
       giscus.setAttribute(configKey, String(value))
     })
-    rootElm.current.appendChild(giscus)
+    container.appendChild(giscus)
+
+    return () => {
+      const iframe = document.querySelector<HTMLIFrameElement>(
+        "iframe.giscus-frame",
+      )
+      if (iframe) {
+        iframe.remove()
+      }
+      const existingScript = container.querySelector(`script[src="${src}"]`)
+      if (existingScript) {
+        existingScript.remove()
+      }
+    }
   }, [])
 
-  return (
-    <>
-      <div id="tabsp-comments" className="giscus-comments" ref={rootElm} />
-    </>
-  )
+  return <div id="tabsp-comments" className="giscus-comments" ref={rootElm} />
 }
 
 export default Giscus

@@ -67,7 +67,8 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
     )
     if (headings.length === 0) return
 
-    const onScroll = () => {
+    let ticking = false
+    const updateActiveHeading = () => {
       let current: Element | undefined
       for (let i = headings.length - 1; i >= 0; i--) {
         const heading = headings[i]
@@ -94,8 +95,18 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
       }
     }
 
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateActiveHeading()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true })
-    onScroll()
+    updateActiveHeading()
 
     return () => window.removeEventListener("scroll", onScroll)
   }, [])

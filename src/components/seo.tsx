@@ -26,6 +26,7 @@ interface SiteData {
     siteMetadata: {
       title: string
       description: string
+      siteUrl: string
       social: {
         github: string
       }
@@ -33,13 +34,19 @@ interface SiteData {
   }
 }
 
-const Seo = ({ description = ``, lang = `en`, meta = [], title }: SeoProps) => {
+const Seo = ({
+  description = ``,
+  lang = `zh-CN`,
+  meta = [],
+  title,
+}: SeoProps) => {
   const { site } = useStaticQuery<SiteData>(graphql`
     query {
       site {
         siteMetadata {
           title
           description
+          siteUrl
           social {
             github
           }
@@ -50,6 +57,7 @@ const Seo = ({ description = ``, lang = `en`, meta = [], title }: SeoProps) => {
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
+  const siteUrl = site.siteMetadata?.siteUrl || ``
   const metaTags: MetaEntry[] = [
     {
       name: `description`,
@@ -68,19 +76,23 @@ const Seo = ({ description = ``, lang = `en`, meta = [], title }: SeoProps) => {
       content: `website`,
     },
     {
-      name: `github:card`,
+      property: `og:url`,
+      content: siteUrl,
+    },
+    {
+      name: `twitter:card`,
       content: `summary`,
     },
     {
-      name: `github:creator`,
-      content: site.siteMetadata?.social?.github || ``,
+      name: `twitter:creator`,
+      content: `@${site.siteMetadata?.social?.github || ``}`,
     },
     {
-      name: `github:title`,
+      name: `twitter:title`,
       content: title,
     },
     {
-      name: `github:description`,
+      name: `twitter:description`,
       content: metaDescription,
     },
   ]
