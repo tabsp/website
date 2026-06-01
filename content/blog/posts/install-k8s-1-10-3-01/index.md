@@ -1,11 +1,12 @@
 ---
 title: 虚拟机部署 Kubernetes v1.10.3  高可用集群 - 01 虚拟机环境准备
 date: 2018-05-30 17:42
-tags: 
+tags:
   - Jenkins
   - Java
   - Kubernetes
 ---
+
 使用 Vagrant 管理虚拟机集群，下边是安装步骤。
 
 ### 文件准备
@@ -149,7 +150,6 @@ enabled=0
 gpgkey=http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-7
 ```
 
-
 ### 启动集群
 
 ```bash
@@ -174,13 +174,13 @@ $ vagrant up
 - m 为 Master 节点，n 为 Node 节点。
 - 主要操作将在 "kube-m1" 主机上进行，请事先配置好 m1 主机免密登录其他主机。
 - 所有命名默认以 root 用户执行。
-- 关闭所有节点的 SELinux 
-    ```bash
-    $ vim /etc/selinux/config
-    SELINUX=disabled
-    $ reboot
-    ```
-    注意：如果不关闭 SELinux k8s 挂载目录会报 `Permission denied` 错误。
+- 关闭所有节点的 SELinux
+  ```bash
+  $ vim /etc/selinux/config
+  SELINUX=disabled
+  $ reboot
+  ```
+  注意：如果不关闭 SELinux k8s 挂载目录会报 `Permission denied` 错误。
 
 ### 准备工作
 
@@ -193,11 +193,11 @@ $ vagrant up
 
 ### 备注
 
-*1. 由于资源限制，Etcd 部署在三台 k8s Master 节点上，宿主机资源充足的话可以部署在三台单独的主机上。*
+_1. 由于资源限制，Etcd 部署在三台 k8s Master 节点上，宿主机资源充足的话可以部署在三台单独的主机上。_
 
-*2. 免密登录只需要将宿主机公钥写入到 m1 主机的 `~/.ssh/authorized_keys` 文件中，然后在 m1 主机执行 `ssh-keygen` 生成密钥对，并将公钥依次写入到其他需要登录主机的 `~/.ssh/authorized_keys` 文件中。*
+_2. 免密登录只需要将宿主机公钥写入到 m1 主机的 `~/.ssh/authorized_keys` 文件中，然后在 m1 主机执行 `ssh-keygen` 生成密钥对，并将公钥依次写入到其他需要登录主机的 `~/.ssh/authorized_keys` 文件中。_
 
-示例: 
+示例:
 
 ```bash
 # 宿主机执行
@@ -209,6 +209,6 @@ Password:
 [root@kube-n1 vagrant]# mkdir ~/.ssh && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNEj6obDW/eERX04E22ucDGwUTQ6C8DSL1Dqun/7VuQJei6lzdWBBDKy6AJEPh/w51Po9vlqZCiso1+N/vwLzakSHqYh685L2tsXTpQza16N624sP7lt201TwUlKJ9tlQRzahtX833PCtvSSwv8T7EsZVwUN4zz7eA+To+hPzzVEBlU/wMgoHMWlGLG/dNGqUl3mJeBFJ7NRbC1ePzZYXUxhyFY9N36GcOoI+cJXroApecKMK5fSZbXyYDFRZ8Mf7EMkRQkXx5BasGRTAzKBkJ1OW2JBP17VdJqmJKOBHDnetwyH0zcS5C6/vWgiJspiJJu9Cw2I5/aZ6uij3g0tW9 root@kube-m1" >> ~/.ssh/authorized_keys
 ```
 
-*3. SELinux 需要手动关闭。*
+_3. SELinux 需要手动关闭。_
 
-*4. 关于镜像被墙的问题参考 『虚拟机部署 Kubernetes v1.10.3 高可用集群 - 05 总结』 中的描述。*
+_4. 关于镜像被墙的问题参考 『虚拟机部署 Kubernetes v1.10.3 高可用集群 - 05 总结』 中的描述。_

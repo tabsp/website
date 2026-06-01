@@ -1,7 +1,7 @@
 ---
 title: 虚拟机部署 Kubernetes v1.10.3  高可用集群 - 03 部署 Master
 date: 2018-05-30 17:44
-tags: 
+tags:
   - Jenkins
   - Java
   - Kubernetes
@@ -145,6 +145,7 @@ spec:
     name: etcd-ca-certs
 EOF
 ```
+
 - kube-apiserver 中的NodeRestriction 请参考 [Using Node Authorization](https://kubernetes.io/docs/admin/authorization/node/)
 
 产生一个用来加密 Etcd 的 Key:
@@ -153,9 +154,11 @@ EOF
 $  head -c 32 /dev/urandom | base64
 TUkHNhh1j+DKsnW3VWK8ZVmfQy3i9a/VaRuoqgha4F4=
 ```
+
 **注意每台master节点需要用一样的 Key**
 
 在 `/etc/kubernetes` 目录下建立 encryption.yml 的加密 YAML 文件：
+
 ```bash
 $ cat <<EOF > /etc/kubernetes/encryption.yml
 kind: EncryptionConfig
@@ -171,6 +174,7 @@ resources:
       - identity: {}
 EOF
 ```
+
 - Etcd 资料加密可参考 [Encrypting data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
 
 在/etc/kubernetes/目录下，建立audit-policy.yml的审计策略 YAML 文件：
@@ -183,9 +187,10 @@ rules:
   - level: Metadata
 EOF
 ```
+
 - Audit Policy 请参考 [Auditing](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/)
 
-####  kube-controller-manager 配置
+#### kube-controller-manager 配置
 
 ```bash
 $ cat > /etc/kubernetes/manifests/kube-controller-manager.yml <<EOF
@@ -268,7 +273,7 @@ spec:
 EOF
 ```
 
-####  kube-scheduler 配置
+#### kube-scheduler 配置
 
 ```bash
 $ cat > /etc/kubernetes/manifests/kube-scheduler.yml <<EOF
@@ -612,7 +617,6 @@ $ systemctl enable kubelet.service && systemctl start kubelet.service
 
 ### 验证集群
 
-
 完成后，在任意一台master节点复制 admin kubeconfig 文件，并通过简单指令验证：
 
 ```bash
@@ -691,6 +695,7 @@ $ kubectl -n kube-system logs -f kube-scheduler-kube-m1
 ```
 
 设定master节点允许 Taint：
+
 ```bash
 $ kubectl taint nodes node-role.kubernetes.io/master="":NoSchedule --all
 node "kube-m1" tainted

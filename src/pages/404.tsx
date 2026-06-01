@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, PageProps } from "gatsby"
+import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -20,8 +20,13 @@ const NotFoundPage: React.FC<PageProps<NotFoundData>> = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <h1>404: Not Found</h1>
-      <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+      <div className="not-found-page">
+        <h1>404</h1>
+        <p>The page you&apos;re looking for doesn&apos;t exist.</p>
+        <Link to="/" className="home-link">
+          ← Back to Home
+        </Link>
+      </div>
     </Layout>
   )
 }

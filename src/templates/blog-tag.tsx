@@ -5,6 +5,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import NoPostFound from "../components/no-post-found"
 import TagPagination from "../components/tag-pagination"
+import slugify from "../utils/slugify"
 
 interface TagPostNode {
   fields: {
@@ -15,6 +16,7 @@ interface TagPostNode {
     date: string
     title: string
     description?: string
+    tags?: string[]
   }
   excerpt?: string
 }
@@ -90,6 +92,19 @@ const BlogIndex: React.FC<PageProps<BlogTagData, BlogTagContext>> = ({
                 itemProp="description"
               />
             </section>
+            {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+              <div className="post-tags">
+                {post.frontmatter.tags.map(ptag => (
+                  <Link
+                    key={ptag}
+                    to={`/tags/${slugify(ptag)}`}
+                    className="post-tag"
+                  >
+                    {ptag}
+                  </Link>
+                ))}
+              </div>
+            )}
           </article>
         )
       })}
@@ -136,6 +151,7 @@ export const pageQuery = graphql`
           date(formatString: "yyyy-MM-DD")
           title
           description
+          tags
         }
       }
     }

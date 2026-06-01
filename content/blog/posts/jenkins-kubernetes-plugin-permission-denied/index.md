@@ -1,7 +1,7 @@
 ---
 title: Jenkins kubernetes-plugin 使用 Gradle 构建时 Permission denied 问题
 date: 2018-08-20 18:10
-tags: 
+tags:
   - Jenkins
   - Java
   - Kubernetes
@@ -17,7 +17,9 @@ sh: 1: cannot create /home/jenkins/workspace/test@tmp/durable-b7fece0a/jenkins-r
 sh: 1: ps: not found
 mv: cannot stat '/home/jenkins/workspace/test@tmp/durable-b7fece0a/jenkins-result.txt.tmp': No such file or directory
 ```
+
 <!-- more -->
+
 ## 问题排查
 
 既然出现 Permission denied 肯定要从权限入手了，看错误信息是在工作目录发生的错误，因为 kubernetes-plugin 这个插件会将工作目录挂载出去，以保证所有容器都能访问，所以可能就是就是各个容器的权限不统一造成的，下边验证下这个猜想。
@@ -194,7 +196,7 @@ RUN set -o errexit -o nounset \
 	&& gradle --version
 ```
 
-*只是把 uid 和 gid 由 1000 改为 10000*
+_只是把 uid 和 gid 由 1000 改为 10000_
 
 ### 结果
 

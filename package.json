@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "dotenv": "^17.3.1",
+    "fuse.js": "^7.3.0",
     "gatsby": "^5.16.1",
     "gatsby-plugin-clarity": "^1.0.1",
     "gatsby-plugin-feed": "^5.16.0",
@@ -16,8 +17,10 @@
     "gatsby-plugin-image": "^3.16.0",
     "gatsby-plugin-manifest": "^5.16.0",
     "gatsby-plugin-sharp": "^5.16.0",
+    "gatsby-plugin-sitemap": "^6.16.0",
     "gatsby-remark-autolink-headers": "^6.16.0",
     "gatsby-remark-copy-linked-files": "^6.16.0",
+    "gatsby-remark-footnotes": "^0.0.8",
     "gatsby-remark-images": "^7.16.0",
     "gatsby-remark-prismjs": "^7.16.0",
     "gatsby-remark-responsive-iframe": "^6.16.0",

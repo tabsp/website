@@ -5,6 +5,8 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Signature from "../components/signature"
 import Giscus from "../components/giscus"
+import ReadingProgress from "../components/reading-progress"
+import CopyCodeButtons from "../components/copy-code-button"
 
 interface PostEdge {
   fields: {
@@ -113,6 +115,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
 
   return (
     <Layout location={location} title={siteTitle}>
+      <ReadingProgress />
       <article
         className="blog-post"
         itemScope
@@ -150,6 +153,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
           />
+          <CopyCodeButtons />
         </div>
         <hr />
         <footer>

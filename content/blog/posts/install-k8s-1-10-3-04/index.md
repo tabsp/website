@@ -1,7 +1,7 @@
 ---
 title: 虚拟机部署 Kubernetes v1.10.3  高可用集群 - 04 部署 Node
 date: 2018-05-30 17:45
-tags: 
+tags:
   - Jenkins
   - Java
   - Kubernetes
@@ -26,6 +26,7 @@ $ for NODE in kube-n1 kube-n2 kube-n3; do
     done
 done
 ```
+
 ### 部署与设定
 
 以下所有操作需要在每台 Node 节点上都进行一遍。
@@ -79,6 +80,7 @@ $ systemctl enable kubelet.service && systemctl start kubelet.service
 ### 验证集群
 
 在任意 Mater 执行以下命令：
+
 ```bash
 $ kubectl get csr
 csr-xtvv5                                              1h        system:node:kube-m1       Approved,Issued
@@ -277,7 +279,6 @@ kube-proxy-sgxvh   1/1       Running   0          47s       192.168.56.12   kube
 #### Kubernetes DNS
 
 Kubernetes DNS 是 Kubernetes 集群内部 Pod 之间互相沟通的重要插件，它允许 Pod 可以通过 Domain Name 方式来连接 Service，其主要由 Kube DNS 与 Sky DNS 组合而成，通过 Kube DNS 监听 Service 与 Endpoint 变化，来提供给 Sky DNS 信息，已更新解析位址。
-
 
 在 kube-m1 配置 kube-dns.yml 来安装 Kubernetes DNS 插件：
 

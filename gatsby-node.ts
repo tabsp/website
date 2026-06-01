@@ -260,3 +260,51 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
     }
   `)
   }
+
+export const onPostBuild: GatsbyNode["onPostBuild"] = async ({ graphql }) => {
+  const result = await graphql<{
+    allMarkdownRemark: {
+      nodes: Array<{
+        fields: { slug: string }
+        frontmatter: {
+          title: string
+          date: string
+          description?: string
+          tags?: string[]
+        }
+        excerpt: string
+      }>
+    }
+  }>(`
+    {
+      allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+        nodes {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+            date(formatString: "yyyy-MM-DD")
+            description
+            tags
+          }
+          excerpt(pruneLength: 200)
+        }
+      }
+    }
+  `)
+
+  if (result.errors || !result.data) return
+
+  const posts = result.data.allMarkdownRemark.nodes.map(node => ({
+    title: node.frontmatter.title,
+    slug: node.fields.slug,
+    date: node.frontmatter.date,
+    description: node.frontmatter.description || node.excerpt,
+    tags: node.frontmatter.tags || [],
+    excerpt: node.excerpt,
+  }))
+
+  const fs = await import("fs")
+  fs.writeFileSync("./public/search-index.json", JSON.stringify(posts))
+}

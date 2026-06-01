@@ -1,10 +1,11 @@
 ---
 title: Arch Linux 安装
 date: 2021-03-13 09:46
-tags: 
+tags:
   - Linux
   - Arch
 ---
+
 ## 下载镜像
 
 在 [Arch Linux - Downloads](https://archlinux.org/download/) 页面任意找一个镜像站下载，国内推荐使用[清华大学开源软件镜像站](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/)。
@@ -17,7 +18,7 @@ tags:
 
 ### 准备操作
 
-确保已经连接到网络，直接连接有线网络或通过 [iwctl](https://wiki.archlinux.org/index.php/Iwd_(简体中文)#iwctl) 连接无线网络
+确保已经连接到网络，直接连接有线网络或通过 [iwctl](<https://wiki.archlinux.org/index.php/Iwd_(简体中文)#iwctl>) 连接无线网络
 
 ```bash
 # 同步系统时间

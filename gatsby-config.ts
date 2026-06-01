@@ -65,6 +65,7 @@ const config: GatsbyConfig = {
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
+          `gatsby-remark-footnotes`,
         ],
       },
     },
@@ -81,6 +82,7 @@ const config: GatsbyConfig = {
         enable_on_dev_env: false,
       },
     },
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -102,7 +104,7 @@ const config: GatsbyConfig = {
             query: `
               {
                 allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
+                  sort: { frontmatter: { date: DESC } },
                 ) {
                   nodes {
                     excerpt

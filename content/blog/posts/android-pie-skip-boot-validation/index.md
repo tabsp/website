@@ -1,16 +1,17 @@
 ---
 title: Android Pie（Android 9）跳过 Google 框架 (GApps) 开机验证方法
 date: 2019-03-02 17:03
-tags: 
+tags:
   - Android
 ---
+
 如果刷机时刷入了 Google 框架（GApps）可以使用以下方法跳过验证：
 
 1. 进入TWRP，并 mount system 分区，数据线链接电脑。
 <!-- more -->
 2. 打开 cmd 或其它终端：
 
-``` shell
+```shell
 # 将 build.prop 拉取到当前目录
 $ adb pull system/build.prop .
 

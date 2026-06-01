@@ -10,6 +10,11 @@ const Giscus = () => {
     const container = rootElm.current
     if (!container) return
 
+    const currentTheme =
+      typeof window !== "undefined"
+        ? document.documentElement.getAttribute("data-theme") || "light"
+        : "light"
+
     const giscus = document.createElement("script")
     const giscusConfig = {
       src,
@@ -22,7 +27,7 @@ const Giscus = () => {
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
-      "data-theme": "light",
+      "data-theme": currentTheme,
       "data-lang": "zh-CN",
       crossorigin: "anonymous",
       async: true,

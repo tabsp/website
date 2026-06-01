@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import Nav from "./nav"
+import BackToTop from "./back-to-top"
 
 declare const __PATH_PREFIX__: string
 
@@ -36,6 +37,7 @@ const Layout = ({ location, title, children }: LayoutProps) => {
       <header className="global-header">{header}</header>
       <Nav />
       <main>{children}</main>
+      <BackToTop />
       <footer>
         © {new Date().getFullYear()}, Built with{` `}
         <a href="https://www.gatsbyjs.com">Gatsby</a>
