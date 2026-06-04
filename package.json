@@ -56,7 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "babel-eslint": "npm:@babel/eslint-parser@^7.25.9",
-    "babel-jest": "^30.3.0",
+    "babel-jest": "^30.4.1",
     "babel-preset-gatsby": "^3.16.0",
     "baseline-browser-mapping": "^2.10.12",
     "core-js": "3.49",
