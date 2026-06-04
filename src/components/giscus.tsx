@@ -27,7 +27,7 @@ const Giscus = () => {
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
-      "data-theme": currentTheme,
+      "data-theme": currentTheme === "dark" ? "dark" : "light",
       "data-lang": "zh-CN",
       crossorigin: "anonymous",
       async: true,
@@ -53,7 +53,12 @@ const Giscus = () => {
     }
   }, [])
 
-  return <div id="tabsp-comments" className="giscus-comments" ref={rootElm} />
+  return (
+    <section className="comments-panel" aria-label="Comments">
+      <div className="section-kicker">$ comments</div>
+      <div id="tabsp-comments" className="giscus-comments" ref={rootElm} />
+    </section>
+  )
 }
 
 export default Giscus

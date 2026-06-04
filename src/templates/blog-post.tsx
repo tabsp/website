@@ -35,6 +35,7 @@ interface BlogPostData {
       title: string
       date: string
       description?: string
+      tags?: string[]
     }
   }
 }
@@ -121,24 +122,40 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
         itemScope
         itemType="http://schema.org/Article"
       >
-        <header>
+        <header className="blog-post-header">
+          <p className="section-kicker">$ open article.md</p>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>
-            {post.frontmatter.date}
+          <div className="post-meta">
+            <time>{post.frontmatter.date}</time>
             {readingMinutes ? (
-              <span className="post-meta-separator"> · </span>
+              <span className="post-meta-separator">/</span>
             ) : null}
             {readingMinutes ? (
               <span className="post-reading-time">
-                预计阅读 ~{readingMinutes} 分钟
+                {readingMinutes} min read
               </span>
             ) : null}
-          </p>
+            {post.frontmatter.tags?.map(tag => (
+              <span key={tag} className="post-meta-tag">
+                #{tag}
+              </span>
+            ))}
+          </div>
+          {post.frontmatter.description ? (
+            <p className="blog-post-description">
+              {post.frontmatter.description}
+            </p>
+          ) : null}
         </header>
         <div className="blog-post-body">
-          <aside className="blog-post-aside">
+          <section
+            className="blog-post-content"
+            dangerouslySetInnerHTML={{ __html: post.html }}
+            itemProp="articleBody"
+          />
+          <aside className="blog-post-aside" aria-label="Article outline">
             <div className="blog-post-toc">
-              <div className="blog-post-toc-title">目录</div>
+              <div className="blog-post-toc-title">$ outline</div>
               <div className="blog-post-toc-contents">
                 <div
                   dangerouslySetInnerHTML={{
@@ -147,16 +164,31 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
                 />
               </div>
             </div>
+            <div className="article-meta-panel">
+              <div className="blog-post-toc-title">$ meta</div>
+              <dl className="system-list">
+                <div>
+                  <dt>date</dt>
+                  <dd>{post.frontmatter.date}</dd>
+                </div>
+                {readingMinutes ? (
+                  <div>
+                    <dt>read</dt>
+                    <dd>{readingMinutes} min</dd>
+                  </div>
+                ) : null}
+                {post.frontmatter.tags && post.frontmatter.tags.length > 0 ? (
+                  <div>
+                    <dt>tags</dt>
+                    <dd>{post.frontmatter.tags.length}</dd>
+                  </div>
+                ) : null}
+              </dl>
+            </div>
           </aside>
-          <section
-            className="blog-post-content"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-            itemProp="articleBody"
-          />
           <CopyCodeButtons />
         </div>
-        <hr />
-        <footer>
+        <footer className="blog-post-footer">
           <Signature postUrl={slug} />
         </footer>
       </article>
@@ -169,12 +201,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
                 <span className="nav-title">{previous.frontmatter.title}</span>
               </Link>
             ) : (
-              <div
-                style={{
-                  opacity: 0.3,
-                  padding: "var(--spacing-4) var(--spacing-6)",
-                }}
-              >
+              <div className="blog-post-nav-empty">
                 <span className="nav-direction">← 上一篇</span>
                 <span className="nav-title">没有了</span>
               </div>
@@ -187,12 +214,7 @@ const BlogPostTemplate: React.FC<PageProps<BlogPostData, BlogPostContext>> = ({
                 <span className="nav-title">{next.frontmatter.title}</span>
               </Link>
             ) : (
-              <div
-                style={{
-                  opacity: 0.3,
-                  padding: "var(--spacing-4) var(--spacing-6)",
-                }}
-              >
+              <div className="blog-post-nav-empty">
                 <span className="nav-direction">下一篇 →</span>
                 <span className="nav-title">没有了</span>
               </div>
@@ -242,6 +264,7 @@ export const pageQuery = graphql`
         title
         date(formatString: "yyyy-MM-DD")
         description
+        tags
       }
     }
   }

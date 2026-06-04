@@ -18,8 +18,27 @@ const AboutPage: React.FC<PageProps<AboutData>> = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <h2>联系我</h2>
-      <a href="mailto:tabsp@qq.com">tabsp@qq.com</a>
+      <section className="page-hero">
+        <p className="section-kicker">$ whoami</p>
+        <h1>About</h1>
+        <p>写代码，记录问题，整理长期可复用的技术笔记。</p>
+      </section>
+      <section className="about-grid">
+        <div className="side-panel">
+          <p className="section-kicker">/contact</p>
+          <a className="contact-link" href="mailto:tabsp@qq.com">
+            tabsp@qq.com
+          </a>
+        </div>
+        <div className="side-panel">
+          <p className="section-kicker">/principles</p>
+          <ul className="terminal-list">
+            <li>保持简单，但不牺牲表达。</li>
+            <li>先解决真实问题，再追求漂亮抽象。</li>
+            <li>把踩过的坑写成后来人的路标。</li>
+          </ul>
+        </div>
+      </section>
       <Giscus />
     </Layout>
   )

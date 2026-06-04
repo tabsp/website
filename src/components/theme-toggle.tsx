@@ -1,11 +1,15 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "light"
+    if (typeof window === "undefined") return "dark"
     const stored = localStorage.getItem("theme") as "light" | "dark" | null
-    return stored === "dark" || stored === "light" ? stored : "light"
+    return stored === "dark" || stored === "light" ? stored : "dark"
   })
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+  }, [theme])
 
   const toggleTheme = useCallback(() => {
     const next = theme === "light" ? "dark" : "light"
@@ -39,7 +43,7 @@ const ThemeToggle = () => {
       }
       title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
     >
-      {theme === "light" ? "☾" : "☀"}
+      <span aria-hidden="true">{theme === "light" ? "◐" : "☼"}</span>
     </button>
   )
 }

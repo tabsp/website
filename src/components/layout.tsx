@@ -16,32 +16,30 @@ interface LayoutProps {
 const Layout = ({ location, title, children }: LayoutProps) => {
   const rootPath = `${__PATH_PREFIX__}/`
   const isRootPath = location.pathname === rootPath
-  let header
-
-  if (isRootPath) {
-    header = (
-      <h1 className="main-heading">
-        <Link to="/">{title}</Link>
-      </h1>
-    )
-  } else {
-    header = (
-      <Link className="header-link-home" to="/">
-        {title}
-      </Link>
-    )
-  }
+  const shellMode = isRootPath ? "home" : "page"
+  const currentYear = new Date().getFullYear()
 
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
-      <header className="global-header">{header}</header>
-      <Nav />
-      <main>{children}</main>
+    <div
+      className="site-shell"
+      data-is-root-path={isRootPath}
+      data-shell-mode={shellMode}
+    >
+      <header className="global-header">
+        <Link className="site-mark" to="/" aria-label={`${title} home`}>
+          <span className="site-mark-prompt">~/</span>
+          <span className="site-mark-name">{title}</span>
+        </Link>
+        <Nav />
+      </header>
+      <main className="site-main">{children}</main>
       <BackToTop />
-      <footer>
-        © {new Date().getFullYear()}, Built with{` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
-        {` `}• Crafted with AI
+      <footer className="site-footer">
+        <span>© {currentYear} Tabsp</span>
+        <span>
+          Built with <a href="https://www.gatsbyjs.com">Gatsby</a>
+        </span>
+        <span className="footer-command">$ deploy --quiet</span>
       </footer>
     </div>
   )

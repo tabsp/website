@@ -37,9 +37,11 @@ const BlogTags: React.FC<PageProps<BlogTagsData>> = ({ data, location }) => {
   }
   return (
     <Layout location={location} title={siteTitle}>
-      <div>
+      <section className="page-hero">
+        <p className="section-kicker">$ ls ./topics</p>
         <h1>所有标签</h1>
-      </div>
+        <p>按主题浏览技术笔记和实践记录。</p>
+      </section>
       <div className="tags-cloud">
         {tags.map(tag => (
           <Link
@@ -47,7 +49,8 @@ const BlogTags: React.FC<PageProps<BlogTagsData>> = ({ data, location }) => {
             to={`/tags/${tag.slug}`}
             className="tag-item"
           >
-            {tag.fieldValue} ({tag.totalCount})
+            <span>{tag.fieldValue}</span>
+            <strong>{tag.totalCount}</strong>
           </Link>
         ))}
       </div>

@@ -58,62 +58,66 @@ const BlogIndex: React.FC<PageProps<BlogTagData, BlogTagContext>> = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <div>
-        <h1># {tag}</h1>
-      </div>
-      {posts.map(post => {
-        const title = post.frontmatter.title || post.fields.slug
-        const readingMinutes = post.fields?.readingTimeMinutes
-        return (
-          <article
-            key={post.fields.slug}
-            className="post-list-item"
-            itemScope
-            itemType="http://schema.org/Article"
-          >
-            <header>
-              <h2>
-                <Link to={post.fields.slug} itemProp="url">
-                  <span itemProp="headline">{title}</span>
-                </Link>
-              </h2>
-              <small>{post.frontmatter.date}</small>
-              {readingMinutes ? (
-                <small className="post-reading-time-inline">
-                  约 {readingMinutes} 分钟
-                </small>
-              ) : null}
-            </header>
-            <section>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: post.frontmatter.description || post.excerpt || "",
-                }}
-                itemProp="description"
-              />
-            </section>
-            {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-              <div className="post-tags">
-                {post.frontmatter.tags.map(ptag => (
-                  <Link
-                    key={ptag}
-                    to={`/tags/${slugify(ptag)}`}
-                    className="post-tag"
-                  >
-                    {ptag}
+      <section className="page-hero">
+        <p className="section-kicker">$ grep --tag</p>
+        <h1>#{tag}</h1>
+        <p>{posts.length} 篇文章匹配当前标签。</p>
+      </section>
+
+      <section className="post-index post-index-standalone">
+        {posts.map(post => {
+          const title = post.frontmatter.title || post.fields.slug
+          const readingMinutes = post.fields?.readingTimeMinutes
+          return (
+            <article
+              key={post.fields.slug}
+              className="post-list-item"
+              itemScope
+              itemType="http://schema.org/Article"
+            >
+              <time className="post-date">{post.frontmatter.date}</time>
+              <div className="post-list-main">
+                <h3>
+                  <Link to={post.fields.slug} itemProp="url">
+                    <span itemProp="headline">{title}</span>
                   </Link>
-                ))}
+                </h3>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: post.frontmatter.description || post.excerpt || "",
+                  }}
+                  itemProp="description"
+                />
+                {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                  <div className="post-tags">
+                    {post.frontmatter.tags.map(ptag => (
+                      <Link
+                        key={ptag}
+                        to={`/tags/${slugify(ptag)}`}
+                        className="post-tag"
+                      >
+                        {ptag}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </article>
-        )
-      })}
-      <TagPagination
-        currentPage={currentPage}
-        totalPage={totalPage}
-        tagSlug={tagSlug}
-        tag={tag}
-      />
+              <div className="post-list-meta">
+                {readingMinutes ? <span>{readingMinutes} min</span> : null}
+                <Link to={post.fields.slug} aria-label={`Read ${title}`}>
+                  →
+                </Link>
+              </div>
+            </article>
+          )
+        })}
+        <TagPagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          tagSlug={tagSlug}
+          tag={tag}
+        />
+      </section>
     </Layout>
   )
 }

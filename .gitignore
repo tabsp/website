@@ -63,6 +63,7 @@ public
 
 # Yarn
 yarn-error.log
+.yarn/
 .pnp/
 .pnp.js
 # Yarn Integrity file
@@ -70,3 +71,6 @@ yarn-error.log
 
 .idea
 .worktrees/
+
+# Local design drafts
+sketches/

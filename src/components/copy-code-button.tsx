@@ -9,6 +9,8 @@ const CopyCodeButtons = () => {
 
       const button = document.createElement("button")
       button.className = "copy-code-button"
+      button.type = "button"
+      button.setAttribute("aria-label", "Copy code")
       button.textContent = "Copy"
 
       let timeout: ReturnType<typeof setTimeout> | null = null

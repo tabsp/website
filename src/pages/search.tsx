@@ -62,12 +62,17 @@ const SearchPage: React.FC<PageProps<SearchData>> = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <div className="search-page">
+        <section className="page-hero">
+          <p className="section-kicker">$ find ./posts</p>
+          <h1>Search</h1>
+          <p>按标题、标签、摘要或正文快速定位文章。</p>
+        </section>
         <div className="search-input-wrapper">
-          <span className="search-input-icon">🔍</span>
+          <span className="search-input-icon">$</span>
           <input
             className="search-input"
             type="text"
-            placeholder="Search posts…"
+            placeholder="Search posts, tags, or topics..."
             value={query}
             onChange={handleInput}
           />
@@ -76,7 +81,7 @@ const SearchPage: React.FC<PageProps<SearchData>> = ({ data, location }) => {
         <div className="search-results">
           {!query.trim() && (
             <p className="search-empty">
-              Type to search posts by title, tag, or content.
+              Type a query to search posts by title, tag, or content.
             </p>
           )}
           {query.trim() && results.length === 0 && (

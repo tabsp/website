@@ -22,18 +22,11 @@ const TagPagination = ({
   const basePath = `/tags/${slug}`
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        listStyle: "none",
-        padding: 0,
-      }}
-    >
+    <nav className="pagination" aria-label={`${tag || slug} pagination`}>
       <div>
         {currentPage - 1 > 0 && (
           <Link
+            className="pagination-link"
             to={
               currentPage - 1 === 1
                 ? basePath
@@ -41,18 +34,25 @@ const TagPagination = ({
             }
             rel="prev"
           >
-            ← 上一页
+            <span>←</span> 上一页
           </Link>
         )}
       </div>
+      <span className="pagination-current">
+        {currentPage} / {totalPage}
+      </span>
       <div>
         {currentPage + 1 <= totalPage && (
-          <Link to={`${basePath}/${currentPage + 1}`} rel="next">
-            下一页 →
+          <Link
+            className="pagination-link"
+            to={`${basePath}/${currentPage + 1}`}
+            rel="next"
+          >
+            下一页 <span>→</span>
           </Link>
         )}
       </div>
-    </div>
+    </nav>
   )
 }
 

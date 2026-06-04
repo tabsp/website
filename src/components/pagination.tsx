@@ -8,33 +8,33 @@ interface PaginationProps {
 
 const Pagination = ({ currentPage, totalPage }: PaginationProps) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        listStyle: "none",
-        padding: 0,
-      }}
-    >
+    <nav className="pagination" aria-label="Posts pagination">
       <div>
         {currentPage - 1 > 0 && (
           <Link
+            className="pagination-link"
             to={"/posts/" + (currentPage - 1 === 1 ? "" : currentPage - 1)}
             rel="prev"
           >
-            ← 上一页
+            <span>←</span> 上一页
           </Link>
         )}
       </div>
+      <span className="pagination-current">
+        {currentPage} / {totalPage}
+      </span>
       <div>
         {currentPage + 1 <= totalPage && (
-          <Link to={"/posts/" + (currentPage + 1)} rel="next">
-            下一页 →
+          <Link
+            className="pagination-link"
+            to={"/posts/" + (currentPage + 1)}
+            rel="next"
+          >
+            下一页 <span>→</span>
           </Link>
         )}
       </div>
-    </div>
+    </nav>
   )
 }
 
