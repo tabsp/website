@@ -1,0 +1,133 @@
+---
+import BaseHead from "./BaseHead.astro";
+import BufferLine from "./BufferLine.astro";
+import CommandBar from "./CommandBar.astro";
+import FileExplorer from "./FileExplorer.astro";
+import HelpPanel from "./HelpPanel.astro";
+import StatusLine from "./StatusLine.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  file?: string;
+  statusFile?: string;
+  status?: string;
+  routeType?: string;
+}
+
+const statusFile = Astro.props.statusFile ?? Astro.props.file;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={Astro.props.title} description={Astro.props.description} />
+    <script is:inline>
+      document.documentElement.classList.add("app-loading");
+      if (window.matchMedia("(max-width: 760px)").matches) {
+        document.documentElement.classList.add("explorer-hidden");
+        document.documentElement.classList.remove("explorer-open");
+      }
+    </script>
+    <style is:inline>
+      @media (max-width: 760px) {
+        .file-explorer {
+          transform: translateX(calc(-100% + 2rem));
+          visibility: visible;
+        }
+
+        .explorer-title {
+          justify-content: flex-start;
+          height: 2.1rem;
+          min-height: 2.1rem;
+          padding: 0;
+        }
+
+        .explorer-title-group {
+          position: relative;
+          flex: 0 0 2rem;
+          width: 2rem;
+          justify-content: center;
+          gap: 0;
+          margin-left: 0;
+          transform: translateX(calc(min(22rem, calc(100vw - 3rem)) - 2rem));
+          transition: transform 200ms ease;
+        }
+
+        .explorer-title-group > span,
+        .tree,
+        .explorer-close {
+          display: none;
+        }
+
+        .explorer-backdrop {
+          display: none;
+        }
+
+        :root.explorer-open .file-explorer,
+        body.explorer-open .file-explorer {
+          transform: translateX(0);
+          visibility: visible;
+        }
+
+        :root.explorer-open .explorer-title,
+        body.explorer-open .explorer-title {
+          justify-content: space-between;
+          height: 2.1rem;
+          min-height: 2.1rem;
+          padding: 0 0.55rem 0 0;
+        }
+
+        :root.explorer-open .explorer-title-group,
+        body.explorer-open .explorer-title-group {
+          width: 2rem;
+          justify-content: flex-start;
+          gap: 0;
+          margin-left: 0;
+          transform: translateX(0);
+        }
+
+        :root.explorer-open .explorer-title-group > span,
+        body.explorer-open .explorer-title-group > span {
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 2.5rem;
+          transform: translateY(-50%);
+          white-space: nowrap;
+        }
+
+        :root.explorer-open .tree,
+        body.explorer-open .tree {
+          display: grid;
+        }
+
+        :root.explorer-open .explorer-backdrop,
+        body.explorer-open .explorer-backdrop {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body data-route-type={Astro.props.routeType ?? "buffer"}>
+    <div class="editor-frame" data-linewise-app>
+      <CommandBar />
+      <div class="editor-body">
+        <FileExplorer />
+        <button type="button" class="explorer-backdrop" data-close-explorer aria-label="Close file explorer"></button>
+        <div class="editor-main">
+          <BufferLine current={Astro.props.file} />
+          <main id="main-content" class="workspace">
+            <slot />
+          </main>
+        </div>
+      </div>
+      <HelpPanel />
+      <StatusLine file={statusFile} meta={Astro.props.status} />
+    </div>
+    <script>
+      import "../scripts/linewise";
+    </script>
+  </body>
+</html>

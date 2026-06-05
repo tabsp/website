@@ -1,0 +1,37 @@
+---
+interface Item {
+  href: string;
+  title: string;
+  excerpt: string;
+  location?: string;
+}
+
+interface Props {
+  command: string;
+  title: string;
+  items: Item[];
+}
+
+const { command, title, items } = Astro.props;
+---
+
+<section class="quickfix" aria-label={title}>
+  <header class="section-header">
+    <p class="eyebrow">{command}</p>
+    <h1>{title}</h1>
+  </header>
+  <ol class="quickfix-list" data-linewise-list>
+    {items.map((item, index) => (
+      <li>
+        <a href={item.href} class="quickfix-row" data-linewise-item data-linewise-title={item.title}>
+          <span class="qf-index">{index + 1}</span>
+          <span class="qf-location">{item.location ?? item.href}</span>
+          <span class="qf-text">
+            <strong>{item.title}</strong>
+            <span>{item.excerpt}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

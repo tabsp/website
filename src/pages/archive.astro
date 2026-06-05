@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import FindList from "../components/FindList.astro";
+import SiteShell from "../components/SiteShell.astro";
+import { byNewest, formatDate, groupByYear, isPublished } from "../lib/posts";
+
+const posts = (await getCollection("blog")).filter(isPublished).sort(byNewest).reverse();
+const groups = groupByYear(posts);
+---
+
+<SiteShell title="Archive" file="archive" status={`${posts.length} entries`} routeType="find">
+  <section class="stack">
+    <header class="section-header">
+      <p class="eyebrow">:oldfiles</p>
+      <h1>Archive</h1>
+      <p>A chronological jump list for older writing.</p>
+    </header>
+
+    {Object.entries(groups).sort(([a], [b]) => Number(b) - Number(a)).map(([year, entries]) => (
+      <FindList
+        command={`:${year}`}
+        title={year}
+        items={entries.map((post) => ({
+          href: `/posts/${post.id}/`,
+          title: post.data.title,
+          excerpt: post.data.description,
+          location: formatDate(post.data.pubDate)
+        }))}
+      />
+    ))}
+  </section>
+</SiteShell>

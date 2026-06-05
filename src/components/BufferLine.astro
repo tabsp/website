@@ -1,0 +1,25 @@
+---
+import { X } from "lucide-astro";
+
+interface Props {
+  current?: string;
+}
+
+const current = Astro.props.current ?? "buffers";
+const href = Astro.url.pathname;
+const isPersistent = href === "/" || href.startsWith("/posts/");
+---
+
+<nav class="bufferline" aria-label="Open buffers" data-bufferline data-current-buffer={current} data-current-href={href}>
+  {isPersistent && (
+    <div class="buffer-tab is-current" data-buffer-tab data-buffer-label={current} title={current}>
+      <a href={href} title={current}>
+        <span class="tab-modified">%a</span>
+        <span>{current}</span>
+      </a>
+      <button class="tab-close" type="button" aria-label={`Close ${current}`} data-close-buffer={href}>
+        <X aria-hidden="true" size={13} />
+      </button>
+    </div>
+  )}
+</nav>

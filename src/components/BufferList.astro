@@ -1,0 +1,38 @@
+---
+import PostMeta from "./PostMeta.astro";
+import type { BlogPost } from "../lib/posts";
+import { readingTime } from "../lib/posts";
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="buffer-list" aria-label="Blog posts">
+  <header class="section-header">
+    <p class="eyebrow">:ls</p>
+    <h1>Open buffers</h1>
+    <p>Essays arranged like a Vim buffer list: scan the file, jump in, keep context.</p>
+  </header>
+
+  <ol class="buffers" data-linewise-list>
+    {posts.map((post, index) => (
+      <li>
+        <a class="buffer-row" href={`/posts/${post.id}/`} data-linewise-item data-linewise-title={post.data.title} data-filter-key={`${post.data.title} ${post.data.description} ${post.data.tags.join(" ")}`}>
+          <span class="buffer-number">{index + 1}</span>
+          <span class="buffer-flags">%a</span>
+          <span class="buffer-title">
+            <strong>{post.data.title}</strong>
+            <span>{post.data.description}</span>
+          </span>
+          <span class="buffer-meta">
+            <PostMeta pubDate={post.data.pubDate} minutes={readingTime(post.body ?? "")} />
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+
+</section>

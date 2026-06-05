@@ -1,9 +1,0 @@
-// normalize CSS across browsers
-import "./src/normalize.css"
-// Highlighting for code blocks — CSS only
-// gatsby-remark-prismjs handles Prism JS automatically
-import "prismjs/themes/prism.css"
-import "prismjs/plugins/line-numbers/prism-line-numbers.css"
-import "prismjs/plugins/command-line/prism-command-line.css"
-// custom CSS styles
-import "./src/style.css"

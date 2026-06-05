@@ -1,78 +1,124 @@
-# Tabsp's Blog
+# Linewise
 
-[![Vercel Status](https://img.shields.io/github/deployments/tabsp/website/production?label=vercel&logo=vercel)](https://vercel.com/tabsp/website)
-[![Codecov](https://codecov.io/gh/tabsp/website/branch/master/graph/badge.svg)](https://codecov.io/gh/tabsp/website)
+Linewise is a Vim-inspired Astro starter for personal blogs. It is not a generic terminal theme: posts behave like buffers, search borrows from quickfix, and the interface uses Vim as an interaction model without sacrificing reading comfort.
 
-A Gatsby-powered personal blog that renders Markdown posts with image optimization, RSS, and analytics integrations. This README gives you everything needed to work, test, and deploy the site on WSL or any Node 20+ environment.
+The first phase is a starter/template named `astro-theme-linewise`, not an npm theme package.
 
-## Prerequisites
+## Features
 
-- Node.js 20 LTS (match the GitHub Actions workflow)
-- Yarn 1.x (preferred - lockfile is yarn-only)
-- WSL users: expose ports with `--host 0.0.0.0` so the Windows host can reach the dev server
-- nvm users: run `nvm use` (the repo includes `.nvmrc`)
+- Static Astro output
+- Markdown and MDX posts
+- Typed content collections
+- RSS, sitemap, canonical URLs, and Open Graph metadata
+- Tags, archive, client-side search, and a quickfix-style search page
+- Vim-like command palette, search palette, bufferline, file explorer, and statusline
+- Keyboard motions for list navigation and reading
+- Mobile file explorer drawer and horizontally scrollable buffer tabs
+
+## Design Direction
+
+- Posts are buffers.
+- The homepage behaves like `:ls`.
+- Archive and tag pages borrow from quickfix and location lists.
+- Search is a client-side quickfix filter.
+- The statusline and command line provide orientation without getting in the way.
+- Reading comfort wins over novelty.
 
 ## Getting Started
 
-```bash
-# Clone and enter the repo
-git clone https://github.com/tabsp/website.git
-cd website
+Use Linewise as an Astro starter:
 
-# Install dependencies
-yarn install
-
-# Optional: set analytics IDs for local parity
-cp .env.example .env.development
+```sh
+git clone https://github.com/tabsp/linewise.git my-blog
+cd my-blog
+bun install
+bun run dev
 ```
 
-Start a development server available on the host OS:
+Then replace the example posts in `src/content/blog/` with your own Markdown or MDX files.
 
-```bash
-yarn develop --host 0.0.0.0
+If you are using GitHub, you can also click **Use this template** on the repository page, create your own copy, and then clone that copy locally.
+
+## Configuration
+
+Update the site metadata before publishing your own blog:
+
+- `src/lib/site.ts`: site name, author, description, GitHub URL, and navigation labels
+- `astro.config.mjs`: production `site` URL for sitemap and canonical metadata
+- `public/favicon.svg` and `public/og.svg`: favicon and default social preview image
+
+The default configuration in this repository points to `https://tabsp.com`. Change it if your deployment domain is different.
+
+## Development
+
+```sh
+bun install
+bun run dev
+bun run build
 ```
 
-Visit `http://localhost:8000` (or `http://<wsl-ip>:8000` from Windows) for the site and `http://localhost:8000/___graphql` for GraphiQL.
+The scripts are standard Astro scripts, so npm also works when available:
 
-## Scripts & Tooling
-
-- `yarn develop` – Launch local dev server with hot reload
-- `yarn build` – Produce production assets in `public/`
-- `yarn serve` – Serve the latest production build
-- `yarn clean` – Clear Gatsby caches (use after heavy content edits)
-- `yarn format` – Run Prettier across JS/TS/MD/JSON
-- `yarn lint` – ESLint with React, hooks, and a11y rules
-- `yarn test` – Jest + Testing Library suite (use `--runInBand` in CI)
-- `yarn browserslist:update` – Refresh local Browserslist caniuse dataset to silence warnings
-
-## Project Structure
-
-- `src/` – React components, pages, templates, and global CSS
-- `content/blog/posts/<slug>/` – Markdown posts with frontmatter and assets
-- `content/assets/` – Shared site media (icons, images)
-- `static/` – Files copied verbatim to the build output
-- `gatsby-config.js` / `gatsby-node.js` – Site metadata, plugins, and dynamic page builders
-
-## Content Workflow
-
-1. Duplicate an existing folder under `content/blog/posts/`
-2. Update `index.md` frontmatter (`title`, `date`, `tags`, `description`)
-3. Add images to the same folder and reference them relatively
-4. Run `yarn develop` (or restart after `gatsby clean`) to refresh GraphQL data
-
-## Environment Variables
-
-Analytics and tracking IDs are optional but should live in per-environment files:
-
-```
-GATSBY_GTAG_ID=G-XXXXXXX
-GATSBY_CLARITY_PROJECT_ID=clarity-id
+```sh
+npm install
+npm run dev
+npm run build
 ```
 
-Place them in `.env.development` / `.env.production` to avoid committing secrets. Missing values disable the plugins locally.
+## Keymap
 
-## Deployment
+| Key | Action |
+| --- | --- |
+| `j` / `k` | Move selection or scroll the active buffer |
+| `Enter` | Open the selected row |
+| `gg` / `G` | Jump to the top or bottom |
+| `/` | Open search palette |
+| `:` | Open command mode |
+| `q` | Close the current buffer or leave a temporary buffer |
+| `Esc` | Return to normal mode |
 
-GitHub Actions (`.github/workflows/gatsby.yml`) builds and deploys on pushes to `master`. The workflow installs dependencies, runs lint/test gates, generates the static site, and publishes to GitHub Pages via `gatsby deploy`.
+## Commands
 
-Need help or found a regression? Open an issue or reach out to @tabsp.
+| Command | Action |
+| --- | --- |
+| `:ls`, `:buffers`, `:posts` | Open the buffer list |
+| `:archive`, `:oldfiles` | Open the archive |
+| `:tags` | Open the tag index |
+| `:search`, `:grep`, `:vimgrep`, `:find`, `:telescope` | Open search |
+| `:help` | Open help |
+| `:q` | Quit the current context |
+
+## Writing Posts
+
+Add Markdown or MDX files to `src/content/blog/`.
+
+```md
+---
+title: "Welcome to Linewise"
+description: "A small note on the shape of this Vim-inspired Astro starter."
+pubDate: 2026-06-05
+tags: ["meta", "astro", "vim"]
+---
+
+Your post content goes here.
+```
+
+## Project Layout
+
+```text
+public/                 Static assets
+src/content/blog/        Markdown and MDX posts
+src/content.config.ts    Blog frontmatter schema
+src/components/          Linewise UI pieces
+src/pages/               Static routes
+src/scripts/linewise.ts  Client-side Vim-like interactions
+src/styles/global.css    Theme tokens and layout
+```
+
+## Status
+
+Linewise currently ships as a starter/template, not an npm theme package. It includes static output, Markdown/MDX, typed content collections, RSS, sitemap, tags, archive, search, SEO metadata, and code highlighting.
+
+## License
+
+MIT

@@ -1,0 +1,17 @@
+---
+interface Props {
+  file?: string;
+  mode?: string;
+  meta?: string;
+}
+
+const { file = "index", mode = "NORMAL", meta = "static" } = Astro.props;
+---
+
+<footer class="status-line" aria-label="Page status">
+  <span class="mode" data-status-mode>{mode}</span>
+  <span class="file" data-status-file title={file}>{file}</span>
+  <span class="spacer"></span>
+  <span data-status-meta>{meta}</span>
+  <span>utf-8</span>
+</footer>

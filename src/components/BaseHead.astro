@@ -1,0 +1,29 @@
+---
+import { site } from "../lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const title = Astro.props.title ? `${Astro.props.title} : ${site.name}` : site.title;
+const description = Astro.props.description ?? site.description;
+const canonicalUrl = new URL(Astro.url.pathname, site.url).href;
+const ogImageUrl = new URL("/og.svg", site.url).href;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={ogImageUrl} />
+<link rel="icon" href="/favicon.svg" />
+<link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
