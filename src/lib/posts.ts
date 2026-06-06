@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import config from "../config";
 
 export type BlogPost = CollectionEntry<"blog">;
 
@@ -11,10 +12,10 @@ export function isPublished(post: BlogPost) {
 }
 
 export function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(config.site.locale, {
     month: "short",
     day: "2-digit",
-    year: "numeric"
+    year: "numeric",
   }).format(date);
 }
 

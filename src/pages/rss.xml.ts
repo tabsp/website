@@ -1,20 +1,22 @@
 import rss from "@astrojs/rss";
+import type { APIContext } from "astro";
 import { getCollection } from "astro:content";
 import { byNewest, isPublished } from "../lib/posts";
-import { site } from "../lib/site";
+import config from "../config";
 
-export async function GET(context) {
+export async function GET(context: APIContext) {
   const posts = (await getCollection("blog")).filter(isPublished).sort(byNewest);
 
   return rss({
-    title: site.title,
-    description: site.description,
-    site: context.site ?? site.url,
-    items: posts.map((post) => ({
+    title: config.site.title,
+    description: config.site.description,
+    site: context.site ?? config.site.url,
+    items: posts.map(post => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: `/posts/${post.id}/`
-    }))
+      author: config.site.author,
+      link: `/posts/${post.id}/`,
+    })),
   });
 }

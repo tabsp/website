@@ -16,76 +16,133 @@ const isCurrent = (href: string) => currentPath === href;
 <aside class="file-explorer" aria-label="File explorer" id="linewise-explorer">
   <div class="explorer-title">
     <span class="explorer-title-group">
-      <button type="button" class="explorer-collapse" data-open-explorer aria-label="Toggle file explorer" aria-expanded="false" aria-controls="linewise-explorer">
+      <button
+        type="button"
+        class="explorer-collapse"
+        data-open-explorer
+        aria-label="Toggle file explorer"
+        aria-expanded="false"
+        aria-controls="linewise-explorer"
+      >
         <Files aria-hidden="true" size={14} />
       </button>
       <span>EXPLORER</span>
     </span>
-    <button type="button" class="explorer-close" data-close-explorer aria-label="Close file explorer">x</button>
+    <button
+      type="button"
+      class="explorer-close"
+      data-close-explorer
+      aria-label="Close file explorer">x</button
+    >
   </div>
   <nav class="tree" aria-label="Site tree">
     <details open>
       <summary>posts</summary>
       <ol>
-        {visiblePosts.map((post) => (
-          <li>
-            <a href={`/posts/${post.id}/`} title={post.data.title} class:list={{ "is-current": isCurrent(`/posts/${post.id}/`) }} aria-current={isCurrent(`/posts/${post.id}/`) ? "page" : undefined}>
-              <span class="tree-icon tree-icon-md" aria-hidden="true">MD</span>
-              <span>{post.data.title}</span>
-            </a>
-          </li>
-        ))}
-        {hiddenPostCount > 0 && (
-          <li>
-            <a href="/" class:list={{ "is-current": isCurrent("/") }} aria-current={isCurrent("/") ? "page" : undefined}>
-              <span class="tree-icon" aria-hidden="true">...</span>
-              <span>all posts</span>
-              <small>{posts.length}</small>
-            </a>
-          </li>
-        )}
+        {
+          visiblePosts.map(post => (
+            <li>
+              <a
+                href={`/posts/${post.id}/`}
+                title={post.data.title}
+                class:list={{ "is-current": isCurrent(`/posts/${post.id}/`) }}
+                aria-current={isCurrent(`/posts/${post.id}/`) ? "page" : undefined}
+              >
+                <span class="tree-icon tree-icon-md" aria-hidden="true">
+                  MD
+                </span>
+                <span>{post.data.title}</span>
+              </a>
+            </li>
+          ))
+        }
+        {
+          hiddenPostCount > 0 && (
+            <li>
+              <a
+                href="/"
+                class:list={{ "is-current": isCurrent("/") }}
+                aria-current={isCurrent("/") ? "page" : undefined}
+              >
+                <span class="tree-icon" aria-hidden="true">
+                  ...
+                </span>
+                <span>all posts</span>
+                <small>{posts.length}</small>
+              </a>
+            </li>
+          )
+        }
       </ol>
     </details>
 
     <details open>
       <summary>tags</summary>
       <ol>
-        {visibleTags.map(({ tag, count }) => (
-          <li>
-            <a href={`/tags/${tag}/`} class:list={{ "is-current": isCurrent(`/tags/${tag}/`) }} aria-current={isCurrent(`/tags/${tag}/`) ? "page" : undefined}>
-              <span class="tree-icon"><Hash aria-hidden="true" size={14} /></span>
-              <span>{tag}</span>
-              <small>{count}</small>
-            </a>
-          </li>
-        ))}
-        {hiddenTagCount > 0 && (
-          <li>
-            <a href="/tags/" class:list={{ "is-current": isCurrent("/tags/") }} aria-current={isCurrent("/tags/") ? "page" : undefined}>
-              <span class="tree-icon" aria-hidden="true">...</span>
-              <span>all tags</span>
-              <small>{tags.length}</small>
-            </a>
-          </li>
-        )}
+        {
+          visibleTags.map(({ tag, count }) => (
+            <li>
+              <a
+                href={`/tags/${tag}/`}
+                class:list={{ "is-current": isCurrent(`/tags/${tag}/`) }}
+                aria-current={isCurrent(`/tags/${tag}/`) ? "page" : undefined}
+              >
+                <span class="tree-icon">
+                  <Hash aria-hidden="true" size={14} />
+                </span>
+                <span>{tag}</span>
+                <small>{count}</small>
+              </a>
+            </li>
+          ))
+        }
+        {
+          hiddenTagCount > 0 && (
+            <li>
+              <a
+                href="/tags/"
+                class:list={{ "is-current": isCurrent("/tags/") }}
+                aria-current={isCurrent("/tags/") ? "page" : undefined}
+              >
+                <span class="tree-icon" aria-hidden="true">
+                  ...
+                </span>
+                <span>all tags</span>
+                <small>{tags.length}</small>
+              </a>
+            </li>
+          )
+        }
       </ol>
     </details>
 
     <ol class="tree-root">
       <li>
-        <a href="/" class:list={{ "is-current": isCurrent("/") }} aria-current={isCurrent("/") ? "page" : undefined}>
+        <a
+          href="/"
+          class:list={{ "is-current": isCurrent("/") }}
+          aria-current={isCurrent("/") ? "page" : undefined}
+        >
           <span class="tree-icon"><List aria-hidden="true" size={14} /></span>
           <span>buffers</span>
         </a>
       </li>
       <li>
-        <a href="/archive/" class:list={{ "is-current": isCurrent("/archive/") }} aria-current={isCurrent("/archive/") ? "page" : undefined}>
+        <a
+          href="/archive/"
+          class:list={{ "is-current": isCurrent("/archive/") }}
+          aria-current={isCurrent("/archive/") ? "page" : undefined}
+        >
           <span class="tree-icon"><History aria-hidden="true" size={14} /></span>
           <span>archive</span>
         </a>
       </li>
       <li>
-        <a href="/find/" class:list={{ "is-current": isCurrent("/find/") }} aria-current={isCurrent("/find/") ? "page" : undefined}>
+        <a
+          href="/find/"
+          class:list={{ "is-current": isCurrent("/find/") }}
+          aria-current={isCurrent("/find/") ? "page" : undefined}
+        >
           <span class="tree-icon"><ListFilter aria-hidden="true" size={14} /></span>
           <span>find</span>
         </a>

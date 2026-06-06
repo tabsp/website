@@ -4,3 +4,13 @@ dist
 .env
 .env.*
 .DS_Store
+.pnpm-store
+
+test-results/
+playwright-report/
+
+.vscode/
+.idea/
+
+*.log
+.vercel

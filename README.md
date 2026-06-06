@@ -2,7 +2,9 @@
 
 Linewise is a Vim-inspired Astro starter for personal blogs. It is not a generic terminal theme: posts behave like buffers, search borrows from quickfix, and the interface uses Vim as an interaction model without sacrificing reading comfort.
 
-The first phase is a starter/template named `astro-theme-linewise`, not an npm theme package.
+The first phase is a starter/template named `@tabsp/linewise`, not an npm theme package.
+
+**Preview:** [linewise.tabsp.com](https://linewise.tabsp.com)
 
 ## Features
 
@@ -11,6 +13,7 @@ The first phase is a starter/template named `astro-theme-linewise`, not an npm t
 - Typed content collections
 - RSS, sitemap, canonical URLs, and Open Graph metadata
 - Tags, archive, client-side search, and a quickfix-style search page
+- giscus comments powered by GitHub Discussions (opt-in)
 - Vim-like command palette, search palette, bufferline, file explorer, and statusline
 - Keyboard motions for list navigation and reading
 - Mobile file explorer drawer and horizontally scrollable buffer tabs
@@ -24,100 +27,109 @@ The first phase is a starter/template named `astro-theme-linewise`, not an npm t
 - The statusline and command line provide orientation without getting in the way.
 - Reading comfort wins over novelty.
 
+For a deeper dive into the design, read [Buffers, Not Tabs](https://linewise.tabsp.com/posts/buffers-not-tabs/).
+
 ## Getting Started
 
-Use Linewise as an Astro starter:
+### 1. Create your copy
+
+**Recommended:** Click **Use this template** on the [GitHub repository](https://github.com/tabsp/linewise) page to create your own repository, then clone it.
+
+Or clone directly:
 
 ```sh
 git clone https://github.com/tabsp/linewise.git my-blog
 cd my-blog
-bun install
-bun run dev
 ```
 
-Then replace the example posts in `src/content/blog/` with your own Markdown or MDX files.
+### 2. Install dependencies
 
-If you are using GitHub, you can also click **Use this template** on the repository page, create your own copy, and then clone that copy locally.
+```sh
+pnpm install
+pnpm run dev
+```
 
-## Configuration
+(Bun and npm work too when pnpm is unavailable.)
 
-Update the site metadata before publishing your own blog:
+### 3. Configure your site
 
-- `src/lib/site.ts`: site name, author, description, GitHub URL, and navigation labels
-- `astro.config.mjs`: production `site` URL for sitemap and canonical metadata
-- `public/favicon.svg` and `public/og.svg`: favicon and default social preview image
+Edit `linewise.config.ts`:
 
-The default configuration in this repository points to `https://tabsp.com`. Change it if your deployment domain is different.
+- `site.url` — your production domain (required for sitemap, RSS, and canonical URLs)
+- `site.title` — site title
+- `site.description` — short description for SEO and previews
+- `site.author` — your name
+- `site.lang` and `site.locale` — e.g. `"en"` or `"zh"`
+- `site.ogImage` and `site.favicon` — paths under `public/`
+
+### 4. Write your posts
+
+Replace the example posts in `src/content/blog/`. Each Markdown or MDX file needs frontmatter:
+
+```md
+---
+title: "Your Title"
+description: "A short description."
+pubDate: 2026-01-01
+tags: ["tag1", "tag2"]
+---
+```
+
+See the [Getting Started](https://linewise.tabsp.com/posts/getting-started/) guide for the full schema.
+
+### 5. Replace branding
+
+Replace `public/favicon.svg` and `public/og.svg` with your own artwork.
+
+### 6. Deploy
+
+Any static host that runs Astro works. Common choices:
+
+- **Vercel:** Connect your repo; detects Astro automatically.
+- **Netlify:** Set build command to `pnpm run build` and publish directory to `dist`.
+- **GitHub Pages:** Use the [Astro deployment guide](https://docs.astro.build/en/guides/deploy/github/).
+
+For configuration, writing posts, and project layout, see the [Getting Started](https://linewise.tabsp.com/posts/getting-started/) guide.
+
+## Comments
+
+Linewise includes opt-in [giscus](https://giscus.app) comments backed by GitHub Discussions, with a custom theme that matches the Linewise palette. See the [Comments](/posts/comments/) guide for setup instructions.
+
+## Keybindings and Commands
+
+Linewise has Vim-style keyboard navigation and a command palette. See the [Keybindings and Commands](https://linewise.tabsp.com/posts/keybindings-and-commands/) post for the full reference.
 
 ## Development
 
 ```sh
-bun install
-bun run dev
-bun run build
+pnpm install
+pnpm run dev
+pnpm run build
 ```
 
-The scripts are standard Astro scripts, so npm also works when available:
-
-```sh
-npm install
-npm run dev
-npm run build
-```
-
-## Keymap
-
-| Key | Action |
-| --- | --- |
-| `j` / `k` | Move selection or scroll the active buffer |
-| `Enter` | Open the selected row |
-| `gg` / `G` | Jump to the top or bottom |
-| `/` | Open search palette |
-| `:` | Open command mode |
-| `q` | Close the current buffer or leave a temporary buffer |
-| `Esc` | Return to normal mode |
-
-## Commands
-
-| Command | Action |
-| --- | --- |
-| `:ls`, `:buffers`, `:posts` | Open the buffer list |
-| `:archive`, `:oldfiles` | Open the archive |
-| `:tags` | Open the tag index |
-| `:search`, `:grep`, `:vimgrep`, `:find`, `:telescope` | Open search |
-| `:help` | Open help |
-| `:q` | Quit the current context |
-
-## Writing Posts
-
-Add Markdown or MDX files to `src/content/blog/`.
-
-```md
----
-title: "Welcome to Linewise"
-description: "A small note on the shape of this Vim-inspired Astro starter."
-pubDate: 2026-06-05
-tags: ["meta", "astro", "vim"]
----
-
-Your post content goes here.
-```
+CI uses pnpm as well (see `.github/workflows/ci.yml`).
 
 ## Project Layout
 
 ```text
-public/                 Static assets
+linewise.config.ts       User-editable site config
 src/content/blog/        Markdown and MDX posts
 src/content.config.ts    Blog frontmatter schema
-src/components/          Linewise UI pieces
-src/pages/               Static routes
-src/scripts/linewise.ts  Client-side Vim-like interactions
+src/config.ts            Resolved site configuration
+src/types/               TypeScript type definitions
+public/                  Static assets (favicon, OG image)
+src/components/          UI components
+src/pages/               Routes
+src/scripts/linewise.ts  Client-side entry point
+src/scripts/modules/     Domain modules (commands, buffers, search, keyboard)
 src/styles/global.css    Theme tokens and layout
 ```
 
 ## Status
 
 Linewise currently ships as a starter/template, not an npm theme package. It includes static output, Markdown/MDX, typed content collections, RSS, sitemap, tags, archive, search, SEO metadata, and code highlighting.
+
+**Preview:** [linewise.tabsp.com](https://linewise.tabsp.com)
 
 ## License
 

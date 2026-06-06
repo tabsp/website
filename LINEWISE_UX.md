@@ -54,14 +54,14 @@ On mobile, the file explorer becomes a drawer opened from the command bar. The b
 
 ## Route Metaphors
 
-| Route | Vim Metaphor | Purpose |
-| --- | --- | --- |
-| `/` | `:ls` | list open/readable buffers |
-| `/blog/[slug]/` | active buffer | read one post |
-| `/archive/` | `:oldfiles` / jumplist | chronological navigation |
-| `/tags/` | `:tags` | topic index |
-| `/tags/[tag]/` | location list | posts matching a topic |
-| `/search/` | Telescope / `:vimgrep` | fuzzy-ish finding across posts and tags |
+| Route            | Vim Metaphor           | Purpose                                 |
+| ---------------- | ---------------------- | --------------------------------------- |
+| `/`              | `:ls`                  | list open/readable buffers              |
+| `/posts/[slug]/` | active buffer          | read one post                           |
+| `/archive/`      | `:oldfiles` / jumplist | chronological navigation                |
+| `/tags/`         | `:tags`                | topic index                             |
+| `/tags/[tag]/`   | location list          | posts matching a topic                  |
+| `/find/`         | Telescope / `:find`    | fuzzy-ish finding across posts and tags |
 
 ## Operation Model
 
@@ -75,19 +75,20 @@ Baseline normal-mode keys:
 - `G`: move to last row/bottom of document
 - `/`: open the centered search palette with live result preview
 - `:`: focus the command line
-- `Esc`: leave command/search input and return to normal mode
+- `Esc`: leave command/search, close help panel, close explorer, return to normal mode
 - `b`: go to `/`
-- `q`: close the current persistent buffer, or leave a temporary buffer by returning to `/`
+- `q`: close the current persistent buffer and navigate to nearest buffer
+- `?`: open help
 
 Baseline command-line commands:
 
-- `:ls` or `:buffers`: go to `/`
+- `:ls`, `:buffers`, or `:posts`: go to `/`
 - `:oldfiles` or `:archive`: go to `/archive/`
 - `:tags`: go to `/tags/`
-- `:grep`, `:vimgrep`, or `:search`: go to `/search/`
-- `:telescope` or `:find`: go to `/search/`
-- `:help`: open help as a temporary buffer
-- `:q`: close the current persistent buffer, or leave a temporary buffer by returning to `/`
+- `:search` or `:find`: go to `/find/`
+- `:help` or `:h`: open help as a temporary buffer
+- `:q` or `:quit`: close the current persistent buffer
+- `:explore` or `:ex`: toggle the file explorer
 
 Advanced commands can come later:
 
@@ -102,19 +103,19 @@ Advanced commands can come later:
 
 Search should feel closer to Telescope than to a plain website search box.
 
-Phase one has both a centered `/` search palette and a dedicated static `/search/` quickfix page with client-side filtering:
+Phase one has both a centered `/` search palette and a dedicated static `/find/` quickfix page with client-side filtering:
 
 - `/` opens a centered prompt from normal mode
 - the prompt previews matching posts and tags immediately
 - `ArrowUp` / `ArrowDown` move through palette suggestions
-- the `/search/` page keeps its own inline quickfix prompt
+- the `/find/` page keeps its own inline quickfix prompt
 - results are selectable with `j` / `k`
 - `Enter` opens the selected result
-- `Esc` returns to normal mode
+- `Esc` returns to normal mode, also closes help panel and file explorer
 - results include posts first, then tags or commands later
 - the statusline reports match count and selected item
 
-Later, this can become a global overlay opened by `/`, `Ctrl+p`, `:find`, or `:telescope`.
+Later, this can become a global overlay opened by `/`, `Ctrl+p`, or `:find`.
 
 ## Selection Model
 
@@ -129,10 +130,11 @@ Lists should behave more like Vim lists than static cards.
 
 The file tree is the site's information architecture, not decoration.
 
-- `posts/` contains individual article buffers.
-- `tags/` contains topic jump targets.
-- `archive` opens the chronological jump list.
-- `search` opens the picker.
+- `posts/` (expandable) lists recent article buffers.
+- `tags/` (expandable) lists frequently used topic jump targets.
+- `buffers` opens the post list (root).
+- `archive` opens the chronological jump list (root).
+- `find` opens the search picker (root).
 - The tree should stay compact and scannable.
 - The tree does not need to represent the physical repo exactly; it represents how a reader navigates the blog.
 
@@ -146,7 +148,7 @@ Phase one should be small but honest:
 - use `localStorage` to remember recently visited buffers
 - keep recent buffers capped to a small number
 - allow each buffer tab to close
-- closing the active buffer returns to `buffers`
+- closing the active buffer navigates to the nearest remaining buffer
 
 Later, the bufferline can support `:bnext`, `:bprev`, `:bd`, and named `:buffer` jumps.
 
@@ -177,7 +179,6 @@ Minimum fields:
 - mode: `NORMAL`, `COMMAND`, `SEARCH`
 - file/buffer: current route or post slug
 - context: selected list index, reading progress, or result count
-- encoding/static marker
 
 The statusline can update on keyboard movement, search input, route, and scroll progress.
 
@@ -199,7 +200,7 @@ The next implementation pass should:
 - make list pages keyboard selectable
 - make command mode functional
 - update statusline mode/context
-- make `/search/` behave like a small Telescope-style picker
+- make `/find/` behave like a small Telescope-style picker
 - add a compact file explorer
 - add a bufferline above the active buffer
 - add a compact help panel

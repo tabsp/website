@@ -12,19 +12,24 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 const posts = (await getCollection("blog"))
   .filter(isPublished)
-  .filter((post) => post.data.tags.includes(tag ?? ""))
+  .filter(post => post.data.tags.includes(tag ?? ""))
   .sort(byNewest);
 ---
 
-<SiteShell title={`#${tag}`} file={`tag:${tag}`} status={`${posts.length} matches`} routeType="find">
+<SiteShell
+  title={`#${tag}`}
+  file={`tag:${tag}`}
+  status={`${posts.length} matches`}
+  routeType="find"
+>
   <FindList
     command={`:tag ${tag}`}
     title={`#${tag}`}
-    items={posts.map((post) => ({
+    items={posts.map(post => ({
       href: `/posts/${post.id}/`,
       title: post.data.title,
       excerpt: post.data.description,
-      location: formatDate(post.data.pubDate)
+      location: formatDate(post.data.pubDate),
     }))}
   />
 </SiteShell>

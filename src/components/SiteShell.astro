@@ -5,6 +5,7 @@ import CommandBar from "./CommandBar.astro";
 import FileExplorer from "./FileExplorer.astro";
 import HelpPanel from "./HelpPanel.astro";
 import StatusLine from "./StatusLine.astro";
+import config from "../config";
 import "../styles/global.css";
 
 interface Props {
@@ -20,7 +21,7 @@ const statusFile = Astro.props.statusFile ?? Astro.props.file;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={config.site.lang}>
   <head>
     <BaseHead title={Astro.props.title} description={Astro.props.description} />
     <script is:inline>
@@ -115,7 +116,11 @@ const statusFile = Astro.props.statusFile ?? Astro.props.file;
       <CommandBar />
       <div class="editor-body">
         <FileExplorer />
-        <button type="button" class="explorer-backdrop" data-close-explorer aria-label="Close file explorer"></button>
+        <button
+          type="button"
+          class="explorer-backdrop"
+          data-close-explorer
+          aria-label="Close file explorer"></button>
         <div class="editor-main">
           <BufferLine current={Astro.props.file} />
           <main id="main-content" class="workspace">

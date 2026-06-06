@@ -1,15 +1,15 @@
 ---
-import { site } from "../lib/site";
+import config from "../config";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const title = Astro.props.title ? `${Astro.props.title} : ${site.name}` : site.title;
-const description = Astro.props.description ?? site.description;
-const canonicalUrl = new URL(Astro.url.pathname, site.url).href;
-const ogImageUrl = new URL("/og.svg", site.url).href;
+const title = Astro.props.title ? `${Astro.props.title} : ${config.site.title}` : config.site.title;
+const description = Astro.props.description ?? config.site.description;
+const canonicalUrl = new URL(Astro.url.pathname, config.site.url).href;
+const ogImageUrl = new URL(`/${config.site.ogImage}`, config.site.url).href;
 ---
 
 <meta charset="utf-8" />
@@ -25,5 +25,10 @@ const ogImageUrl = new URL("/og.svg", site.url).href;
 <meta property="og:image" content={ogImageUrl} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content={ogImageUrl} />
-<link rel="icon" href="/favicon.svg" />
-<link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
+<link rel="icon" href={`/${config.site.favicon}`} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${config.site.title} RSS`}
+  href="/rss.xml"
+/>

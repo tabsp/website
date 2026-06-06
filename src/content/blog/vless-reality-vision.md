@@ -1,6 +1,6 @@
 ---
 title: "手动配置 Xray（vless+reality+vision）代理服务器"
-description: "bash -c \"$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install"
+description: 'bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install'
 pubDate: 2024-12-14
 tags: [xray]
 ---

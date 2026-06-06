@@ -21,17 +21,19 @@ const { command, title, items } = Astro.props;
     <h1>{title}</h1>
   </header>
   <ol class="find-list" data-linewise-list>
-    {items.map((item, index) => (
-      <li>
-        <a href={item.href} class="find-row" data-linewise-item data-linewise-title={item.title}>
-          <span class="qf-index">{index + 1}</span>
-          <span class="qf-location">{item.location ?? item.href}</span>
-          <span class="qf-text">
-            <strong>{item.title}</strong>
-            <span>{item.excerpt}</span>
-          </span>
-        </a>
-      </li>
-    ))}
+    {
+      items.map((item, index) => (
+        <li>
+          <a href={item.href} class="find-row" data-linewise-item data-linewise-title={item.title}>
+            <span class="qf-index">{index + 1}</span>
+            <span class="qf-location">{item.location ?? item.href}</span>
+            <span class="qf-text">
+              <strong>{item.title}</strong>
+              <span>{item.excerpt}</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
   </ol>
 </section>

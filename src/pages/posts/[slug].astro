@@ -1,14 +1,15 @@
 ---
 import { getCollection, render } from "astro:content";
+import GiscusComments from "../../components/GiscusComments.astro";
 import PostMeta from "../../components/PostMeta.astro";
 import SiteShell from "../../components/SiteShell.astro";
 import { byNewest, isPublished, readingTime } from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog")).filter(isPublished).sort(byNewest);
-  return posts.map((post) => ({
+  return posts.map(post => ({
     params: { slug: post.id },
-    props: { post }
+    props: { post },
   }));
 }
 
@@ -30,11 +31,12 @@ const minutes = readingTime(post.body ?? "");
       <h1>{post.data.title}</h1>
       <PostMeta pubDate={post.data.pubDate} updatedDate={post.data.updatedDate} minutes={minutes} />
       <div class="post-tags" aria-label="Tags">
-        {post.data.tags.map((tag) => <a href={`/tags/${tag}/`}>#{tag}</a>)}
+        {post.data.tags.map(tag => <a href={`/tags/${tag}/`}>#{tag}</a>)}
       </div>
     </header>
     <div class="prose">
       <Content />
     </div>
   </article>
+  <GiscusComments />
 </SiteShell>
