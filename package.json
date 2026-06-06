@@ -2,6 +2,7 @@
   "name": "@tabsp/linewise",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.9.0",
   "type": "module",
   "license": "MIT",
   "description": "Linewise is a Vim-inspired Astro starter for personal blogs.",
