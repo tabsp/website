@@ -1,8 +1,11 @@
 # Linewise
 
-Linewise is a Vim-inspired Astro starter for personal blogs. It is not a generic terminal theme: posts behave like buffers, search borrows from quickfix, and the interface uses Vim as an interaction model without sacrificing reading comfort.
+[![Astro](https://img.shields.io/badge/Astro-6-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Vercel](https://vercelbadge.vercel.app/api/tabsp/linewise)](https://linewise.tabsp.com)
 
-The first phase is a starter/template named `@tabsp/linewise`, not an npm theme package.
+![Linewise Screenshot](public/screenshot.png)
+
+Linewise is a Vim-inspired Astro starter for personal blogs. It is not a generic terminal theme: posts behave like buffers, search borrows from quickfix, and the interface uses Vim as an interaction model without sacrificing reading comfort.
 
 **Preview:** [linewise.tabsp.com](https://linewise.tabsp.com)
 
@@ -29,40 +32,47 @@ The first phase is a starter/template named `@tabsp/linewise`, not an npm theme 
 
 For a deeper dive into the design, read [Buffers, Not Tabs](https://linewise.tabsp.com/posts/buffers-not-tabs/).
 
+## Upgrading
+
+Linewise includes a built-in upgrade workflow. See the [Upgrading Linewise](https://linewise.tabsp.com/posts/upgrading-linewise/) guide for how to pull upstream framework updates without losing your content or config.
+
 ## Getting Started
 
-### 1. Create your copy
-
-**Recommended:** Click **Use this template** on the [GitHub repository](https://github.com/tabsp/linewise) page to create your own repository, then clone it.
-
-Or clone directly:
+### 1. Create your project
 
 ```sh
-git clone https://github.com/tabsp/linewise.git my-blog
-cd my-blog
+pnpm create astro@latest --template tabsp/linewise
 ```
 
-### 2. Install dependencies
+This downloads the latest template, installs dependencies, and gives you a clean project. Then start the dev server:
 
 ```sh
-pnpm install
-pnpm run dev
+cd your-project
+pnpm dev
 ```
 
-(Bun and npm work too when pnpm is unavailable.)
-
-### 3. Configure your site
+### 2. Configure your site
 
 Edit `linewise.config.ts`:
 
-- `site.url` — your production domain (required for sitemap, RSS, and canonical URLs)
-- `site.title` — site title
-- `site.description` — short description for SEO and previews
-- `site.author` — your name
-- `site.lang` and `site.locale` — e.g. `"en"` or `"zh"`
-- `site.ogImage` and `site.favicon` — paths under `public/`
+```ts
+import { defineLinewiseConfig } from "./src/types/config";
 
-### 4. Write your posts
+export default defineLinewiseConfig({
+  site: {
+    url: "https://your-domain.com",
+    title: "Your Blog",
+    description: "Your personal blog.",
+    author: "Your Name",
+    lang: "en",
+    locale: "en",
+  },
+});
+```
+
+Every field except `url`, `title`, `description`, and `author` has a sensible default.
+
+### 3. Write your posts
 
 Replace the example posts in `src/content/blog/`. Each Markdown or MDX file needs frontmatter:
 
@@ -77,23 +87,38 @@ tags: ["tag1", "tag2"]
 
 See the [Getting Started](https://linewise.tabsp.com/posts/getting-started/) guide for the full schema.
 
-### 5. Replace branding
+### 4. Replace branding
 
 Replace `public/favicon.svg` and `public/og.svg` with your own artwork.
 
-### 6. Deploy
+### 5. Deploy
 
-Any static host that runs Astro works. Common choices:
+Deploy with one click:
 
-- **Vercel:** Connect your repo; detects Astro automatically.
-- **Netlify:** Set build command to `pnpm run build` and publish directory to `dist`.
-- **GitHub Pages:** Use the [Astro deployment guide](https://docs.astro.build/en/guides/deploy/github/).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftabsp%2Flinewise)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/tabsp/linewise)
 
-For configuration, writing posts, and project layout, see the [Getting Started](https://linewise.tabsp.com/posts/getting-started/) guide.
+Any static host that runs Astro also works. See the [Getting Started](https://linewise.tabsp.com/posts/getting-started/) guide for more.
 
 ## Comments
 
-Linewise includes opt-in [giscus](https://giscus.app) comments backed by GitHub Discussions, with a custom theme that matches the Linewise palette. See the [Comments](/posts/comments/) guide for setup instructions.
+Linewise includes opt-in [giscus](https://giscus.app) comments backed by GitHub Discussions, with a custom theme that matches the Linewise palette.
+
+To enable comments, add this to your `linewise.config.ts`:
+
+```ts
+comments: {
+  provider: "giscus",
+  giscus: {
+    repo: "your-username/your-repo",
+    repoId: "R_kgDO...",
+    category: "Announcements",
+    categoryId: "DIC_kwDO...",
+  },
+},
+```
+
+See the [Comments](https://linewise.tabsp.com/posts/comments/) guide for setup instructions.
 
 ## Keybindings and Commands
 
@@ -103,8 +128,8 @@ Linewise has Vim-style keyboard navigation and a command palette. See the [Keybi
 
 ```sh
 pnpm install
-pnpm run dev
-pnpm run build
+pnpm dev
+pnpm build
 ```
 
 CI uses pnpm as well (see `.github/workflows/ci.yml`).
@@ -112,17 +137,21 @@ CI uses pnpm as well (see `.github/workflows/ci.yml`).
 ## Project Layout
 
 ```text
-linewise.config.ts       User-editable site config
-src/content/blog/        Markdown and MDX posts
-src/content.config.ts    Blog frontmatter schema
-src/config.ts            Resolved site configuration
-src/types/               TypeScript type definitions
-public/                  Static assets (favicon, OG image)
-src/components/          UI components
-src/pages/               Routes
-src/scripts/linewise.ts  Client-side entry point
-src/scripts/modules/     Domain modules (commands, buffers, search, keyboard)
-src/styles/global.css    Theme tokens and layout
+├── linewise.config.ts          User-editable site config
+├── src/
+│   ├── content/
+│   │   └── blog/               Markdown and MDX posts
+│   ├── content.config.ts       Blog frontmatter schema
+│   ├── config.ts               Resolved site configuration
+│   ├── types/                  TypeScript type definitions
+│   ├── components/             UI components
+│   ├── pages/                  Routes
+│   ├── scripts/
+│   │   ├── linewise.ts         Client-side entry point
+│   │   └── modules/            Domain modules
+│   └── styles/
+│       └── global.css          Theme tokens and layout
+└── public/                     Static assets (favicon, OG image)
 ```
 
 ## Status

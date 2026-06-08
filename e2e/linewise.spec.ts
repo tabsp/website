@@ -41,9 +41,9 @@ test("article page renders post content", async ({ page }) => {
   await expect(page.locator("[data-status-file]")).toContainText("getting-started");
 });
 
-test("article page shows reading time in statusline", async ({ page }) => {
+test("article page shows scroll progress in statusline", async ({ page }) => {
   await page.goto("/posts/getting-started/");
-  await expect(page.locator("[data-status-meta]")).toContainText("min read");
+  await expect(page.locator("[data-status-meta]")).toHaveText("0%");
 });
 
 /* ── Command palette (:find) ── */

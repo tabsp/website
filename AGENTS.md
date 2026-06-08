@@ -76,3 +76,17 @@ Types:
 - `style:` formatting-only changes
 - `refactor:` code changes with no functional difference
 - `test:` adding or updating tests
+
+## Release
+
+Before tagging a new release, bump the version file so `.linewise-version` matches the tag:
+
+```sh
+pnpm version:bump 0.2.0
+git add .linewise-version
+git commit -m "chore: bump to 0.2.0"
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+The CI release workflow (`.github/workflows/release.yml`) then runs the full check pipeline and creates a GitHub Release.

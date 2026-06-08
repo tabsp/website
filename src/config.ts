@@ -18,6 +18,7 @@ function resolveComments(raw?: CommentsConfig): ResolvedCommentsConfig {
       giscus: resolveGiscus(raw.giscus),
     };
   }
+  // Fallback: should be unreachable with discriminated union, but safe default.
   return { provider: "none" };
 }
 
@@ -37,6 +38,15 @@ function resolveGiscus(raw: GiscusConfig) {
   };
 }
 
+function validateLocale(locale: string) {
+  try {
+    new Intl.DateTimeFormat(locale);
+    return locale;
+  } catch {
+    return "en";
+  }
+}
+
 const config: ResolvedLinewiseConfig = {
   site: {
     url: userConfig.site.url,
@@ -44,7 +54,7 @@ const config: ResolvedLinewiseConfig = {
     description: userConfig.site.description,
     author: userConfig.site.author,
     lang: userConfig.site.lang ?? "en",
-    locale: userConfig.site.locale ?? "en",
+    locale: validateLocale(userConfig.site.locale ?? "en"),
     ogImage: userConfig.site.ogImage ?? "og.svg",
     favicon: userConfig.site.favicon ?? "favicon.svg",
   },

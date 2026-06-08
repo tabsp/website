@@ -1,0 +1,14 @@
+# Auto-detect text files and enforce LF
+* text=auto eol=lf
+
+# Shell scripts and configs (already covered by *, but explicit doesn't hurt)
+*.sh text eol=lf
+*.{ts,js,mjs,cjs} text eol=lf diff=typescript
+*.{json,yaml,yml} text eol=lf
+*.{md,mdx} text eol=lf diff=markdown
+*.{astro,css,html} text eol=lf
+*.{xml,svg} text eol=lf
+
+# Binary / images
+*.{png,jpg,jpeg,gif,webp,ico,bmp} binary
+*.{woff,woff2,eot,ttf,otf} binary

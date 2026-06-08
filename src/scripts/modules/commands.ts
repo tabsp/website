@@ -10,8 +10,14 @@ import {
   setMode,
   setStatus,
 } from "./state";
-import { escapeHtml } from "./keyboard";
-import { readSearchIndex } from "./search";
+import {
+  escapeHtml,
+  reportScrollProgress,
+  select,
+  selectableItemCount,
+  syncSelectableItemCount,
+} from "./keyboard";
+import { highlightMatch, readSearchIndex, searchWithScores } from "./search";
 import { quitCurrentBuffer } from "./buffers";
 
 /* ── Command registry ── */
@@ -65,10 +71,11 @@ function suggestionHtml(entry: PaletteItem, index: number) {
 
 function searchSuggestionHtml(entry: PaletteItem, index: number) {
   const isActive = index === state.suggestionIndex;
+  const query = commandInput()?.value?.trim() ?? "";
   return `
     <button type="button" class="${isActive ? "is-active" : ""}" data-command-suggestion="${escapeHtml(entry.title ?? entry.command)}" data-suggestion-index="${index}">
-      <span>${escapeHtml(entry.title ?? entry.command)}</span>
-      <small>${escapeHtml(entry.description)}</small>
+      <span>${highlightMatch(entry.title ?? entry.command, query)}</span>
+      <small>${highlightMatch(entry.description, query)}</small>
       <em>${escapeHtml(entry.location ?? entry.type ?? "match")}</em>
     </button>
   `;
@@ -90,9 +97,7 @@ export function renderSearchSuggestions() {
 
   const searchIndex = readSearchIndex();
   const query = (ci.value ?? "").trim().toLowerCase();
-  currentSuggestions = query
-    ? searchIndex.filter(entry => entry.keywords.join(" ").toLowerCase().includes(query))
-    : searchIndex;
+  currentSuggestions = query ? searchWithScores(query, searchIndex).map(r => r.entry) : searchIndex;
   currentSuggestions = currentSuggestions.slice(0, 8);
   state.suggestionIndex = Math.min(
     state.suggestionIndex,
@@ -129,27 +134,39 @@ export function runCommand(rawCommand: string) {
     return;
   }
 
-  if (command === "posts" || command === "post" || command === "ls" || command === "buffers") {
-    window.location.href = "/";
-  } else if (command === "oldfiles" || command === "archive") {
-    window.location.href = "/archive/";
-  } else if (command === "tags") {
-    window.location.href = "/tags/";
-  } else if (command === "search" || command === "find") {
-    window.location.href = "/find/";
-  } else if (command === "help" || command === "h") {
-    window.location.href = "/help/";
-  } else if (command === "q" || command === "quit") {
+  // Special commands without href routing
+  if (command === "q" || command === "quit") {
     quitCurrentBuffer();
-  } else if (command === "explore" || command === "ex") {
-    toggleExplorer();
-  } else if (command === "exploreopen") {
-    setExplorerHidden(false);
-  } else if (command === "exploreclose") {
-    setExplorerHidden(true);
-  } else {
-    setStatus(`not an editor command: ${command || "(empty)"}`);
+    return;
   }
+  if (command === "explore" || command === "ex") {
+    toggleExplorer();
+    return;
+  }
+  if (command === "exploreopen") {
+    setExplorerHidden(false);
+    return;
+  }
+  if (command === "exploreclose") {
+    setExplorerHidden(true);
+    return;
+  }
+
+  // Route-based commands: derive from the command registry
+  const routeKey =
+    command === "post" || command === "ls" || command === "buffers" ? "posts" : command;
+  const match = commands.find(c => c.href && c.command === routeKey);
+  if (match?.href) {
+    window.location.href = match.href;
+    return;
+  }
+
+  if (command === "h") {
+    window.location.href = "/help/";
+    return;
+  }
+
+  setStatus(`not an editor command: ${command || "(empty)"}`);
 }
 
 export function runSelectedCommand() {
@@ -186,6 +203,12 @@ export function closeTransientMode() {
   if (ci) ci.value = "";
   ci?.blur();
   document.querySelector<HTMLInputElement>("#search")?.blur();
+  syncSelectableItemCount();
+  if (selectableItemCount) {
+    select(state.selectedIndex, false);
+  } else {
+    reportScrollProgress();
+  }
   const cs = commandSuggestions();
   if (cs) cs.innerHTML = "";
 }

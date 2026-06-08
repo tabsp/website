@@ -14,11 +14,12 @@ import { initializeWorkspace } from "./keyboard";
 import { setExplorerHidden } from "./commands";
 
 const bufferStoreKey = "linewise:buffers";
+let navigationAborter: AbortController | undefined;
 
 /* ── Helpers ── */
 
 export function isPersistentBuffer(buffer: BufferTab) {
-  return buffer.href === "/" || buffer.href.startsWith("/posts/");
+  return buffer.href === "/" || /^\/posts\/[^/]+\/$/.test(buffer.href);
 }
 
 function isBufferTab(value: unknown): value is BufferTab {
@@ -180,13 +181,16 @@ export function syncBuffers() {
   }
 
   writeBuffers(buffers);
-  renderBuffers(readBuffers());
+  renderBuffers(buffers);
 }
 
 /* ── Client-side buffer navigation ── */
 
 export async function navigateToBuffer(href: string, replace = false) {
   const token = nextNavigationToken();
+  navigationAborter?.abort();
+  navigationAborter = new AbortController();
+
   const target = new URL(href, window.location.origin);
   if (
     target.origin !== window.location.origin ||
@@ -198,7 +202,7 @@ export async function navigateToBuffer(href: string, replace = false) {
 
   document.body.classList.add("is-switching-buffer");
   try {
-    const response = await fetch(target.pathname);
+    const response = await fetch(target.pathname, { signal: navigationAborter.signal });
     if (!response.ok || !response.headers.get("content-type")?.includes("text/html")) {
       window.location.href = target.pathname;
       return;

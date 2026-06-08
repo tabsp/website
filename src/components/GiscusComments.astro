@@ -8,6 +8,7 @@ const comments = config.comments;
   comments.provider === "giscus" && (
     <section class="giscus-comments" aria-label="Comments">
       <script
+        is:inline
         src="https://giscus.app/client.js"
         data-repo={comments.giscus.repo}
         data-repo-id={comments.giscus.repoId}

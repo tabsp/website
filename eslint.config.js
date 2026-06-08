@@ -19,4 +19,8 @@ export default [
   },
   { rules: { "no-console": "warn" } },
   { ignores: ["dist/**", ".astro/**"] },
+  {
+    files: ["scripts/**"],
+    rules: { "no-console": "off" },
+  },
 ];

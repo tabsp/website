@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import GiscusComments from "../../components/GiscusComments.astro";
 import PostMeta from "../../components/PostMeta.astro";
 import SiteShell from "../../components/SiteShell.astro";
-import { byNewest, isPublished, readingTime } from "../../lib/posts";
+import { byNewest, getFilename, isPublished, readingTime } from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog")).filter(isPublished).sort(byNewest);
@@ -22,8 +22,8 @@ const minutes = readingTime(post.body ?? "");
   title={post.data.title}
   description={post.data.description}
   file={post.data.title}
-  statusFile={`blog/${post.id}`}
-  status={`${minutes} min read`}
+  statusFile={getFilename(post.id)}
+  status="0%"
 >
   <article class="post">
     <header class="post-header">

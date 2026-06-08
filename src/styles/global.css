@@ -14,10 +14,14 @@
   --error: #f28b82;
   --shadow: rgba(0, 0, 0, 0.35);
   --chrome-row-height: 2.1rem;
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --mono:
+    "SFMono-Regular", Consolas, "Liberation Mono", "Sarasa Mono SC", "Noto Sans Mono SC", monospace;
   --sans:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif:
+    "Noto Serif SC", "Source Han Serif SC", "Songti SC", ui-serif, Georgia, Cambria,
+    "Times New Roman", serif;
 }
 
 * {
@@ -52,6 +56,11 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+mark {
+  background: rgba(155, 216, 111, 0.28);
+  color: var(--accent-strong);
 }
 
 ::selection {
@@ -116,7 +125,7 @@ svg {
 
 .command-bar {
   min-height: 3.25rem;
-  padding: 0.65rem clamp(1rem, 3vw, 2rem);
+  padding: 0.65rem 1rem;
   border-bottom: 1px solid var(--line);
 }
 
@@ -186,7 +195,7 @@ body[data-mode="command"] .command-bar,
 body[data-mode="search"] .command-bar {
   position: relative;
   z-index: 30;
-  padding: 0.35rem clamp(1rem, 3vw, 2rem);
+  padding: 0.35rem 1rem;
   border-bottom: 1px solid var(--accent);
   background: var(--bg);
 }
@@ -613,6 +622,9 @@ body[data-mode="search"] .command-suggestions:not(:empty) {
 .bufferline {
   display: flex;
   min-width: 0;
+  position: sticky;
+  top: 0;
+  z-index: 5;
   height: var(--chrome-row-height);
   min-height: var(--chrome-row-height);
   overflow-x: auto;
@@ -668,6 +680,15 @@ body[data-mode="search"] .command-suggestions:not(:empty) {
 
 .buffer-tab.is-current {
   box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.buffer-tab:not(.is-current) {
+  opacity: 0.8;
+}
+
+.buffer-tab:not(.is-current):hover,
+.buffer-tab:not(.is-current):focus-within {
+  opacity: 1;
 }
 
 .tab-modified {
@@ -731,9 +752,46 @@ body[data-mode="search"] .command-suggestions:not(:empty) {
 
 .status-line {
   min-height: 2.15rem;
-  padding: 0.35rem clamp(1rem, 3vw, 2rem);
+  padding: 0.35rem 1rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
+}
+
+.status-line .built-with {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
+  white-space: nowrap;
+}
+
+.status-line .built-with:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+@media (max-width: 760px) {
+  .status-line .built-with {
+    padding: 0.15rem 0.25rem;
+    border: 1px solid transparent;
+  }
+
+  .status-line .built-with:hover {
+    border-color: var(--line-soft);
+  }
+
+  .status-line .built-with-text {
+    display: none;
+  }
 }
 
 .status-line .mode {
@@ -743,6 +801,21 @@ body[data-mode="search"] .command-suggestions:not(:empty) {
   background: var(--accent);
   color: #11160e;
   font-weight: 800;
+}
+
+body[data-mode="insert"] .status-line .mode {
+  background: var(--warn);
+  color: #2d2210;
+}
+
+body[data-mode="command"] .status-line .mode {
+  background: var(--accent-strong);
+  color: #11160e;
+}
+
+body[data-mode="search"] .status-line .mode {
+  background: #7ec8e3;
+  color: #0d1a22;
 }
 
 .status-line .file {

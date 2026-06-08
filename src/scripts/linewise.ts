@@ -7,9 +7,9 @@ import {
   handleNormalKey,
   hideHelp,
   activeScroller,
+  reportScrollProgress,
   select,
   syncSelectableItemCount,
-  selectableItemCount,
   initializeWorkspace,
 } from "./modules/keyboard";
 import {
@@ -219,27 +219,14 @@ window.addEventListener("linewise:list-updated", event => {
 /* ── Scroll progress ── */
 
 window.addEventListener("scroll", () => {
-  if (selectableItemCount || state.mode !== "NORMAL") return;
-
-  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = scrollable > 0 ? Math.round((window.scrollY / scrollable) * 100) : 100;
-  setStatus(`${progress}%`);
+  reportScrollProgress();
 });
 
 activeScroller()?.addEventListener("scroll", () => {
-  if (selectableItemCount || state.mode !== "NORMAL") return;
-
-  const scroller = activeScroller();
-  if (!scroller) return;
-
-  const scrollable = scroller.scrollHeight - scroller.clientHeight;
-  const progress = scrollable > 0 ? Math.round((scroller.scrollTop / scrollable) * 100) : 100;
-  setStatus(`${progress}%`);
+  reportScrollProgress();
 });
 
 /* ── Startup ── */
-
-const initialSearchInput = document.querySelector<HTMLInputElement>("#search");
 
 if (window.matchMedia("(max-width: 760px)").matches) {
   setExplorerHidden(true);
@@ -254,14 +241,9 @@ if (window.matchMedia("(max-width: 760px)").matches) {
   setExplorerHidden(hidden);
 }
 
-if (initialSearchInput && window.location.pathname === "/find/") {
-  syncBuffers();
-  initializeWorkspace();
-  setMode("NORMAL");
-} else {
-  syncBuffers();
-  setMode("NORMAL");
-  initializeWorkspace();
-}
+syncBuffers();
+setMode("NORMAL");
+initializeWorkspace();
+requestAnimationFrame(() => reportScrollProgress());
 
 document.documentElement.classList.remove("app-loading");

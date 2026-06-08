@@ -3,7 +3,7 @@
  * Every module imports from here instead of grabbing its own querySelector calls.
  */
 
-export type Mode = "NORMAL" | "COMMAND" | "SEARCH";
+export type Mode = "NORMAL" | "COMMAND" | "SEARCH" | "INSERT";
 
 export interface BufferTab {
   href: string;

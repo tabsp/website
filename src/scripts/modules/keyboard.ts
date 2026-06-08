@@ -19,6 +19,7 @@ export function escapeHtml(value: string) {
 /* ── Selectable items ── */
 
 export let selectableItemCount = 0;
+let ggTimeoutId: number | undefined;
 
 export function items() {
   return [...document.querySelectorAll<HTMLElement>("[data-linewise-item]")].filter(
@@ -68,6 +69,14 @@ export function openSelected() {
 
 export function activeScroller() {
   return document.querySelector<HTMLElement>(".editor-main");
+}
+export function reportScrollProgress() {
+  if (selectableItemCount || state.mode !== "NORMAL") return;
+  const scroller = activeScroller();
+  if (!scroller) return;
+  const scrollable = scroller.scrollHeight - scroller.clientHeight;
+  const progress = scrollable > 0 ? Math.round((scroller.scrollTop / scrollable) * 100) : 100;
+  setStatus(`${progress}%`);
 }
 
 function scrollWorkspace(delta: number) {
@@ -161,7 +170,8 @@ export function handleNormalKey(event: KeyboardEvent) {
         state.awaitingSecondG = false;
       } else {
         state.awaitingSecondG = true;
-        window.setTimeout(() => {
+        clearTimeout(ggTimeoutId);
+        ggTimeoutId = window.setTimeout(() => {
           state.awaitingSecondG = false;
         }, 700);
       }
@@ -169,7 +179,7 @@ export function handleNormalKey(event: KeyboardEvent) {
     case "/":
       event.preventDefault();
       if (window.location.pathname === "/find/") {
-        const searchInput = document.querySelector<HTMLInputElement>("#search");
+        const searchInput = document.querySelector<HTMLInputElement>("input#search");
         searchInput?.focus();
         searchInput?.select();
       } else {

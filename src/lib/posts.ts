@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import { existsSync } from "node:fs";
 import config from "../config";
 
 export type BlogPost = CollectionEntry<"blog">;
@@ -11,6 +12,14 @@ export function isPublished(post: BlogPost) {
   return !post.data.draft;
 }
 
+export function getFilename(postId: string) {
+  // Prefer collection metadata when available; fallback to filesystem probe.
+  for (const ext of [".mdx", ".md"]) {
+    if (existsSync(`src/content/blog/${postId}${ext}`)) return `${postId}${ext}`;
+  }
+  return `${postId}.md`;
+}
+
 export function formatDate(date: Date) {
   return new Intl.DateTimeFormat(config.site.locale, {
     month: "short",
@@ -20,8 +29,8 @@ export function formatDate(date: Date) {
 }
 
 export function readingTime(text: string) {
-  const words = text.trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(words / 220));
+  const words = text.trim().split(/\s+/).length;
+  return words === 0 ? 0 : Math.max(1, Math.ceil(words / 220));
 }
 
 export function collectTags(posts: BlogPost[]) {
