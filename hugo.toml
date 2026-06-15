@@ -1,0 +1,56 @@
+baseURL = "https://tabsp.com"
+defaultContentLanguage = "en"
+locale = "en"
+title = "Tabsp's Blog"
+theme = "linewise"
+
+[taxonomies]
+tag = "tags"
+
+[permalinks]
+posts = "/posts/:slug/"
+
+[params.linewise]
+description = "Tabsp's personal blog about programming, technology, and more."
+author = "tabsp"
+locale = "en"
+favicon = "favicon.svg"
+ogImage = "og.svg"
+showExplorer = true
+showBufferline = true
+
+[params.linewise.comments]
+provider = "giscus"
+
+[params.linewise.comments.giscus]
+repo = "tabsp/comments"
+repoId = "R_kgDOHcCUDA"
+category = "Announcements"
+categoryId = "DIC_kwDOHcCUDM4CPbjE"
+mapping = "pathname"
+reactionsEnabled = "1"
+emitMetadata = "0"
+inputPosition = "bottom"
+theme = "https://linewise.tabsp.com/giscus-theme.css"
+lang = "en"
+loading = "lazy"
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+
+[outputFormats.JSON]
+mediaType = "application/json"
+baseName = "search"
+isPlainText = true
+
+[module]
+[module.hugoVersion]
+extended = true
+min = "0.146.0"
+
+[markup]
+[markup.highlight]
+noClasses = false
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true

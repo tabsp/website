@@ -1,16 +1,15 @@
-node_modules
-dist
-.astro
+# Hugo build output and cache
+public/
+resources/_gen/
+.hugo_build.lock
+
+# Local environment
 .env
 .env.*
 .DS_Store
-.pnpm-store
 
-test-results/
-playwright-report/
-
+# Editor and tooling
 .vscode/
 .idea/
-
 *.log
 .vercel

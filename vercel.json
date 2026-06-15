@@ -1,4 +1,6 @@
 {
+  "buildCommand": "hugo --minify",
+  "outputDirectory": "public",
   "headers": [
     {
       "source": "/giscus-theme.css",
