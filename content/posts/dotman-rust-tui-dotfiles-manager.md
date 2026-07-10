@@ -1,7 +1,7 @@
 ---
 title: "用 Rust 写了一个 dotfiles 管理工具"
 description: "原来的脚本越来越难维护，所以写了一个支持 Plan、执行预览和历史记录的 TUI 工具。"
-date: 2026-07-11
+date: 2026-07-10
 tags: [Rust, TUI, dotfiles]
 draft: false
 slug: "dotman-rust-tui-dotfiles-manager"
